@@ -1287,6 +1287,8 @@
     state.isReturning = true;
     state.picks = source.picks || {};
     state.scorerPick = source.scorerPick || null;
+    $('wc-name').value = source.name || name;
+
     const banner2 = $('wc-returning-banner-slot-2');
     if (banner2) banner2.innerHTML = `
       <div class="wc-returning-banner">
@@ -1479,61 +1481,52 @@
   // SUBMIT
   // ============================================================
   window.wcSubmitPredictions = async function() {
-    const pickCount = Object.keys(state.picks).length;
-    if (pickCount === 0) {
-      showToast('Please make at least one match prediction first.', 'error');
-      return;
-    }
+  const pickCount = Object.keys(state.picks).length;
+  if (pickCount === 0) {
+    showToast('Please make at least one match prediction first.', 'error');
+    return;
+  }
 
-    const btn = $('wc-submit-btn');
-    btn.disabled = true;
-    btn.textContent = '⏳ Submitting...';
+  const btn = $('wc-submit-btn');
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Submitting...';
 
-    const payload = {
-      studentId: state.studentId,
-      name: state.name,
-      grade: state.grade,
-      section: state.section,
-      roll: state.roll,
-      accessCode: state.accessCode,
-      scorerPick: state.scorerPick || '',
-      picks: state.picks,
-      submittedAt: new Date().toISOString(),
-      totalPicks: pickCount,
-    };
+  const payload = {
+    studentId:   state.studentId,
+    name:        state.name,
+    grade:       state.grade,
+    section:     state.section,
+    roll:        state.roll,
+    accessCode:  state.accessCode,
+    scorerPick:  state.scorerPick || '',
+    picks:       state.picks,
+    submittedAt: new Date().toISOString(),
+    totalPicks:  pickCount,
+  };
 
-    let success = false;
+  try {
+    // Send as form data — Apps Script can read this cross-origin
+    const formData = new FormData();
+    formData.append('payload', JSON.stringify(payload));
 
-    if (APPS_SCRIPT_URL && APPS_SCRIPT_URL.trim() !== '') {
-      try {
-        await fetch(APPS_SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-        success = true;
-      } catch(e) {
-        // no-cors mode — assume success if no network error
-        success = true;
-      }
-    } else {
-      // No URL configured — save locally only and note it
-      success = true;
-    }
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode:   'no-cors',
+      body:   formData,
+    });
 
     saveLocalData();
+    state.submitted = true;
+    renderSuccess(payload);
+    setStep(4);
 
-    if (success) {
-      state.submitted = true;
-      renderSuccess(payload);
-      setStep(4);
-    } else {
-      showToast('Submission failed. Please try again.', 'error');
-      btn.disabled = false;
-      btn.textContent = '🚀 Submit Predictions';
-    }
-  };
+  } catch(e) {
+    // Network error
+    showToast('Network error. Please check your connection and try again.', 'error');
+    btn.disabled = false;
+    btn.innerHTML = '🚀 Submit Predictions';
+  }
+};
 
   // ============================================================
   // SUCCESS SCREEN
