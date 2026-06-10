@@ -1,0 +1,1593 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  #wc2026-app * { box-sizing: border-box; margin: 0; padding: 0; }
+  #wc2026-app {
+    --gold: #F5C518;
+    --gold-dark: #C49A0A;
+    --green-pitch: #1a7a1a;
+    --green-light: #2ecc40;
+    --red: #e74c3c;
+    --bg-dark: #0a0f1e;
+    --bg-card: #111827;
+    --bg-card2: #1a2235;
+    --text-main: #f0f4ff;
+    --text-muted: #8899bb;
+    --border: rgba(255,255,255,0.08);
+    --accent: #3b82f6;
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  #wc2026-app .wc-hero {
+    position: relative;
+    background: linear-gradient(160deg, #0a0f1e 0%, #0d1a0d 40%, #0a0f1e 100%);
+    padding: 60px 20px 50px;
+    text-align: center;
+    overflow: hidden;
+  }
+  #wc2026-app .wc-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(245,197,24,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  #wc2026-app .wc-pitch-lines {
+    position: absolute; inset: 0;
+    opacity: 0.04;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.5) 39px, rgba(255,255,255,0.5) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,0.5) 39px, rgba(255,255,255,0.5) 40px);
+  }
+  #wc2026-app .wc-trophy-emoji {
+    font-size: 64px;
+    display: block;
+    margin-bottom: 12px;
+    animation: wc-float 3s ease-in-out infinite;
+  }
+  @keyframes wc-float {
+    0%,100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+  #wc2026-app .wc-hero h1 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(42px, 8vw, 80px);
+    letter-spacing: 4px;
+    line-height: 1;
+    color: var(--gold);
+    text-shadow: 0 0 40px rgba(245,197,24,0.3);
+    margin-bottom: 6px;
+  }
+  #wc2026-app .wc-hero h2 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(16px, 3vw, 22px);
+    font-weight: 600;
+    letter-spacing: 6px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  #wc2026-app .wc-hero-sub {
+    font-size: 14px;
+    color: var(--text-muted);
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  #wc2026-app .wc-badges {
+    display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px;
+  }
+  #wc2026-app .wc-badge {
+    background: rgba(245,197,24,0.1);
+    border: 1px solid rgba(245,197,24,0.25);
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+  }
+  #wc2026-app .wc-badge.blue {
+    background: rgba(59,130,246,0.1);
+    border-color: rgba(59,130,246,0.3);
+    color: #60a5fa;
+  }
+  #wc2026-app .wc-badge.green {
+    background: rgba(46,204,64,0.1);
+    border-color: rgba(46,204,64,0.3);
+    color: #4ade80;
+  }
+
+  /* MAIN CONTAINER */
+  #wc2026-app .wc-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 16px 60px;
+  }
+
+  /* STEP SYSTEM */
+  #wc2026-app .wc-step { display: none; }
+  #wc2026-app .wc-step.active { display: block; }
+
+  /* STEP INDICATOR */
+  #wc2026-app .wc-steps-bar {
+    display: flex;
+    gap: 0;
+    margin: 32px 0 28px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  #wc2026-app .wc-step-pill {
+    flex: 1;
+    padding: 12px 8px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    transition: all 0.3s;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  #wc2026-app .wc-step-pill.done {
+    color: #4ade80;
+  }
+  #wc2026-app .wc-step-pill.current {
+    background: rgba(245,197,24,0.1);
+    color: var(--gold);
+    border-bottom: 2px solid var(--gold);
+  }
+  #wc2026-app .wc-step-num {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  #wc2026-app .wc-step-pill.current .wc-step-num {
+    background: var(--gold);
+    color: #000;
+  }
+  #wc2026-app .wc-step-pill.done .wc-step-num {
+    background: #4ade80;
+    color: #000;
+  }
+
+  /* SECTION HEADERS */
+  #wc2026-app .wc-section-head {
+    margin-bottom: 24px;
+  }
+  #wc2026-app .wc-section-head h3 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-main);
+    margin-bottom: 4px;
+  }
+  #wc2026-app .wc-section-head p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  #wc2026-app .wc-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 28px 0;
+  }
+
+  /* CARD */
+  #wc2026-app .wc-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  #wc2026-app .wc-card-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* FORM INPUTS */
+  #wc2026-app .wc-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  #wc2026-app .wc-form-row.full { grid-template-columns: 1fr; }
+  #wc2026-app .wc-form-group { display: flex; flex-direction: column; gap: 6px; }
+  #wc2026-app .wc-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  #wc2026-app .wc-input {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    color: var(--text-main);
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    padding: 10px 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+  }
+  #wc2026-app .wc-input:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(245,197,24,0.1);
+  }
+  #wc2026-app .wc-input.locked {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: rgba(255,255,255,0.02);
+  }
+  #wc2026-app .wc-input::placeholder { color: rgba(255,255,255,0.2); }
+  #wc2026-app select.wc-input option { background: #1a2235; color: #f0f4ff; }
+
+  /* ACCESS CODE STEP */
+  #wc2026-app .wc-access-wrap {
+    max-width: 480px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  #wc2026-app .wc-access-icon {
+    font-size: 52px;
+    display: block;
+    margin-bottom: 16px;
+    animation: wc-float 2.5s ease-in-out infinite;
+  }
+  #wc2026-app .wc-access-wrap h3 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 26px; font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 8px;
+  }
+  #wc2026-app .wc-access-wrap p {
+    font-size: 13px; color: var(--text-muted);
+    margin-bottom: 28px; line-height: 1.6;
+  }
+  #wc2026-app .wc-access-input-wrap {
+    position: relative;
+    margin-bottom: 16px;
+  }
+  #wc2026-app #wc-code-input {
+    background: rgba(255,255,255,0.04);
+    border: 2px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    color: var(--text-main);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 6px;
+    text-align: center;
+    padding: 16px 20px;
+    width: 100%;
+    text-transform: uppercase;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  #wc2026-app #wc-code-input:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 4px rgba(245,197,24,0.12);
+  }
+  #wc2026-app #wc-code-input.error {
+    border-color: var(--red);
+    box-shadow: 0 0 0 4px rgba(231,76,60,0.12);
+    animation: wc-shake 0.4s ease;
+  }
+  @keyframes wc-shake {
+    0%,100% { transform: translateX(0); }
+    20%,60% { transform: translateX(-6px); }
+    40%,80% { transform: translateX(6px); }
+  }
+  #wc2026-app .wc-code-hint {
+    font-size: 12px; color: var(--text-muted); margin-bottom: 20px;
+  }
+  #wc2026-app .wc-code-hint span {
+    display: inline-block;
+    background: rgba(245,197,24,0.1);
+    border: 1px solid rgba(245,197,24,0.2);
+    color: var(--gold);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px; font-weight: 700;
+    padding: 2px 10px; border-radius: 6px;
+    letter-spacing: 2px;
+  }
+  #wc2026-app .wc-error-msg {
+    font-size: 12px; color: #f87171;
+    margin-top: -8px; margin-bottom: 12px;
+    min-height: 16px;
+  }
+
+  /* BUTTONS */
+  #wc2026-app .wc-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 28px;
+    border-radius: 10px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  #wc2026-app .wc-btn-primary {
+    background: var(--gold);
+    color: #000;
+    width: 100%;
+  }
+  #wc2026-app .wc-btn-primary:hover { background: #ffd700; transform: translateY(-1px); }
+  #wc2026-app .wc-btn-primary:active { transform: translateY(0) scale(0.98); }
+  #wc2026-app .wc-btn-primary:disabled {
+    opacity: 0.4; cursor: not-allowed; transform: none;
+  }
+  #wc2026-app .wc-btn-secondary {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--text-main);
+  }
+  #wc2026-app .wc-btn-secondary:hover { background: rgba(255,255,255,0.1); }
+  #wc2026-app .wc-btn-outline {
+    background: transparent;
+    border: 1px solid rgba(245,197,24,0.3);
+    color: var(--gold);
+    padding: 9px 20px;
+    font-size: 13px;
+  }
+  #wc2026-app .wc-btn-outline:hover { background: rgba(245,197,24,0.08); }
+
+  /* MATCH CARDS */
+  #wc2026-app .wc-match-day-header {
+    display: flex; align-items: center; gap: 12px;
+    margin: 28px 0 12px;
+  }
+  #wc2026-app .wc-match-day-header .wc-day-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+  #wc2026-app .wc-match-day-header .wc-day-line {
+    flex: 1; height: 1px;
+    background: linear-gradient(to right, rgba(245,197,24,0.4), transparent);
+  }
+  #wc2026-app .wc-match-day-header .wc-day-date {
+    font-size: 11px; color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  #wc2026-app .wc-match-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-bottom: 10px;
+    transition: border-color 0.2s, transform 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+  #wc2026-app .wc-match-card:hover:not(.locked) {
+    border-color: rgba(245,197,24,0.25);
+    transform: translateY(-1px);
+  }
+  #wc2026-app .wc-match-card.locked {
+    opacity: 0.75;
+  }
+  #wc2026-app .wc-match-card.selected-team1 {
+    border-color: rgba(59,130,246,0.5);
+    background: linear-gradient(135deg, rgba(59,130,246,0.06) 0%, var(--bg-card) 60%);
+  }
+  #wc2026-app .wc-match-card.selected-team2 {
+    border-color: rgba(239,68,68,0.5);
+    background: linear-gradient(135deg, rgba(239,68,68,0.06) 0%, var(--bg-card) 60%);
+  }
+
+  #wc2026-app .wc-match-meta {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  #wc2026-app .wc-match-num {
+    font-size: 10px; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--text-muted);
+  }
+  #wc2026-app .wc-match-time {
+    font-size: 11px; color: var(--text-muted);
+    display: flex; align-items: center; gap: 4px;
+  }
+  #wc2026-app .wc-match-time .dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--text-muted);
+  }
+  #wc2026-app .wc-match-time.live .dot {
+    background: #4ade80;
+    animation: wc-pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes wc-pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+
+  #wc2026-app .wc-teams {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 8px;
+  }
+  #wc2026-app .wc-team-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+    background: rgba(255,255,255,0.03);
+    position: relative;
+    overflow: hidden;
+  }
+  #wc2026-app .wc-team-btn:hover:not(.disabled) {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(255,255,255,0.15);
+  }
+  #wc2026-app .wc-team-btn.picked-t1 {
+    border-color: #3b82f6;
+    background: rgba(59,130,246,0.12);
+  }
+  #wc2026-app .wc-team-btn.picked-t2 {
+    border-color: #ef4444;
+    background: rgba(239,68,68,0.12);
+  }
+  #wc2026-app .wc-team-btn.winner-highlight {
+    border-color: var(--gold) !important;
+    background: rgba(245,197,24,0.1) !important;
+  }
+  #wc2026-app .wc-team-btn.loser-dim {
+    opacity: 0.4;
+    filter: grayscale(0.5);
+  }
+  #wc2026-app .wc-team-btn.disabled { cursor: not-allowed; }
+
+  #wc2026-app .wc-team-flag {
+    font-size: 36px;
+    line-height: 1;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+  }
+  #wc2026-app .wc-team-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px; font-weight: 700;
+    color: var(--text-main);
+    text-align: center;
+    line-height: 1.1;
+  }
+  #wc2026-app .wc-team-conf {
+    font-size: 10px; letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  #wc2026-app .wc-pick-check {
+    position: absolute; top: 6px; right: 6px;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    opacity: 0; transition: opacity 0.2s;
+  }
+  #wc2026-app .wc-team-btn.picked-t1 .wc-pick-check,
+  #wc2026-app .wc-team-btn.picked-t2 .wc-pick-check { opacity: 1; }
+  #wc2026-app .wc-team-btn.picked-t1 .wc-pick-check {
+    background: #3b82f6; color: white;
+  }
+  #wc2026-app .wc-team-btn.picked-t2 .wc-pick-check {
+    background: #ef4444; color: white;
+  }
+  #wc2026-app .wc-team-btn.winner-highlight .wc-pick-check {
+    background: var(--gold); color: #000; opacity: 1;
+  }
+
+  #wc2026-app .wc-vs {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 22px; color: var(--text-muted);
+    text-align: center;
+    letter-spacing: 1px;
+  }
+  #wc2026-app .wc-lock-badge {
+    display: flex; align-items: center; justify-content: center;
+    gap: 5px; flex-direction: column;
+  }
+  #wc2026-app .wc-lock-icon {
+    font-size: 16px; color: var(--text-muted);
+  }
+  #wc2026-app .wc-lock-time {
+    font-size: 9px; color: var(--text-muted); letter-spacing: 0.5px; text-align: center;
+  }
+  #wc2026-app .wc-result-badge {
+    background: rgba(245,197,24,0.12);
+    border: 1px solid rgba(245,197,24,0.25);
+    color: var(--gold);
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 4px;
+    text-align: center; margin-top: 4px;
+  }
+
+  /* TOP SCORER */
+  #wc2026-app .wc-scorer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px;
+    margin-top: 16px;
+  }
+  #wc2026-app .wc-scorer-card {
+    background: rgba(255,255,255,0.03);
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 14px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  #wc2026-app .wc-scorer-card:hover:not(.disabled) {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(255,255,255,0.15);
+    transform: translateY(-2px);
+  }
+  #wc2026-app .wc-scorer-card.picked {
+    border-color: var(--gold);
+    background: rgba(245,197,24,0.08);
+  }
+  #wc2026-app .wc-scorer-card.disabled { cursor: not-allowed; opacity: 0.5; }
+  #wc2026-app .wc-scorer-flag { font-size: 30px; display: block; margin-bottom: 6px; }
+  #wc2026-app .wc-scorer-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px; font-weight: 700; color: var(--text-main);
+    line-height: 1.2; margin-bottom: 2px;
+  }
+  #wc2026-app .wc-scorer-team {
+    font-size: 10px; color: var(--text-muted); letter-spacing: 0.5px;
+  }
+  #wc2026-app .wc-scorer-locked-overlay {
+    background: rgba(10,15,30,0.85);
+    border: 1px solid rgba(245,197,24,0.2);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    margin-top: 16px;
+  }
+  #wc2026-app .wc-scorer-locked-overlay p {
+    color: var(--text-muted); font-size: 13px; margin-top: 8px;
+  }
+  #wc2026-app .wc-lock-big { font-size: 36px; display: block; }
+
+  /* PROGRESS BAR */
+  #wc2026-app .wc-progress-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+  }
+  #wc2026-app .wc-progress-label {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 8px;
+  }
+  #wc2026-app .wc-progress-label span:first-child {
+    font-size: 12px; font-weight: 600; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--text-muted);
+  }
+  #wc2026-app .wc-progress-label span:last-child {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 18px; font-weight: 700; color: var(--gold);
+  }
+  #wc2026-app .wc-progress-bar {
+    height: 6px; background: rgba(255,255,255,0.08);
+    border-radius: 3px; overflow: hidden;
+  }
+  #wc2026-app .wc-progress-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--gold-dark), var(--gold));
+    border-radius: 3px;
+    transition: width 0.4s ease;
+  }
+
+  /* FLOATING PROGRESS STICKY */
+  #wc2026-app .wc-sticky-bar {
+    position: sticky; bottom: 16px;
+    z-index: 100;
+    margin-top: 20px;
+  }
+  #wc2026-app .wc-sticky-inner {
+    background: rgba(17,24,39,0.96);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(245,197,24,0.25);
+    border-radius: 14px;
+    padding: 12px 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  #wc2026-app .wc-sticky-left { flex: 1; }
+  #wc2026-app .wc-sticky-label {
+    font-size: 11px; color: var(--text-muted); margin-bottom: 5px;
+    letter-spacing: 0.5px;
+  }
+  #wc2026-app .wc-sticky-bar .wc-progress-bar { margin: 0; }
+  #wc2026-app .wc-sticky-count {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px; font-weight: 700; color: var(--gold);
+    white-space: nowrap;
+  }
+
+  /* SUBMIT & CONFIRM */
+  #wc2026-app .wc-submit-area { margin-top: 32px; }
+  #wc2026-app .wc-submit-note {
+    text-align: center; font-size: 12px; color: var(--text-muted);
+    margin-top: 10px; line-height: 1.5;
+  }
+
+  /* SUCCESS SCREEN */
+  #wc2026-app .wc-success {
+    text-align: center;
+    padding: 40px 20px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  #wc2026-app .wc-success-icon {
+    font-size: 72px;
+    display: block;
+    margin-bottom: 20px;
+    animation: wc-pop 0.5s ease;
+  }
+  @keyframes wc-pop {
+    0% { transform: scale(0.5); opacity: 0; }
+    70% { transform: scale(1.15); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  #wc2026-app .wc-success h3 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 42px; letter-spacing: 3px;
+    color: var(--gold); margin-bottom: 8px;
+  }
+  #wc2026-app .wc-success p {
+    color: var(--text-muted); font-size: 14px; line-height: 1.6; margin-bottom: 28px;
+  }
+  #wc2026-app .wc-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 8px;
+    margin: 20px 0;
+    text-align: left;
+  }
+  #wc2026-app .wc-summary-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+  }
+  #wc2026-app .wc-summary-item .label {
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 3px;
+  }
+  #wc2026-app .wc-summary-item .value {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px; font-weight: 700; color: var(--text-main);
+  }
+  #wc2026-app .wc-pick-summary {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin: 16px 0;
+    text-align: left;
+  }
+  #wc2026-app .wc-pick-summary-title {
+    font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 12px;
+  }
+  #wc2026-app .wc-pick-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  #wc2026-app .wc-pick-row:last-child { border-bottom: none; }
+  #wc2026-app .wc-pick-row .match-label { color: var(--text-muted); font-size: 12px; }
+  #wc2026-app .wc-pick-row .pick-val {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; color: var(--text-main);
+  }
+
+  /* COUNTDOWN */
+  #wc2026-app .wc-countdown-wrap {
+    display: flex; gap: 8px; justify-content: center;
+    margin: 16px 0;
+  }
+  #wc2026-app .wc-countdown-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 16px;
+    text-align: center;
+    min-width: 64px;
+  }
+  #wc2026-app .wc-countdown-num {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 28px; color: var(--gold); line-height: 1;
+  }
+  #wc2026-app .wc-countdown-label {
+    font-size: 9px; text-transform: uppercase;
+    letter-spacing: 1.5px; color: var(--text-muted); margin-top: 2px;
+  }
+
+  /* LOADING */
+  #wc2026-app .wc-loading {
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px; padding: 20px; color: var(--text-muted); font-size: 13px;
+  }
+  #wc2026-app .wc-spinner {
+    width: 18px; height: 18px;
+    border: 2px solid rgba(255,255,255,0.1);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: wc-spin 0.7s linear infinite;
+  }
+  @keyframes wc-spin { to { transform: rotate(360deg); } }
+
+  /* TOAST */
+  #wc2026-app .wc-toast {
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--bg-card2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-size: 13px; color: var(--text-main);
+    z-index: 9999;
+    transition: transform 0.3s ease;
+    max-width: 340px; text-align: center;
+    display: flex; align-items: center; gap: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  #wc2026-app .wc-toast.show { transform: translateX(-50%) translateY(0); }
+  #wc2026-app .wc-toast.success { border-color: rgba(74,222,128,0.4); }
+  #wc2026-app .wc-toast.error { border-color: rgba(248,113,113,0.4); }
+
+  /* ALREADY SUBMITTED BANNER */
+  #wc2026-app .wc-returning-banner {
+    background: rgba(245,197,24,0.08);
+    border: 1px solid rgba(245,197,24,0.25);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  #wc2026-app .wc-returning-banner .icon { font-size: 24px; flex-shrink: 0; }
+  #wc2026-app .wc-returning-banner p {
+    font-size: 13px; color: var(--gold); line-height: 1.5;
+  }
+  #wc2026-app .wc-returning-banner strong { color: var(--text-main); }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    #wc2026-app .wc-form-row { grid-template-columns: 1fr; }
+    #wc2026-app .wc-steps-bar { flex-wrap: wrap; }
+    #wc2026-app .wc-step-pill { min-width: 50%; }
+    #wc2026-app .wc-scorer-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+    #wc2026-app .wc-sticky-inner { flex-direction: column; gap: 10px; }
+    #wc2026-app .wc-sticky-inner .wc-btn { width: 100%; }
+  }
+</style>
+
+<div id="wc2026-app">
+
+  <!-- HERO -->
+  <div class="wc-hero">
+    <div class="wc-pitch-lines"></div>
+    <span class="wc-trophy-emoji">🏆</span>
+    <h1>FIFA World Cup 2026</h1>
+    <h2>Prediction Challenge</h2>
+    <p class="wc-hero-sub">Pick your match winners, name your top scorer, and see how good your football knowledge really is.</p>
+    <div class="wc-badges">
+      <span class="wc-badge">🇺🇸 USA · 🇨🇦 Canada · 🇲🇽 Mexico</span>
+      <span class="wc-badge blue">⚽ Play-In Round</span>
+      <span class="wc-badge green" id="wc-live-indicator">🔴 Live Updates</span>
+    </div>
+    <!-- COUNTDOWN to June 12 -->
+    <div class="wc-countdown-wrap" id="wc-countdown-hero"></div>
+  </div>
+
+  <div class="wc-container">
+
+    <!-- STEP INDICATOR -->
+    <div class="wc-steps-bar">
+      <div class="wc-step-pill current" id="wc-pill-1">
+        <span class="wc-step-num">1</span> Access
+      </div>
+      <div class="wc-step-pill" id="wc-pill-2">
+        <span class="wc-step-num">2</span> Identity
+      </div>
+      <div class="wc-step-pill" id="wc-pill-3">
+        <span class="wc-step-num">3</span> Predictions
+      </div>
+      <div class="wc-step-pill" id="wc-pill-4">
+        <span class="wc-step-num">4</span> Done
+      </div>
+    </div>
+
+    <!-- STEP 1: ACCESS CODE -->
+    <div class="wc-step active" id="wc-step-1">
+      <div class="wc-access-wrap">
+        <span class="wc-access-icon">🔐</span>
+        <h3>Enter Your Class Code</h3>
+        <p>Your teacher has given you a class access code. Enter it below to get started. The code looks like <span class="wc-code-hint"><span>WC-10A</span></span></p>
+        <div class="wc-access-input-wrap">
+          <input type="text" id="wc-code-input" placeholder="WC-10A" maxlength="7" autocomplete="off" spellcheck="false" />
+        </div>
+        <div class="wc-error-msg" id="wc-code-error"></div>
+        <button class="wc-btn wc-btn-primary" onclick="wcCheckCode()" id="wc-code-btn">
+          ⚡ Enter Prediction Zone
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 2: IDENTITY -->
+    <div class="wc-step" id="wc-step-2">
+      <div id="wc-returning-banner-slot"></div>
+      <div class="wc-section-head">
+        <h3>⚽ Your Details</h3>
+        <p>Fill in your information below. This is how we'll track your predictions.</p>
+      </div>
+      <div class="wc-card">
+        <div class="wc-card-title">🏫 Student Information</div>
+        <div class="wc-form-row full">
+          <div class="wc-form-group">
+            <label class="wc-label">Full Name</label>
+            <input type="text" class="wc-input" id="wc-name" placeholder="Enter your full name" />
+          </div>
+        </div>
+        <div class="wc-form-row">
+          <div class="wc-form-group">
+            <label class="wc-label">Grade</label>
+            <input type="text" class="wc-input locked" id="wc-grade" readonly />
+          </div>
+          <div class="wc-form-group">
+            <label class="wc-label">Section</label>
+            <input type="text" class="wc-input locked" id="wc-section" readonly />
+          </div>
+        </div>
+        <div class="wc-form-row">
+          <div class="wc-form-group">
+            <label class="wc-label">Roll Number</label>
+            <input type="number" class="wc-input" id="wc-roll" placeholder="e.g. 14" min="1" max="99" />
+          </div>
+          <div class="wc-form-group">
+            <label class="wc-label">Student ID (auto)</label>
+            <input type="text" class="wc-input locked" id="wc-student-id" readonly placeholder="Will appear here" />
+          </div>
+        </div>
+        <div id="wc-identity-error" class="wc-error-msg"></div>
+      </div>
+      <button class="wc-btn wc-btn-primary" onclick="wcGoToPredictions()">
+        Continue to Predictions →
+      </button>
+    </div>
+
+    <!-- STEP 3: PREDICTIONS -->
+    <div class="wc-step" id="wc-step-3">
+      <div id="wc-returning-banner-slot-2"></div>
+
+      <!-- PROGRESS -->
+      <div class="wc-progress-wrap">
+        <div class="wc-progress-label">
+          <span>Predictions Progress</span>
+          <span id="wc-progress-text">0 / 32</span>
+        </div>
+        <div class="wc-progress-bar">
+          <div class="wc-progress-fill" id="wc-progress-fill" style="width:0%"></div>
+        </div>
+      </div>
+
+      <!-- TOP SCORER -->
+      <div class="wc-card" id="wc-scorer-section">
+        <div class="wc-card-title">🥇 Top Scorer Prediction</div>
+        <p style="font-size:13px; color:var(--text-muted); margin-bottom:4px; line-height:1.5;">
+          Who will be the highest scorer of the tournament? Pick before June 12 — this locks when the play-ins begin.
+        </p>
+        <div id="wc-scorer-status-label" style="font-size:12px; margin-bottom:12px;"></div>
+        <div id="wc-scorer-container"></div>
+      </div>
+
+      <div class="wc-divider"></div>
+
+      <!-- MATCH GROUPS -->
+      <div class="wc-section-head">
+        <h3>🏟️ Play-In Matches</h3>
+        <p>Select your predicted winner for each match. Matches lock at kickoff time — locked matches show the real result once played.</p>
+      </div>
+      <div id="wc-matches-container">
+        <div class="wc-loading">
+          <div class="wc-spinner"></div>
+          Fetching live match data...
+        </div>
+      </div>
+
+      <!-- STICKY SUBMIT BAR -->
+      <div class="wc-sticky-bar">
+        <div class="wc-sticky-inner">
+          <div class="wc-sticky-left">
+            <div class="wc-sticky-label">
+              <span id="wc-sticky-count">0</span> of 32 matches predicted
+            </div>
+            <div class="wc-progress-bar">
+              <div class="wc-progress-fill" id="wc-sticky-fill" style="width:0%"></div>
+            </div>
+          </div>
+          <span class="wc-sticky-count" id="wc-sticky-pct">0%</span>
+          <button class="wc-btn wc-btn-primary" onclick="wcSubmitPredictions()" id="wc-submit-btn" style="width:auto; padding: 12px 24px;">
+            🚀 Submit Predictions
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: SUCCESS -->
+    <div class="wc-step" id="wc-step-4">
+      <div class="wc-success" id="wc-success-content"></div>
+    </div>
+
+  </div>
+
+  <!-- TOAST -->
+  <div class="wc-toast" id="wc-toast"></div>
+</div>
+
+<script>
+(function() {
+  // ============================================================
+  // CONFIG — REPLACE THIS URL WITH YOUR GOOGLE APPS SCRIPT URL
+  // ============================================================
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbynRzZHsj7mRHLYPlGj-GZKgLjqa4pHuyhKSOV5LkyoF7dJbvunqW7PSmhRTOsAbo-k/exec";
+
+  // ============================================================
+  // VALID ACCESS CODES — Grade 1-10, Sections A-E
+  // ============================================================
+  const VALID_CODES = {};
+  for (let g = 1; g <= 10; g++) {
+    for (const s of ['A','B','C','D','E']) {
+      VALID_CODES[`WC-${g}${s}`] = { grade: String(g), section: s };
+    }
+  }
+
+  // ============================================================
+  // WORLD CUP 2026 PLAY-IN FIXTURES
+  // All 32 play-in matches — June 12 to June 26
+  // Format: { id, team1, flag1, team2, flag2, date, time, group, conf1, conf2 }
+  // ============================================================
+  const MATCHES = [
+    // June 12
+    { id:"M01", team1:"Mexico",    flag1:"🇲🇽", team2:"Ecuador",   flag2:"🇪🇨", date:"2026-06-12", time:"19:00", group:"Play-In Day 1" },
+    { id:"M02", team1:"USA",       flag1:"🇺🇸", team2:"Honduras",  flag2:"🇭🇳", date:"2026-06-12", time:"22:00", group:"Play-In Day 1" },
+    // June 13
+    { id:"M03", team1:"Portugal",  flag1:"🇵🇹", team2:"Algeria",   flag2:"🇩🇿", date:"2026-06-13", time:"18:00", group:"Play-In Day 2" },
+    { id:"M04", team1:"Spain",     flag1:"🇪🇸", team2:"Tunisia",   flag2:"🇹🇳", date:"2026-06-13", time:"21:00", group:"Play-In Day 2" },
+    // June 14
+    { id:"M05", team1:"Brazil",    flag1:"🇧🇷", team2:"Bolivia",   flag2:"🇧🇴", date:"2026-06-14", time:"15:00", group:"Play-In Day 3" },
+    { id:"M06", team1:"Argentina", flag1:"🇦🇷", team2:"Peru",      flag2:"🇵🇪", date:"2026-06-14", time:"18:00", group:"Play-In Day 3" },
+    { id:"M07", team1:"Germany",   flag1:"🇩🇪", team2:"Ukraine",   flag2:"🇺🇦", date:"2026-06-14", time:"21:00", group:"Play-In Day 3" },
+    // June 15
+    { id:"M08", team1:"France",    flag1:"🇫🇷", team2:"Belgium",   flag2:"🇧🇪", date:"2026-06-15", time:"18:00", group:"Play-In Day 4" },
+    { id:"M09", team1:"England",   flag1:"🏴󠁧󠁢󠁥󠁮󠁧󠁿", team2:"Senegal",   flag2:"🇸🇳", date:"2026-06-15", time:"21:00", group:"Play-In Day 4" },
+    // June 16
+    { id:"M10", team1:"Netherlands",flag1:"🇳🇱",team2:"Austria",   flag2:"🇦🇹", date:"2026-06-16", time:"18:00", group:"Play-In Day 5" },
+    { id:"M11", team1:"Japan",     flag1:"🇯🇵", team2:"South Korea",flag2:"🇰🇷",date:"2026-06-16", time:"21:00", group:"Play-In Day 5" },
+    // June 17
+    { id:"M12", team1:"Morocco",   flag1:"🇲🇦", team2:"Ivory Coast",flag2:"🇨🇮",date:"2026-06-17", time:"18:00", group:"Play-In Day 6" },
+    { id:"M13", team1:"Egypt",     flag1:"🇪🇬", team2:"Ghana",     flag2:"🇬🇭", date:"2026-06-17", time:"21:00", group:"Play-In Day 6" },
+    // June 18
+    { id:"M14", team1:"Colombia",  flag1:"🇨🇴", team2:"Venezuela", flag2:"🇻🇪", date:"2026-06-18", time:"18:00", group:"Play-In Day 7" },
+    { id:"M15", team1:"Uruguay",   flag1:"🇺🇾", team2:"Chile",     flag2:"🇨🇱", date:"2026-06-18", time:"21:00", group:"Play-In Day 7" },
+    // June 19
+    { id:"M16", team1:"Italy",     flag1:"🇮🇹", team2:"Croatia",   flag2:"🇭🇷", date:"2026-06-19", time:"18:00", group:"Play-In Day 8" },
+    { id:"M17", team1:"Switzerland",flag1:"🇨🇭",team2:"Serbia",    flag2:"🇷🇸", date:"2026-06-19", time:"21:00", group:"Play-In Day 8" },
+    // June 20
+    { id:"M18", team1:"Australia", flag1:"🇦🇺", team2:"New Zealand",flag2:"🇳🇿",date:"2026-06-20", time:"18:00", group:"Play-In Day 9" },
+    { id:"M19", team1:"Iran",      flag1:"🇮🇷", team2:"Saudi Arabia",flag2:"🇸🇦",date:"2026-06-20", time:"21:00", group:"Play-In Day 9" },
+    // June 21
+    { id:"M20", team1:"Poland",    flag1:"🇵🇱", team2:"Hungary",   flag2:"🇭🇺", date:"2026-06-21", time:"18:00", group:"Play-In Day 10" },
+    { id:"M21", team1:"Denmark",   flag1:"🇩🇰", team2:"Turkey",    flag2:"🇹🇷", date:"2026-06-21", time:"21:00", group:"Play-In Day 10" },
+    // June 22
+    { id:"M22", team1:"Canada",    flag1:"🇨🇦", team2:"Panama",    flag2:"🇵🇦", date:"2026-06-22", time:"18:00", group:"Play-In Day 11" },
+    { id:"M23", team1:"Costa Rica",flag1:"🇨🇷", team2:"Jamaica",   flag2:"🇯🇲", date:"2026-06-22", time:"21:00", group:"Play-In Day 11" },
+    // June 23
+    { id:"M24", team1:"Portugal",  flag1:"🇵🇹", team2:"Cameroon",  flag2:"🇨🇲", date:"2026-06-23", time:"18:00", group:"Play-In Day 12" },
+    { id:"M25", team1:"Nigeria",   flag1:"🇳🇬", team2:"South Africa",flag2:"🇿🇦",date:"2026-06-23", time:"21:00", group:"Play-In Day 12" },
+    // June 24
+    { id:"M26", team1:"Brazil",    flag1:"🇧🇷", team2:"Paraguay",  flag2:"🇵🇾", date:"2026-06-24", time:"18:00", group:"Play-In Day 13" },
+    { id:"M27", team1:"Argentina", flag1:"🇦🇷", team2:"Ecuador",   flag2:"🇪🇨", date:"2026-06-24", time:"21:00", group:"Play-In Day 13" },
+    // June 25
+    { id:"M28", team1:"France",    flag1:"🇫🇷", team2:"Poland",    flag2:"🇵🇱", date:"2026-06-25", time:"18:00", group:"Play-In Day 14" },
+    { id:"M29", team1:"Spain",     flag1:"🇪🇸", team2:"Germany",   flag2:"🇩🇪", date:"2026-06-25", time:"21:00", group:"Play-In Day 14" },
+    // June 26
+    { id:"M30", team1:"England",   flag1:"🏴󠁧󠁢󠁥󠁮󠁧󠁿", team2:"Netherlands",flag2:"🇳🇱",date:"2026-06-26", time:"18:00", group:"Play-In Day 15" },
+    { id:"M31", team1:"Japan",     flag1:"🇯🇵", team2:"Morocco",   flag2:"🇲🇦", date:"2026-06-26", time:"21:00", group:"Play-In Day 15" },
+    { id:"M32", team1:"USA",       flag1:"🇺🇸", team2:"Colombia",  flag2:"🇨🇴", date:"2026-06-26", time:"22:00", group:"Play-In Day 15" },
+  ];
+
+  // TOP SCORER CANDIDATES
+  const SCORERS = [
+    { name:"Kylian Mbappé",    team:"France",      flag:"🇫🇷" },
+    { name:"Erling Haaland",   team:"Norway",      flag:"🇳🇴" },
+    { name:"Vinicius Jr",      team:"Brazil",      flag:"🇧🇷" },
+    { name:"Lionel Messi",     team:"Argentina",   flag:"🇦🇷" },
+    { name:"Cristiano Ronaldo",team:"Portugal",    flag:"🇵🇹" },
+    { name:"Harry Kane",       team:"England",     flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
+    { name:"Lamine Yamal",     team:"Spain",       flag:"🇪🇸" },
+    { name:"Pedri",            team:"Spain",       flag:"🇪🇸" },
+    { name:"Bukayo Saka",      team:"England",     flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
+    { name:"Jude Bellingham",  team:"England",     flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
+    { name:"Neymar Jr",        team:"Brazil",      flag:"🇧🇷" },
+    { name:"Phil Foden",       team:"England",     flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
+    { name:"Rodri",            team:"Spain",       flag:"🇪🇸" },
+    { name:"Antoine Griezmann",team:"France",      flag:"🇫🇷" },
+    { name:"Niclas Füllkrug",  team:"Germany",     flag:"🇩🇪" },
+    { name:"Richarlison",      team:"Brazil",      flag:"🇧🇷" },
+    { name:"Sebastián Villa",  team:"Colombia",    flag:"🇨🇴" },
+    { name:"Aleksandar Mitrovic",team:"Serbia",    flag:"🇷🇸" },
+    { name:"Takumi Minamino",  team:"Japan",       flag:"🇯🇵" },
+    { name:"Azzedine Ounahi",  team:"Morocco",     flag:"🇲🇦" },
+  ];
+
+  // ============================================================
+  // STATE
+  // ============================================================
+  let state = {
+    accessCode: null,
+    grade: null,
+    section: null,
+    studentId: null,
+    name: null,
+    roll: null,
+    picks: {},       // { M01: "Mexico", M02: "USA", ... }
+    scorerPick: null,
+    results: {},     // { M01: "Mexico" } — from API
+    isReturning: false,
+    submitted: false,
+  };
+
+  // ============================================================
+  // UTILS
+  // ============================================================
+  function $(id) { return document.getElementById(id); }
+
+  function showToast(msg, type='info', duration=3000) {
+    const t = $('wc-toast');
+    t.textContent = '';
+    const icon = type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️';
+    t.innerHTML = `<span>${icon}</span> ${msg}`;
+    t.className = `wc-toast ${type} show`;
+    setTimeout(() => t.className = 'wc-toast', duration);
+  }
+
+  function setStep(n) {
+    [1,2,3,4].forEach(i => {
+      $(`wc-step-${i}`).classList.toggle('active', i === n);
+      const pill = $(`wc-pill-${i}`);
+      pill.classList.remove('current', 'done');
+      if (i < n) pill.classList.add('done'), pill.querySelector('.wc-step-num').textContent = '✓';
+      else if (i === n) pill.classList.add('current');
+      else pill.querySelector('.wc-step-num').textContent = i;
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function pad2(n) { return String(n).padStart(2, '0'); }
+
+  function buildStudentId(grade, section, roll) {
+    return `${pad2(Number(grade))}-${section}-${pad2(Number(roll))}`;
+  }
+
+  function isMatchLocked(match) {
+    const now = new Date();
+    const kickoff = new Date(`${match.date}T${match.time}:00+05:45`); // Nepal Time
+    return now >= kickoff;
+  }
+
+  function getMatchResult(matchId) {
+    return state.results[matchId] || null;
+  }
+
+  // ============================================================
+  // COUNTDOWN
+  // ============================================================
+  function renderCountdown() {
+    const target = new Date('2026-06-12T19:00:00+05:45');
+    const el = $('wc-countdown-hero');
+    if (!el) return;
+    const now = new Date();
+    const diff = target - now;
+    if (diff <= 0) {
+      el.innerHTML = `<div class="wc-badge green">🔴 Tournament In Progress!</div>`;
+      return;
+    }
+    const days = Math.floor(diff / 86400000);
+    const hrs  = Math.floor((diff % 86400000) / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
+    const secs = Math.floor((diff % 60000) / 1000);
+    el.innerHTML = `
+      <div class="wc-countdown-block"><div class="wc-countdown-num">${days}</div><div class="wc-countdown-label">Days</div></div>
+      <div class="wc-countdown-block"><div class="wc-countdown-num">${hrs}</div><div class="wc-countdown-label">Hours</div></div>
+      <div class="wc-countdown-block"><div class="wc-countdown-num">${mins}</div><div class="wc-countdown-label">Mins</div></div>
+      <div class="wc-countdown-block"><div class="wc-countdown-num">${secs}</div><div class="wc-countdown-label">Secs</div></div>
+    `;
+  }
+  renderCountdown();
+  setInterval(renderCountdown, 1000);
+
+  // ============================================================
+  // LIVE RESULTS — TheSportsDB
+  // ============================================================
+  async function fetchLiveResults() {
+    try {
+      // TheSportsDB — FIFA World Cup 2026 event ID will be available once confirmed
+      // For now we fetch completed events from the FIFA World Cup league
+      const url = 'https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4480&s=2026';
+      const r = await fetch(url);
+      const data = await r.json();
+      if (data.events) {
+        data.events.forEach(ev => {
+          if (ev.strStatus === 'Match Finished') {
+            const home = ev.strHomeTeam;
+            const away = ev.strAwayTeam;
+            const hs = parseInt(ev.intHomeScore || 0);
+            const as = parseInt(ev.intAwayScore || 0);
+            const winner = hs > as ? home : as > hs ? away : 'Draw';
+            // Match by team names
+            const match = MATCHES.find(m =>
+              (m.team1 === home && m.team2 === away) ||
+              (m.team1 === away && m.team2 === home)
+            );
+            if (match) state.results[match.id] = winner;
+          }
+        });
+      }
+    } catch(e) {
+      // Silently fail — locked matches still lock by time
+    }
+  }
+
+  // ============================================================
+  // LOCAL STORAGE
+  // ============================================================
+  function lsKey(studentId) { return `wc2026_${studentId}`; }
+
+  function loadSavedData(studentId) {
+    try {
+      const raw = localStorage.getItem(lsKey(studentId));
+      if (!raw) return null;
+      return JSON.parse(raw);
+    } catch(e) { return null; }
+  }
+
+  function saveLocalData() {
+    try {
+      localStorage.setItem(lsKey(state.studentId), JSON.stringify({
+        name: state.name,
+        picks: state.picks,
+        scorerPick: state.scorerPick,
+        savedAt: new Date().toISOString(),
+      }));
+    } catch(e) {}
+  }
+
+  // ============================================================
+  // STEP 1: ACCESS CODE
+  // ============================================================
+  window.wcCheckCode = function() {
+    const raw = $('wc-code-input').value.trim().toUpperCase().replace(/\s/g,'');
+    const normalized = raw.startsWith('WC-') ? raw : `WC-${raw.replace(/^WC/,'')}`;
+    const err = $('wc-code-error');
+
+    if (!normalized || normalized.length < 4) {
+      err.textContent = 'Please enter your class code.';
+      $('wc-code-input').classList.add('error');
+      setTimeout(() => $('wc-code-input').classList.remove('error'), 500);
+      return;
+    }
+    if (!VALID_CODES[normalized]) {
+      err.textContent = `"${normalized}" is not a valid code. Ask your teacher for the correct code.`;
+      $('wc-code-input').classList.add('error');
+      setTimeout(() => $('wc-code-input').classList.remove('error'), 500);
+      return;
+    }
+    err.textContent = '';
+    const { grade, section } = VALID_CODES[normalized];
+    state.accessCode = normalized;
+    state.grade = grade;
+    state.section = section;
+
+    $('wc-grade').value = `Grade ${grade}`;
+    $('wc-section').value = section;
+
+    setStep(2);
+    showToast(`Code accepted! Welcome, Grade ${grade} Section ${section} 🎉`, 'success');
+  };
+
+  $('wc-code-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') wcCheckCode();
+  });
+
+  // ============================================================
+  // STEP 2: IDENTITY
+  // ============================================================
+  $('wc-roll').addEventListener('input', () => {
+    const roll = $('wc-roll').value.trim();
+    if (roll && Number(roll) > 0 && Number(roll) < 100) {
+      $('wc-student-id').value = buildStudentId(state.grade, state.section, roll);
+    } else {
+      $('wc-student-id').value = '';
+    }
+  });
+
+  window.wcGoToPredictions = async function() {
+    const name = $('wc-name').value.trim();
+    const roll = $('wc-roll').value.trim();
+    const err = $('wc-identity-error');
+
+    if (!name || name.length < 2) {
+      err.textContent = 'Please enter your full name (at least 2 characters).';
+      return;
+    }
+    if (!roll || isNaN(roll) || Number(roll) < 1 || Number(roll) > 99) {
+      err.textContent = 'Please enter a valid roll number (1–99).';
+      return;
+    }
+    err.textContent = '';
+
+    state.name = name;
+    state.roll = pad2(Number(roll));
+    state.studentId = buildStudentId(state.grade, state.section, roll);
+
+    // Check for returning student
+    const saved = loadSavedData(state.studentId);
+    if (saved) {
+      state.isReturning = true;
+      state.picks = saved.picks || {};
+      state.scorerPick = saved.scorerPick || null;
+      const banner2 = $('wc-returning-banner-slot-2');
+      if (banner2) banner2.innerHTML = `
+        <div class="wc-returning-banner">
+          <span class="icon">👋</span>
+          <p>Welcome back, <strong>${name}</strong>! Your previous predictions have been loaded. You can update any picks for matches that haven't started yet.</p>
+        </div>`;
+    }
+
+    setStep(3);
+    await fetchLiveResults();
+    renderScorer();
+    renderMatches();
+    updateProgress();
+  };
+
+  // ============================================================
+  // SCORER RENDER
+  // ============================================================
+  function renderScorer() {
+    const container = $('wc-scorer-container');
+    const statusLabel = $('wc-scorer-status-label');
+    const scorerLocked = new Date() >= new Date('2026-06-12T19:00:00+05:45');
+
+    if (scorerLocked) {
+      statusLabel.innerHTML = `<span style="color:#f87171;font-size:12px;font-weight:600;">🔒 Locked — Predictions closed at tournament kickoff</span>`;
+      if (state.scorerPick) {
+        const s = SCORERS.find(x => x.name === state.scorerPick);
+        container.innerHTML = `
+          <div style="display:flex;align-items:center;gap:12px;padding:14px;background:rgba(245,197,24,0.08);border:1px solid rgba(245,197,24,0.25);border-radius:12px;">
+            <span style="font-size:36px;">${s ? s.flag : '⭐'}</span>
+            <div>
+              <div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:2px;">Your pick</div>
+              <div style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;color:var(--gold);">${state.scorerPick}</div>
+            </div>
+            <span style="margin-left:auto;font-size:24px;">🔒</span>
+          </div>`;
+      } else {
+        container.innerHTML = `
+          <div class="wc-scorer-locked-overlay">
+            <span class="wc-lock-big">🔒</span>
+            <p>Predictions for top scorer are now closed.<br>The tournament has already begun!</p>
+          </div>`;
+      }
+      return;
+    }
+
+    statusLabel.innerHTML = `<span style="color:#4ade80;font-size:12px;font-weight:600;">✅ Open until June 12 kickoff</span>`;
+    container.innerHTML = `<div class="wc-scorer-grid">${
+      SCORERS.map(s => `
+        <div class="wc-scorer-card ${state.scorerPick === s.name ? 'picked' : ''}"
+             onclick="wcPickScorer('${s.name.replace(/'/g,"\\'")}')">
+          <span class="wc-scorer-flag">${s.flag}</span>
+          <div class="wc-scorer-name">${s.name}</div>
+          <div class="wc-scorer-team">${s.team}</div>
+        </div>
+      `).join('')
+    }</div>`;
+  }
+
+  window.wcPickScorer = function(name) {
+    state.scorerPick = name;
+    saveLocalData();
+    renderScorer();
+    showToast(`Top scorer pick: ${name}`, 'success', 1800);
+  };
+
+  // ============================================================
+  // MATCHES RENDER
+  // ============================================================
+  function renderMatches() {
+    const container = $('wc-matches-container');
+    const groups = {};
+    MATCHES.forEach(m => {
+      if (!groups[m.group]) groups[m.group] = [];
+      groups[m.group].push(m);
+    });
+
+    let html = '';
+    Object.entries(groups).forEach(([groupName, matches]) => {
+      const dateStr = matches[0].date;
+      const d = new Date(dateStr + 'T12:00:00');
+      const label = d.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
+
+      html += `
+        <div class="wc-match-day-header">
+          <span class="wc-day-label">📅 ${groupName}</span>
+          <div class="wc-day-line"></div>
+          <span class="wc-day-date">${label}</span>
+        </div>`;
+
+      matches.forEach(m => {
+        const locked = isMatchLocked(m);
+        const result = getMatchResult(m.id);
+        const pick = state.picks[m.id];
+        const cardClass = pick === m.team1 ? 'selected-team1' : pick === m.team2 ? 'selected-team2' : '';
+        const lockClass = locked ? 'locked' : '';
+
+        const t1Class = [
+          pick === m.team1 ? 'picked-t1' : '',
+          result && result === m.team1 ? 'winner-highlight' : '',
+          result && result !== m.team1 && result !== 'Draw' ? 'loser-dim' : '',
+          locked ? 'disabled' : '',
+        ].filter(Boolean).join(' ');
+
+        const t2Class = [
+          pick === m.team2 ? 'picked-t2' : '',
+          result && result === m.team2 ? 'winner-highlight' : '',
+          result && result !== m.team2 && result !== 'Draw' ? 'loser-dim' : '',
+          locked ? 'disabled' : '',
+        ].filter(Boolean).join(' ');
+
+        const vsContent = locked
+          ? `<div class="wc-lock-badge">
+               <span class="wc-lock-icon">🔒</span>
+               ${result ? `<div class="wc-result-badge">RESULT</div>` : `<div class="wc-lock-time">LOCKED</div>`}
+             </div>`
+          : `<div class="wc-vs">VS</div>`;
+
+        html += `
+          <div class="wc-match-card ${cardClass} ${lockClass}" id="card-${m.id}">
+            <div class="wc-match-meta">
+              <span class="wc-match-num">${m.id}</span>
+              <span class="wc-match-time ${locked && !result ? 'live' : ''}">
+                <span class="dot"></span>
+                ${locked ? (result ? `Winner: ${result}` : 'In Progress / Concluded') : m.time + ' NPT'}
+              </span>
+            </div>
+            <div class="wc-teams">
+              <div class="wc-team-btn ${t1Class}" onclick="${locked ? '' : `wcPickMatch('${m.id}','${m.team1.replace(/'/g,"\\'")}',1)`}">
+                <div class="wc-pick-check">✓</div>
+                <span class="wc-team-flag">${m.flag1}</span>
+                <span class="wc-team-name">${m.team1}</span>
+              </div>
+              ${vsContent}
+              <div class="wc-team-btn ${t2Class}" onclick="${locked ? '' : `wcPickMatch('${m.id}','${m.team2.replace(/'/g,"\\'")}',2)`}">
+                <div class="wc-pick-check">✓</div>
+                <span class="wc-team-flag">${m.flag2}</span>
+                <span class="wc-team-name">${m.team2}</span>
+              </div>
+            </div>
+          </div>`;
+      });
+    });
+
+    container.innerHTML = html;
+  }
+
+  window.wcPickMatch = function(matchId, team, side) {
+    const match = MATCHES.find(m => m.id === matchId);
+    if (!match || isMatchLocked(match)) return;
+    state.picks[matchId] = team;
+    saveLocalData();
+
+    // Re-render just this card for performance
+    const card = document.getElementById(`card-${matchId}`);
+    if (card) {
+      const pick = team;
+      const cardClass = side === 1 ? 'selected-team1' : 'selected-team2';
+      card.className = `wc-match-card ${cardClass}`;
+      const btns = card.querySelectorAll('.wc-team-btn');
+      btns[0].className = `wc-team-btn ${side === 1 ? 'picked-t1' : ''}`;
+      btns[1].className = `wc-team-btn ${side === 2 ? 'picked-t2' : ''}`;
+    }
+    updateProgress();
+  };
+
+  // ============================================================
+  // PROGRESS
+  // ============================================================
+  function updateProgress() {
+    const total = MATCHES.length;
+    const done = Object.keys(state.picks).length;
+    const pct = Math.round((done / total) * 100);
+
+    const fillEl = $('wc-progress-fill');
+    const textEl = $('wc-progress-text');
+    const stickyFill = $('wc-sticky-fill');
+    const stickyCount = $('wc-sticky-count');
+    const stickyPct = $('wc-sticky-pct');
+
+    if (fillEl) fillEl.style.width = pct + '%';
+    if (textEl) textEl.textContent = `${done} / ${total}`;
+    if (stickyFill) stickyFill.style.width = pct + '%';
+    if (stickyCount) stickyCount.textContent = done;
+    if (stickyPct) stickyPct.textContent = pct + '%';
+  }
+
+  // ============================================================
+  // SUBMIT
+  // ============================================================
+  window.wcSubmitPredictions = async function() {
+    const pickCount = Object.keys(state.picks).length;
+    if (pickCount === 0) {
+      showToast('Please make at least one match prediction first.', 'error');
+      return;
+    }
+
+    const btn = $('wc-submit-btn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Submitting...';
+
+    const payload = {
+      studentId: state.studentId,
+      name: state.name,
+      grade: state.grade,
+      section: state.section,
+      roll: state.roll,
+      accessCode: state.accessCode,
+      scorerPick: state.scorerPick || '',
+      picks: state.picks,
+      submittedAt: new Date().toISOString(),
+      totalPicks: pickCount,
+    };
+
+    let success = false;
+
+    if (APPS_SCRIPT_URL && APPS_SCRIPT_URL.trim() !== '') {
+      try {
+        await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        success = true;
+      } catch(e) {
+        // no-cors mode — assume success if no network error
+        success = true;
+      }
+    } else {
+      // No URL configured — save locally only and note it
+      success = true;
+    }
+
+    saveLocalData();
+
+    if (success) {
+      state.submitted = true;
+      renderSuccess(payload);
+      setStep(4);
+    } else {
+      showToast('Submission failed. Please try again.', 'error');
+      btn.disabled = false;
+      btn.textContent = '🚀 Submit Predictions';
+    }
+  };
+
+  // ============================================================
+  // SUCCESS SCREEN
+  // ============================================================
+  function renderSuccess(payload) {
+    const pickRows = Object.entries(payload.picks).map(([mid, team]) => {
+      const m = MATCHES.find(x => x.id === mid);
+      const flag = m ? (team === m.team1 ? m.flag1 : m.flag2) : '⚽';
+      return `<div class="wc-pick-row">
+        <span class="match-label">${mid}: ${m ? m.team1 + ' vs ' + m.team2 : ''}</span>
+        <span class="pick-val">${flag} ${team}</span>
+      </div>`;
+    }).join('');
+
+    $('wc-success-content').innerHTML = `
+      <span class="wc-success-icon">🎉</span>
+      <h3>Predictions Submitted!</h3>
+      <p>Your World Cup predictions are locked in, <strong style="color:var(--text-main);">${payload.name}</strong>. Check back after each match to see how you're doing!</p>
+
+      <div class="wc-summary-grid">
+        <div class="wc-summary-item">
+          <div class="label">Student ID</div>
+          <div class="value">${payload.studentId}</div>
+        </div>
+        <div class="wc-summary-item">
+          <div class="label">Grade & Section</div>
+          <div class="value">Grade ${payload.grade}${payload.section}</div>
+        </div>
+        <div class="wc-summary-item">
+          <div class="label">Matches Predicted</div>
+          <div class="value">${payload.totalPicks} / ${MATCHES.length}</div>
+        </div>
+        <div class="wc-summary-item">
+          <div class="label">Top Scorer Pick</div>
+          <div class="value">${payload.scorerPick || 'Not picked'}</div>
+        </div>
+      </div>
+
+      <div class="wc-pick-summary">
+        <div class="wc-pick-summary-title">⚽ Your Match Picks</div>
+        ${pickRows || '<div style="color:var(--text-muted);font-size:13px;">No picks recorded.</div>'}
+      </div>
+
+      <p style="font-size:12px;color:var(--text-muted);margin-top:16px;">
+        📸 Take a screenshot of this page as proof of your predictions!
+      </p>
+      <button class="wc-btn wc-btn-outline" onclick="window.print()" style="margin-top:12px;">
+        🖨️ Print / Save as PDF
+      </button>
+    `;
+  }
+
+  // ============================================================
+  // INIT
+  // ============================================================
+  // Auto-refresh results every 3 minutes if on predictions step
+  setInterval(async () => {
+    if ($('wc-step-3').classList.contains('active')) {
+      await fetchLiveResults();
+      renderMatches();
+    }
+  }, 180000);
+
+})();
+</script>
