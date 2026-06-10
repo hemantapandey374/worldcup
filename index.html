@@ -1256,44 +1256,52 @@
   });
 
   window.wcGoToPredictions = async function() {
-    const name = $('wc-name').value.trim();
-    const roll = $('wc-roll').value.trim();
-    const err = $('wc-identity-error');
+  const name = $('wc-name').value.trim();
+  const roll = $('wc-roll').value.trim();
+  const err = $('wc-identity-error');
 
-    if (!name || name.length < 2) {
-      err.textContent = 'Please enter your full name (at least 2 characters).';
-      return;
-    }
-    if (!roll || isNaN(roll) || Number(roll) < 1 || Number(roll) > 99) {
-      err.textContent = 'Please enter a valid roll number (1–99).';
-      return;
-    }
-    err.textContent = '';
+  if (!name || name.length < 2) {
+    err.textContent = 'Please enter your full name (at least 2 characters).';
+    return;
+  }
+  if (!roll || isNaN(roll) || Number(roll) < 1 || Number(roll) > 99) {
+    err.textContent = 'Please enter a valid roll number (1–99).';
+    return;
+  }
+  err.textContent = '';
 
-    state.name = name;
-    state.roll = pad2(Number(roll));
-    state.studentId = buildStudentId(state.grade, state.section, roll);
+  state.name = name;
+  state.roll = pad2(Number(roll));
+  state.studentId = buildStudentId(state.grade, state.section, roll);
 
-    // Check for returning student
-    const saved = loadSavedData(state.studentId);
-    if (saved) {
-      state.isReturning = true;
-      state.picks = saved.picks || {};
-      state.scorerPick = saved.scorerPick || null;
-      const banner2 = $('wc-returning-banner-slot-2');
-      if (banner2) banner2.innerHTML = `
-        <div class="wc-returning-banner">
-          <span class="icon">👋</span>
-          <p>Welcome back, <strong>${name}</strong>! Your previous predictions have been loaded. You can update any picks for matches that haven't started yet.</p>
-        </div>`;
-    }
+  // ── NEW: check Sheet first, fallback to localStorage ──
+  let sheetData = null;
+  try {
+    const res = await fetch(`${APPS_SCRIPT_URL}?studentId=${encodeURIComponent(state.studentId)}`);
+    const json = await res.json();
+    if (json.found) sheetData = json.data;
+  } catch(e) { /* network issue — fall through to localStorage */ }
 
-    setStep(3);
-    await fetchLiveResults();
-    renderScorer();
-    renderMatches();
-    updateProgress();
-  };
+  const source = sheetData || loadSavedData(state.studentId);
+  if (source) {
+    state.isReturning = true;
+    state.picks = source.picks || {};
+    state.scorerPick = source.scorerPick || null;
+    const banner2 = $('wc-returning-banner-slot-2');
+    if (banner2) banner2.innerHTML = `
+      <div class="wc-returning-banner">
+        <span class="icon">✏️</span>
+        <p>Welcome back, <strong>${name}</strong>! Your previous predictions are loaded. Edit anything you like before the match locks — your latest save will overwrite the old one.</p>
+      </div>`;
+  }
+  // ── END NEW ──
+
+  setStep(3);
+  await fetchLiveResults();
+  renderScorer();
+  renderMatches();
+  updateProgress();
+};
 
   // ============================================================
   // SCORER RENDER
