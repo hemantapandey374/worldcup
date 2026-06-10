@@ -1256,54 +1256,65 @@
   });
 
   window.wcGoToPredictions = async function() {
-  const name = $('wc-name').value.trim();
-  const roll = $('wc-roll').value.trim();
-  const err = $('wc-identity-error');
+    const roll = $('wc-roll').value.trim();
+    const err = $('wc-identity-error');
 
-  if (!name || name.length < 2) {
-    err.textContent = 'Please enter your full name (at least 2 characters).';
-    return;
-  }
-  if (!roll || isNaN(roll) || Number(roll) < 1 || Number(roll) > 99) {
-    err.textContent = 'Please enter a valid roll number (1–99).';
-    return;
-  }
-  err.textContent = '';
+    if (!roll || isNaN(roll) || Number(roll) < 1 || Number(roll) > 99) {
+      err.textContent = 'Please enter a valid roll number (1–99).';
+      return;
+    }
+    err.textContent = '';
 
-  state.name = name;
-  state.roll = pad2(Number(roll));
-  state.studentId = buildStudentId(state.grade, state.section, roll);
+    state.roll = pad2(Number(roll));
+    state.studentId = buildStudentId(state.grade, state.section, roll);
 
-  // ── NEW: check Sheet first, fallback to localStorage ──
-  let sheetData = null;
-  try {
-    const res = await fetch(`${APPS_SCRIPT_URL}?studentId=${encodeURIComponent(state.studentId)}`);
-    const json = await res.json();
-    if (json.found) sheetData = json.data;
-  } catch(e) { /* network issue — fall through to localStorage */ }
+    // Show loading state
+    const btn = document.querySelector('#wc-step-2 .wc-btn-primary');
+    btn.disabled = true;
+    btn.textContent = 'Loading...';
 
-  const source = sheetData || loadSavedData(state.studentId);
-  if (source) {
-    state.isReturning = true;
-    state.picks = source.picks || {};
-    state.scorerPick = source.scorerPick || null;
-    $('wc-name').value = source.name || name;
+    // Check Sheet first, fallback to localStorage
+    let sheetData = null;
+    try {
+      const res = await fetch(`${APPS_SCRIPT_URL}?studentId=${encodeURIComponent(state.studentId)}`);
+      const json = await res.json();
+      if (json.found) sheetData = json.data;
+    } catch(e) { /* fall through */ }
 
-    const banner2 = $('wc-returning-banner-slot-2');
-    if (banner2) banner2.innerHTML = `
-      <div class="wc-returning-banner">
-        <span class="icon">✏️</span>
-        <p>Welcome back, <strong>${name}</strong>! Your previous predictions are loaded. Edit anything you like before the match locks — your latest save will overwrite the old one.</p>
-      </div>`;
-  }
-  // ── END NEW ──
+    btn.disabled = false;
+    btn.textContent = 'Continue to Predictions →';
 
-  setStep(3);
-  await fetchLiveResults();
-  renderScorer();
-  renderMatches();
-  updateProgress();
-};
+    const source = sheetData || loadSavedData(state.studentId);
+    if (source) {
+      // Load everything from saved data
+      state.isReturning = true;
+      state.picks      = source.picks      || {};
+      state.scorerPick = source.scorerPick || null;
+      state.name       = source.name       || $('wc-name').value.trim();  // ← state updated
+      $('wc-name').value = state.name;                                     // ← field updated
+
+      const banner2 = $('wc-returning-banner-slot-2');
+      if (banner2) banner2.innerHTML = `
+        <div class="wc-returning-banner">
+          <span class="icon">✏️</span>
+          <p>Welcome back, <strong>${state.name}</strong>! Your previous predictions are loaded. Edit anything before kickoff — submitting will overwrite your old entry.</p>
+        </div>`;
+    } else {
+      // New student — validate name now
+      const name = $('wc-name').value.trim();
+      if (!name || name.length < 2) {
+        err.textContent = 'Please enter your full name (at least 2 characters).';
+        return;
+      }
+      state.name = name;
+    }
+
+    setStep(3);
+    await fetchLiveResults();
+    renderScorer();
+    renderMatches();
+    updateProgress();
+  };
 
   // ============================================================
   // SCORER RENDER
@@ -1481,52 +1492,55 @@
   // SUBMIT
   // ============================================================
   window.wcSubmitPredictions = async function() {
-  const pickCount = Object.keys(state.picks).length;
-  if (pickCount === 0) {
-    showToast('Please make at least one match prediction first.', 'error');
-    return;
-  }
+    // Re-read name from field in case they edited it
+    const nameInField = $('wc-name').value.trim();
+    if (nameInField.length >= 2) state.name = nameInField;
 
-  const btn = $('wc-submit-btn');
-  btn.disabled = true;
-  btn.innerHTML = '⏳ Submitting...';
+    const pickCount = Object.keys(state.picks).length;
+    if (pickCount === 0) {
+      showToast('Please make at least one match prediction first.', 'error');
+      return;
+    }
 
-  const payload = {
-    studentId:   state.studentId,
-    name:        state.name,
-    grade:       state.grade,
-    section:     state.section,
-    roll:        state.roll,
-    accessCode:  state.accessCode,
-    scorerPick:  state.scorerPick || '',
-    picks:       state.picks,
-    submittedAt: new Date().toISOString(),
-    totalPicks:  pickCount,
+    const btn = $('wc-submit-btn');
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Submitting...';
+
+    const payload = {
+      studentId:   state.studentId,
+      name:        state.name,
+      grade:       state.grade,
+      section:     state.section,
+      roll:        state.roll,
+      accessCode:  state.accessCode,
+      scorerPick:  state.scorerPick || '',
+      picks:       state.picks,
+      submittedAt: new Date().toISOString(),
+      totalPicks:  pickCount,
+    };
+
+    try {
+      // URL-encoded body — most reliable method for Apps Script cross-origin POST
+      const body = 'payload=' + encodeURIComponent(JSON.stringify(payload));
+
+      await fetch(APPS_SCRIPT_URL, {
+        method:  'POST',
+        mode:    'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body:    body,
+      });
+
+      saveLocalData();
+      state.submitted = true;
+      renderSuccess(payload);
+      setStep(4);
+
+    } catch(e) {
+      showToast('Network error. Please check your connection and try again.', 'error');
+      btn.disabled = false;
+      btn.innerHTML = '🚀 Submit Predictions';
+    }
   };
-
-  try {
-    // Send as form data — Apps Script can read this cross-origin
-    const formData = new FormData();
-    formData.append('payload', JSON.stringify(payload));
-
-    await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      mode:   'no-cors',
-      body:   formData,
-    });
-
-    saveLocalData();
-    state.submitted = true;
-    renderSuccess(payload);
-    setStep(4);
-
-  } catch(e) {
-    // Network error
-    showToast('Network error. Please check your connection and try again.', 'error');
-    btn.disabled = false;
-    btn.innerHTML = '🚀 Submit Predictions';
-  }
-};
 
   // ============================================================
   // SUCCESS SCREEN
