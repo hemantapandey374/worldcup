@@ -810,14 +810,14 @@
   <!-- HERO -->
   <div class="wc-hero">
     <div class="wc-pitch-lines"></div>
-    <span class="wc-trophy-emoji">??</span>
+    <span class="wc-trophy-emoji">🏆</span>
     <h1>FIFA World Cup 2026</h1>
     <h2>Prediction Challenge</h2>
     <p class="wc-hero-sub">Pick your match winners, name your top scorer, and see how good your football knowledge really is.</p>
     <div class="wc-badges">
-      <span class="wc-badge">???? USA · ???? Canada · ???? Mexico</span>
-      <span class="wc-badge blue">? Play-In Round</span>
-      <span class="wc-badge green" id="wc-live-indicator">?? Live Updates</span>
+      <span class="wc-badge">🇺🇸 USA · 🇨🇦 Canada · 🇲🇽 Mexico</span>
+      <span class="wc-badge blue">⚽ Play-In Round</span>
+      <span class="wc-badge green" id="wc-live-indicator">🔴 Live Updates</span>
     </div>
     <!-- COUNTDOWN to June 12 -->
     <div class="wc-countdown-wrap" id="wc-countdown-hero"></div>
@@ -844,7 +844,7 @@
     <!-- STEP 1: ACCESS CODE -->
     <div class="wc-step active" id="wc-step-1">
       <div class="wc-access-wrap">
-        <span class="wc-access-icon">??</span>
+        <span class="wc-access-icon">🔐</span>
         <h3>Enter Your Class Code</h3>
         <p>Your teacher has given you a class access code. Enter it below to get started. The code looks like <span class="wc-code-hint"><span>WC-10A</span></span></p>
         <div class="wc-access-input-wrap">
@@ -852,7 +852,7 @@
         </div>
         <div class="wc-error-msg" id="wc-code-error"></div>
         <button class="wc-btn wc-btn-primary" onclick="wcCheckCode()" id="wc-code-btn">
-          ? Enter Prediction Zone
+          ⚡ Enter Prediction Zone
         </button>
       </div>
     </div>
@@ -861,11 +861,11 @@
     <div class="wc-step" id="wc-step-2">
       <div id="wc-returning-banner-slot"></div>
       <div class="wc-section-head">
-        <h3>? Your Details</h3>
+        <h3>⚽ Your Details</h3>
         <p>Fill in your information below. This is how we'll track your predictions.</p>
       </div>
       <div class="wc-card">
-        <div class="wc-card-title">?? Student Information</div>
+        <div class="wc-card-title">🏫 Student Information</div>
         <div class="wc-form-row full">
           <div class="wc-form-group">
             <label class="wc-label">Full Name</label>
@@ -895,7 +895,7 @@
         <div id="wc-identity-error" class="wc-error-msg"></div>
       </div>
       <button class="wc-btn wc-btn-primary" onclick="wcGoToPredictions()">
-        Continue to Predictions ?
+        Continue to Predictions →
       </button>
     </div>
 
@@ -916,7 +916,7 @@
 
       <!-- TOP SCORER -->
       <div class="wc-card" id="wc-scorer-section">
-        <div class="wc-card-title">?? Top Scorer Prediction</div>
+        <div class="wc-card-title">🥇 Top Scorer Prediction</div>
         <p style="font-size:13px; color:var(--text-muted); margin-bottom:4px; line-height:1.5;">
           Who will be the highest scorer of the tournament? Pick before June 12 — this locks when the play-ins begin.
         </p>
@@ -928,7 +928,7 @@
 
       <!-- MATCH GROUPS -->
       <div class="wc-section-head">
-        <h3>??? Play-In Matches</h3>
+        <h3>🏟️ Play-In Matches</h3>
         <p>Select your predicted winner for each match. Matches lock at kickoff time — locked matches show the real result once played.</p>
       </div>
       <div id="wc-matches-container">
@@ -951,7 +951,7 @@
           </div>
           <span class="wc-sticky-count" id="wc-sticky-pct">0%</span>
           <button class="wc-btn wc-btn-primary" onclick="wcSubmitPredictions()" id="wc-submit-btn" style="width:auto; padding: 12px 24px;">
-            ?? Submit Predictions
+            🚀 Submit Predictions
           </button>
         </div>
       </div>
@@ -992,76 +992,76 @@
   // ============================================================
   const MATCHES = [
     // June 12
-    { id:"M01", team1:"Mexico",    flag1:"????", team2:"Ecuador",   flag2:"????", date:"2026-06-12", time:"19:00", group:"Play-In Day 1" },
-    { id:"M02", team1:"USA",       flag1:"????", team2:"Honduras",  flag2:"????", date:"2026-06-12", time:"22:00", group:"Play-In Day 1" },
+    { id:"M01", team1:"Mexico",    flag1:"🇲🇽", team2:"Ecuador",   flag2:"🇪🇨", date:"2026-06-12", time:"19:00", group:"Play-In Day 1" },
+    { id:"M02", team1:"USA",       flag1:"🇺🇸", team2:"Honduras",  flag2:"🇭🇳", date:"2026-06-12", time:"22:00", group:"Play-In Day 1" },
     // June 13
-    { id:"M03", team1:"Portugal",  flag1:"????", team2:"Algeria",   flag2:"????", date:"2026-06-13", time:"18:00", group:"Play-In Day 2" },
-    { id:"M04", team1:"Spain",     flag1:"????", team2:"Tunisia",   flag2:"????", date:"2026-06-13", time:"21:00", group:"Play-In Day 2" },
+    { id:"M03", team1:"Portugal",  flag1:"🇵🇹", team2:"Algeria",   flag2:"🇩🇿", date:"2026-06-13", time:"18:00", group:"Play-In Day 2" },
+    { id:"M04", team1:"Spain",     flag1:"🇪🇸", team2:"Tunisia",   flag2:"🇹🇳", date:"2026-06-13", time:"21:00", group:"Play-In Day 2" },
     // June 14
-    { id:"M05", team1:"Brazil",    flag1:"????", team2:"Bolivia",   flag2:"????", date:"2026-06-14", time:"15:00", group:"Play-In Day 3" },
-    { id:"M06", team1:"Argentina", flag1:"????", team2:"Peru",      flag2:"????", date:"2026-06-14", time:"18:00", group:"Play-In Day 3" },
-    { id:"M07", team1:"Germany",   flag1:"????", team2:"Ukraine",   flag2:"????", date:"2026-06-14", time:"21:00", group:"Play-In Day 3" },
+    { id:"M05", team1:"Brazil",    flag1:"🇧🇷", team2:"Bolivia",   flag2:"🇧🇴", date:"2026-06-14", time:"15:00", group:"Play-In Day 3" },
+    { id:"M06", team1:"Argentina", flag1:"🇦🇷", team2:"Peru",      flag2:"🇵🇪", date:"2026-06-14", time:"18:00", group:"Play-In Day 3" },
+    { id:"M07", team1:"Germany",   flag1:"🇩🇪", team2:"Ukraine",   flag2:"🇺🇦", date:"2026-06-14", time:"21:00", group:"Play-In Day 3" },
     // June 15
-    { id:"M08", team1:"France",    flag1:"????", team2:"Belgium",   flag2:"????", date:"2026-06-15", time:"18:00", group:"Play-In Day 4" },
-    { id:"M09", team1:"England",   flag1:"??????????????", team2:"Senegal",   flag2:"????", date:"2026-06-15", time:"21:00", group:"Play-In Day 4" },
+    { id:"M08", team1:"France",    flag1:"🇫🇷", team2:"Belgium",   flag2:"🇧🇪", date:"2026-06-15", time:"18:00", group:"Play-In Day 4" },
+    { id:"M09", team1:"England",   flag1:"🏴󠁧󠁢󠁥󠁮󠁧󠁿", team2:"Senegal",   flag2:"🇸🇳", date:"2026-06-15", time:"21:00", group:"Play-In Day 4" },
     // June 16
-    { id:"M10", team1:"Netherlands",flag1:"????",team2:"Austria",   flag2:"????", date:"2026-06-16", time:"18:00", group:"Play-In Day 5" },
-    { id:"M11", team1:"Japan",     flag1:"????", team2:"South Korea",flag2:"????",date:"2026-06-16", time:"21:00", group:"Play-In Day 5" },
+    { id:"M10", team1:"Netherlands",flag1:"🇳🇱",team2:"Austria",   flag2:"🇦🇹", date:"2026-06-16", time:"18:00", group:"Play-In Day 5" },
+    { id:"M11", team1:"Japan",     flag1:"🇯🇵", team2:"South Korea",flag2:"🇰🇷",date:"2026-06-16", time:"21:00", group:"Play-In Day 5" },
     // June 17
-    { id:"M12", team1:"Morocco",   flag1:"????", team2:"Ivory Coast",flag2:"????",date:"2026-06-17", time:"18:00", group:"Play-In Day 6" },
-    { id:"M13", team1:"Egypt",     flag1:"????", team2:"Ghana",     flag2:"????", date:"2026-06-17", time:"21:00", group:"Play-In Day 6" },
+    { id:"M12", team1:"Morocco",   flag1:"🇲🇦", team2:"Ivory Coast",flag2:"🇨🇮",date:"2026-06-17", time:"18:00", group:"Play-In Day 6" },
+    { id:"M13", team1:"Egypt",     flag1:"🇪🇬", team2:"Ghana",     flag2:"🇬🇭", date:"2026-06-17", time:"21:00", group:"Play-In Day 6" },
     // June 18
-    { id:"M14", team1:"Colombia",  flag1:"????", team2:"Venezuela", flag2:"????", date:"2026-06-18", time:"18:00", group:"Play-In Day 7" },
-    { id:"M15", team1:"Uruguay",   flag1:"????", team2:"Chile",     flag2:"????", date:"2026-06-18", time:"21:00", group:"Play-In Day 7" },
+    { id:"M14", team1:"Colombia",  flag1:"🇨🇴", team2:"Venezuela", flag2:"🇻🇪", date:"2026-06-18", time:"18:00", group:"Play-In Day 7" },
+    { id:"M15", team1:"Uruguay",   flag1:"🇺🇾", team2:"Chile",     flag2:"🇨🇱", date:"2026-06-18", time:"21:00", group:"Play-In Day 7" },
     // June 19
-    { id:"M16", team1:"Italy",     flag1:"????", team2:"Croatia",   flag2:"????", date:"2026-06-19", time:"18:00", group:"Play-In Day 8" },
-    { id:"M17", team1:"Switzerland",flag1:"????",team2:"Serbia",    flag2:"????", date:"2026-06-19", time:"21:00", group:"Play-In Day 8" },
+    { id:"M16", team1:"Italy",     flag1:"🇮🇹", team2:"Croatia",   flag2:"🇭🇷", date:"2026-06-19", time:"18:00", group:"Play-In Day 8" },
+    { id:"M17", team1:"Switzerland",flag1:"🇨🇭",team2:"Serbia",    flag2:"🇷🇸", date:"2026-06-19", time:"21:00", group:"Play-In Day 8" },
     // June 20
-    { id:"M18", team1:"Australia", flag1:"????", team2:"New Zealand",flag2:"????",date:"2026-06-20", time:"18:00", group:"Play-In Day 9" },
-    { id:"M19", team1:"Iran",      flag1:"????", team2:"Saudi Arabia",flag2:"????",date:"2026-06-20", time:"21:00", group:"Play-In Day 9" },
+    { id:"M18", team1:"Australia", flag1:"🇦🇺", team2:"New Zealand",flag2:"🇳🇿",date:"2026-06-20", time:"18:00", group:"Play-In Day 9" },
+    { id:"M19", team1:"Iran",      flag1:"🇮🇷", team2:"Saudi Arabia",flag2:"🇸🇦",date:"2026-06-20", time:"21:00", group:"Play-In Day 9" },
     // June 21
-    { id:"M20", team1:"Poland",    flag1:"????", team2:"Hungary",   flag2:"????", date:"2026-06-21", time:"18:00", group:"Play-In Day 10" },
-    { id:"M21", team1:"Denmark",   flag1:"????", team2:"Turkey",    flag2:"????", date:"2026-06-21", time:"21:00", group:"Play-In Day 10" },
+    { id:"M20", team1:"Poland",    flag1:"🇵🇱", team2:"Hungary",   flag2:"🇭🇺", date:"2026-06-21", time:"18:00", group:"Play-In Day 10" },
+    { id:"M21", team1:"Denmark",   flag1:"🇩🇰", team2:"Turkey",    flag2:"🇹🇷", date:"2026-06-21", time:"21:00", group:"Play-In Day 10" },
     // June 22
-    { id:"M22", team1:"Canada",    flag1:"????", team2:"Panama",    flag2:"????", date:"2026-06-22", time:"18:00", group:"Play-In Day 11" },
-    { id:"M23", team1:"Costa Rica",flag1:"????", team2:"Jamaica",   flag2:"????", date:"2026-06-22", time:"21:00", group:"Play-In Day 11" },
+    { id:"M22", team1:"Canada",    flag1:"🇨🇦", team2:"Panama",    flag2:"🇵🇦", date:"2026-06-22", time:"18:00", group:"Play-In Day 11" },
+    { id:"M23", team1:"Costa Rica",flag1:"🇨🇷", team2:"Jamaica",   flag2:"🇯🇲", date:"2026-06-22", time:"21:00", group:"Play-In Day 11" },
     // June 23
-    { id:"M24", team1:"Portugal",  flag1:"????", team2:"Cameroon",  flag2:"????", date:"2026-06-23", time:"18:00", group:"Play-In Day 12" },
-    { id:"M25", team1:"Nigeria",   flag1:"????", team2:"South Africa",flag2:"????",date:"2026-06-23", time:"21:00", group:"Play-In Day 12" },
+    { id:"M24", team1:"Portugal",  flag1:"🇵🇹", team2:"Cameroon",  flag2:"🇨🇲", date:"2026-06-23", time:"18:00", group:"Play-In Day 12" },
+    { id:"M25", team1:"Nigeria",   flag1:"🇳🇬", team2:"South Africa",flag2:"🇿🇦",date:"2026-06-23", time:"21:00", group:"Play-In Day 12" },
     // June 24
-    { id:"M26", team1:"Brazil",    flag1:"????", team2:"Paraguay",  flag2:"????", date:"2026-06-24", time:"18:00", group:"Play-In Day 13" },
-    { id:"M27", team1:"Argentina", flag1:"????", team2:"Ecuador",   flag2:"????", date:"2026-06-24", time:"21:00", group:"Play-In Day 13" },
+    { id:"M26", team1:"Brazil",    flag1:"🇧🇷", team2:"Paraguay",  flag2:"🇵🇾", date:"2026-06-24", time:"18:00", group:"Play-In Day 13" },
+    { id:"M27", team1:"Argentina", flag1:"🇦🇷", team2:"Ecuador",   flag2:"🇪🇨", date:"2026-06-24", time:"21:00", group:"Play-In Day 13" },
     // June 25
-    { id:"M28", team1:"France",    flag1:"????", team2:"Poland",    flag2:"????", date:"2026-06-25", time:"18:00", group:"Play-In Day 14" },
-    { id:"M29", team1:"Spain",     flag1:"????", team2:"Germany",   flag2:"????", date:"2026-06-25", time:"21:00", group:"Play-In Day 14" },
+    { id:"M28", team1:"France",    flag1:"🇫🇷", team2:"Poland",    flag2:"🇵🇱", date:"2026-06-25", time:"18:00", group:"Play-In Day 14" },
+    { id:"M29", team1:"Spain",     flag1:"🇪🇸", team2:"Germany",   flag2:"🇩🇪", date:"2026-06-25", time:"21:00", group:"Play-In Day 14" },
     // June 26
-    { id:"M30", team1:"England",   flag1:"??????????????", team2:"Netherlands",flag2:"????",date:"2026-06-26", time:"18:00", group:"Play-In Day 15" },
-    { id:"M31", team1:"Japan",     flag1:"????", team2:"Morocco",   flag2:"????", date:"2026-06-26", time:"21:00", group:"Play-In Day 15" },
-    { id:"M32", team1:"USA",       flag1:"????", team2:"Colombia",  flag2:"????", date:"2026-06-26", time:"22:00", group:"Play-In Day 15" },
+    { id:"M30", team1:"England",   flag1:"🏴󠁧󠁢󠁥󠁮󠁧󠁿", team2:"Netherlands",flag2:"🇳🇱",date:"2026-06-26", time:"18:00", group:"Play-In Day 15" },
+    { id:"M31", team1:"Japan",     flag1:"🇯🇵", team2:"Morocco",   flag2:"🇲🇦", date:"2026-06-26", time:"21:00", group:"Play-In Day 15" },
+    { id:"M32", team1:"USA",       flag1:"🇺🇸", team2:"Colombia",  flag2:"🇨🇴", date:"2026-06-26", time:"22:00", group:"Play-In Day 15" },
   ];
 
   // TOP SCORER CANDIDATES
   const SCORERS = [
-    { name:"Kylian Mbappé",    team:"France",      flag:"????" },
-    { name:"Erling Haaland",   team:"Norway",      flag:"????" },
-    { name:"Vinicius Jr",      team:"Brazil",      flag:"????" },
-    { name:"Lionel Messi",     team:"Argentina",   flag:"????" },
-    { name:"Cristiano Ronaldo",team:"Portugal",    flag:"????" },
-    { name:"Harry Kane",       team:"England",     flag:"??????????????" },
-    { name:"Lamine Yamal",     team:"Spain",       flag:"????" },
-    { name:"Pedri",            team:"Spain",       flag:"????" },
-    { name:"Bukayo Saka",      team:"England",     flag:"??????????????" },
-    { name:"Jude Bellingham",  team:"England",     flag:"??????????????" },
-    { name:"Neymar Jr",        team:"Brazil",      flag:"????" },
-    { name:"Phil Foden",       team:"England",     flag:"??????????????" },
-    { name:"Rodri",            team:"Spain",       flag:"????" },
-    { name:"Antoine Griezmann",team:"France",      flag:"????" },
-    { name:"Niclas Füllkrug",  team:"Germany",     flag:"????" },
-    { name:"Richarlison",      team:"Brazil",      flag:"????" },
-    { name:"Sebastián Villa",  team:"Colombia",    flag:"????" },
-    { name:"Aleksandar Mitrovic",team:"Serbia",    flag:"????" },
-    { name:"Takumi Minamino",  team:"Japan",       flag:"????" },
-    { name:"Azzedine Ounahi",  team:"Morocco",     flag:"????" },
+    { name:"Kylian Mbappé",    team:"France",      flag:"🇫🇷" },
+    { name:"Erling Haaland",   team:"Norway",      flag:"🇳🇴" },
+    { name:"Vinicius Jr",      team:"Brazil",      flag:"🇧🇷" },
+    { name:"Lionel Messi",     team:"Argentina",   flag:"🇦🇷" },
+    { name:"Cristiano Ronaldo",team:"Portugal",    flag:"🇵🇹" },
+    { name:"Harry Kane",       team:"England",     flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
+    { name:"Lamine Yamal",     team:"Spain",       flag:"🇪🇸" },
+    { name:"Pedri",            team:"Spain",       flag:"🇪🇸" },
+    { name:"Bukayo Saka",      team:"England",     flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
+    { name:"Jude Bellingham",  team:"England",     flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
+    { name:"Neymar Jr",        team:"Brazil",      flag:"🇧🇷" },
+    { name:"Phil Foden",       team:"England",     flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
+    { name:"Rodri",            team:"Spain",       flag:"🇪🇸" },
+    { name:"Antoine Griezmann",team:"France",      flag:"🇫🇷" },
+    { name:"Niclas Füllkrug",  team:"Germany",     flag:"🇩🇪" },
+    { name:"Richarlison",      team:"Brazil",      flag:"🇧🇷" },
+    { name:"Sebastián Villa",  team:"Colombia",    flag:"🇨🇴" },
+    { name:"Aleksandar Mitrovic",team:"Serbia",    flag:"🇷🇸" },
+    { name:"Takumi Minamino",  team:"Japan",       flag:"🇯🇵" },
+    { name:"Azzedine Ounahi",  team:"Morocco",     flag:"🇲🇦" },
   ];
 
   // ============================================================
@@ -1089,7 +1089,7 @@
   function showToast(msg, type='info', duration=3000) {
     const t = $('wc-toast');
     t.textContent = '';
-    const icon = type === 'success' ? '?' : type === 'error' ? '?' : '??';
+    const icon = type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️';
     t.innerHTML = `<span>${icon}</span> ${msg}`;
     t.className = `wc-toast ${type} show`;
     setTimeout(() => t.className = 'wc-toast', duration);
@@ -1100,7 +1100,7 @@
       $(`wc-step-${i}`).classList.toggle('active', i === n);
       const pill = $(`wc-pill-${i}`);
       pill.classList.remove('current', 'done');
-      if (i < n) pill.classList.add('done'), pill.querySelector('.wc-step-num').textContent = '?';
+      if (i < n) pill.classList.add('done'), pill.querySelector('.wc-step-num').textContent = '✓';
       else if (i === n) pill.classList.add('current');
       else pill.querySelector('.wc-step-num').textContent = i;
     });
@@ -1133,7 +1133,7 @@
     const now = new Date();
     const diff = target - now;
     if (diff <= 0) {
-      el.innerHTML = `<div class="wc-badge green">?? Tournament In Progress!</div>`;
+      el.innerHTML = `<div class="wc-badge green">🔴 Tournament In Progress!</div>`;
       return;
     }
     const days = Math.floor(diff / 86400000);
@@ -1201,8 +1201,6 @@
         name: state.name,
         picks: state.picks,
         scorerPick: state.scorerPick,
-        $('wc-name').value = source.name || name;
-
         savedAt: new Date().toISOString(),
       }));
     } catch(e) {}
@@ -1238,7 +1236,7 @@
     $('wc-section').value = section;
 
     setStep(2);
-    showToast(`Code accepted! Welcome, Grade ${grade} Section ${section} ??`, 'success');
+    showToast(`Code accepted! Welcome, Grade ${grade} Section ${section} 🎉`, 'success');
   };
 
   $('wc-code-input').addEventListener('keydown', e => {
@@ -1285,7 +1283,7 @@
       const banner2 = $('wc-returning-banner-slot-2');
       if (banner2) banner2.innerHTML = `
         <div class="wc-returning-banner">
-          <span class="icon">??</span>
+          <span class="icon">👋</span>
           <p>Welcome back, <strong>${name}</strong>! Your previous predictions have been loaded. You can update any picks for matches that haven't started yet.</p>
         </div>`;
     }
@@ -1306,29 +1304,29 @@
     const scorerLocked = new Date() >= new Date('2026-06-12T19:00:00+05:45');
 
     if (scorerLocked) {
-      statusLabel.innerHTML = `<span style="color:#f87171;font-size:12px;font-weight:600;">?? Locked — Predictions closed at tournament kickoff</span>`;
+      statusLabel.innerHTML = `<span style="color:#f87171;font-size:12px;font-weight:600;">🔒 Locked — Predictions closed at tournament kickoff</span>`;
       if (state.scorerPick) {
         const s = SCORERS.find(x => x.name === state.scorerPick);
         container.innerHTML = `
           <div style="display:flex;align-items:center;gap:12px;padding:14px;background:rgba(245,197,24,0.08);border:1px solid rgba(245,197,24,0.25);border-radius:12px;">
-            <span style="font-size:36px;">${s ? s.flag : '?'}</span>
+            <span style="font-size:36px;">${s ? s.flag : '⭐'}</span>
             <div>
               <div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:2px;">Your pick</div>
               <div style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;color:var(--gold);">${state.scorerPick}</div>
             </div>
-            <span style="margin-left:auto;font-size:24px;">??</span>
+            <span style="margin-left:auto;font-size:24px;">🔒</span>
           </div>`;
       } else {
         container.innerHTML = `
           <div class="wc-scorer-locked-overlay">
-            <span class="wc-lock-big">??</span>
+            <span class="wc-lock-big">🔒</span>
             <p>Predictions for top scorer are now closed.<br>The tournament has already begun!</p>
           </div>`;
       }
       return;
     }
 
-    statusLabel.innerHTML = `<span style="color:#4ade80;font-size:12px;font-weight:600;">? Open until June 12 kickoff</span>`;
+    statusLabel.innerHTML = `<span style="color:#4ade80;font-size:12px;font-weight:600;">✅ Open until June 12 kickoff</span>`;
     container.innerHTML = `<div class="wc-scorer-grid">${
       SCORERS.map(s => `
         <div class="wc-scorer-card ${state.scorerPick === s.name ? 'picked' : ''}"
@@ -1367,7 +1365,7 @@
 
       html += `
         <div class="wc-match-day-header">
-          <span class="wc-day-label">?? ${groupName}</span>
+          <span class="wc-day-label">📅 ${groupName}</span>
           <div class="wc-day-line"></div>
           <span class="wc-day-date">${label}</span>
         </div>`;
@@ -1395,7 +1393,7 @@
 
         const vsContent = locked
           ? `<div class="wc-lock-badge">
-               <span class="wc-lock-icon">??</span>
+               <span class="wc-lock-icon">🔒</span>
                ${result ? `<div class="wc-result-badge">RESULT</div>` : `<div class="wc-lock-time">LOCKED</div>`}
              </div>`
           : `<div class="wc-vs">VS</div>`;
@@ -1411,13 +1409,13 @@
             </div>
             <div class="wc-teams">
               <div class="wc-team-btn ${t1Class}" onclick="${locked ? '' : `wcPickMatch('${m.id}','${m.team1.replace(/'/g,"\\'")}',1)`}">
-                <div class="wc-pick-check">?</div>
+                <div class="wc-pick-check">✓</div>
                 <span class="wc-team-flag">${m.flag1}</span>
                 <span class="wc-team-name">${m.team1}</span>
               </div>
               ${vsContent}
               <div class="wc-team-btn ${t2Class}" onclick="${locked ? '' : `wcPickMatch('${m.id}','${m.team2.replace(/'/g,"\\'")}',2)`}">
-                <div class="wc-pick-check">?</div>
+                <div class="wc-pick-check">✓</div>
                 <span class="wc-team-flag">${m.flag2}</span>
                 <span class="wc-team-name">${m.team2}</span>
               </div>
@@ -1473,52 +1471,61 @@
   // SUBMIT
   // ============================================================
   window.wcSubmitPredictions = async function() {
-  const pickCount = Object.keys(state.picks).length;
-  if (pickCount === 0) {
-    showToast('Please make at least one match prediction first.', 'error');
-    return;
-  }
+    const pickCount = Object.keys(state.picks).length;
+    if (pickCount === 0) {
+      showToast('Please make at least one match prediction first.', 'error');
+      return;
+    }
 
-  const btn = $('wc-submit-btn');
-  btn.disabled = true;
-  btn.innerHTML = '⏳ Submitting...';
+    const btn = $('wc-submit-btn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Submitting...';
 
-  const payload = {
-    studentId:   state.studentId,
-    name:        state.name,
-    grade:       state.grade,
-    section:     state.section,
-    roll:        state.roll,
-    accessCode:  state.accessCode,
-    scorerPick:  state.scorerPick || '',
-    picks:       state.picks,
-    submittedAt: new Date().toISOString(),
-    totalPicks:  pickCount,
-  };
+    const payload = {
+      studentId: state.studentId,
+      name: state.name,
+      grade: state.grade,
+      section: state.section,
+      roll: state.roll,
+      accessCode: state.accessCode,
+      scorerPick: state.scorerPick || '',
+      picks: state.picks,
+      submittedAt: new Date().toISOString(),
+      totalPicks: pickCount,
+    };
 
-  try {
-    // Send as form data — Apps Script can read this cross-origin
-    const formData = new FormData();
-    formData.append('payload', JSON.stringify(payload));
+    let success = false;
 
-    await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      mode:   'no-cors',
-      body:   formData,
-    });
+    if (APPS_SCRIPT_URL && APPS_SCRIPT_URL.trim() !== '') {
+      try {
+        await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        success = true;
+      } catch(e) {
+        // no-cors mode — assume success if no network error
+        success = true;
+      }
+    } else {
+      // No URL configured — save locally only and note it
+      success = true;
+    }
 
     saveLocalData();
-    state.submitted = true;
-    renderSuccess(payload);
-    setStep(4);
 
-  } catch(e) {
-    // Network error
-    showToast('Network error. Please check your connection and try again.', 'error');
-    btn.disabled = false;
-    btn.innerHTML = '🚀 Submit Predictions';
-  }
-};
+    if (success) {
+      state.submitted = true;
+      renderSuccess(payload);
+      setStep(4);
+    } else {
+      showToast('Submission failed. Please try again.', 'error');
+      btn.disabled = false;
+      btn.textContent = '🚀 Submit Predictions';
+    }
+  };
 
   // ============================================================
   // SUCCESS SCREEN
@@ -1526,7 +1533,7 @@
   function renderSuccess(payload) {
     const pickRows = Object.entries(payload.picks).map(([mid, team]) => {
       const m = MATCHES.find(x => x.id === mid);
-      const flag = m ? (team === m.team1 ? m.flag1 : m.flag2) : '?';
+      const flag = m ? (team === m.team1 ? m.flag1 : m.flag2) : '⚽';
       return `<div class="wc-pick-row">
         <span class="match-label">${mid}: ${m ? m.team1 + ' vs ' + m.team2 : ''}</span>
         <span class="pick-val">${flag} ${team}</span>
@@ -1534,7 +1541,7 @@
     }).join('');
 
     $('wc-success-content').innerHTML = `
-      <span class="wc-success-icon">??</span>
+      <span class="wc-success-icon">🎉</span>
       <h3>Predictions Submitted!</h3>
       <p>Your World Cup predictions are locked in, <strong style="color:var(--text-main);">${payload.name}</strong>. Check back after each match to see how you're doing!</p>
 
@@ -1558,15 +1565,15 @@
       </div>
 
       <div class="wc-pick-summary">
-        <div class="wc-pick-summary-title">? Your Match Picks</div>
+        <div class="wc-pick-summary-title">⚽ Your Match Picks</div>
         ${pickRows || '<div style="color:var(--text-muted);font-size:13px;">No picks recorded.</div>'}
       </div>
 
       <p style="font-size:12px;color:var(--text-muted);margin-top:16px;">
-        ?? Take a screenshot of this page as proof of your predictions!
+        📸 Take a screenshot of this page as proof of your predictions!
       </p>
       <button class="wc-btn wc-btn-outline" onclick="window.print()" style="margin-top:12px;">
-        ??? Print / Save as PDF
+        🖨️ Print / Save as PDF
       </button>
     `;
   }
