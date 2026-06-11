@@ -1,4 +1,3 @@
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
@@ -919,7 +918,7 @@
       <div class="wc-card" id="wc-scorer-section">
         <div class="wc-card-title">🥇 Top Scorer Prediction</div>
         <p style="font-size:13px; color:var(--text-muted); margin-bottom:4px; line-height:1.5;">
-          Who will be the highest scorer of the tournament? Pick before June 12 — this locks when the play-ins begin.
+          Who will be the highest scorer of the tournament? Pick before June 12 - this locks when the play-ins begin.
         </p>
         <div id="wc-scorer-status-label" style="font-size:12px; margin-bottom:12px;"></div>
         <div id="wc-scorer-container"></div>
@@ -930,7 +929,7 @@
       <!-- MATCH GROUPS -->
       <div class="wc-section-head">
         <h3>🏟️ Play-In Matches</h3>
-        <p>Select your predicted winner for each match. Matches lock at kickoff time — locked matches show the real result once played.</p>
+        <p>Select your predicted winner for each match. Matches lock at kickoff time - locked matches show the real result once played.</p>
       </div>
       <div id="wc-matches-container">
         <div class="wc-loading">
@@ -972,12 +971,12 @@
 <script>
 (function() {
   // ============================================================
-  // CONFIG — REPLACE THIS URL WITH YOUR GOOGLE APPS SCRIPT URL
+  // CONFIG - REPLACE THIS URL WITH YOUR GOOGLE APPS SCRIPT URL
   // ============================================================
   const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbynRzZHsj7mRHLYPlGj-GZKgLjqa4pHuyhKSOV5LkyoF7dJbvunqW7PSmhRTOsAbo-k/exec";
 
   // ============================================================
-  // VALID ACCESS CODES — Grade 1-10, Sections A-E
+  // VALID ACCESS CODES - Grade 1-10, Sections A-E
   // ============================================================
   const VALID_CODES = {};
   for (let g = 1; g <= 10; g++) {
@@ -988,7 +987,7 @@
 
   // ============================================================
   // WORLD CUP 2026 PLAY-IN FIXTURES
-  // All 32 play-in matches — June 12 to June 26
+  // All 32 play-in matches - June 12 to June 26
   // Format: { id, team1, flag1, team2, flag2, date, time, group, conf1, conf2 }
   // ============================================================
   const MATCHES = [
@@ -1077,7 +1076,7 @@
     roll: null,
     picks: {},       // { M01: "Mexico", M02: "USA", ... }
     scorerPick: null,
-    results: {},     // { M01: "Mexico" } — from API
+    results: {},     // { M01: "Mexico" } - from API
     isReturning: false,
     submitted: false,
   };
@@ -1152,11 +1151,11 @@
   setInterval(renderCountdown, 1000);
 
   // ============================================================
-  // LIVE RESULTS — TheSportsDB
+  // LIVE RESULTS - TheSportsDB
   // ============================================================
   async function fetchLiveResults() {
     try {
-      // TheSportsDB — FIFA World Cup 2026 event ID will be available once confirmed
+      // TheSportsDB - FIFA World Cup 2026 event ID will be available once confirmed
       // For now we fetch completed events from the FIFA World Cup league
       const url = 'https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4480&s=2026';
       const r = await fetch(url);
@@ -1179,7 +1178,7 @@
         });
       }
     } catch(e) {
-      // Silently fail — locked matches still lock by time
+      // Silently fail - locked matches still lock by time
     }
   }
 
@@ -1266,7 +1265,7 @@
     return;
   }
   if (!roll || isNaN(roll) || Number(roll) < 1 || Number(roll) > 99) {
-    err.textContent = 'Please enter a valid roll number (1–99).';
+    err.textContent = 'Please enter a valid roll number (1-99).';
     return;
   }
   err.textContent = '';
@@ -1275,13 +1274,13 @@
   state.roll = pad2(Number(roll));
   state.studentId = buildStudentId(state.grade, state.section, roll);
 
-  // ── NEW: check Sheet first, fallback to localStorage ──
+  // -- NEW: check Sheet first, fallback to localStorage --
   let sheetData = null;
   try {
     const res = await fetch(`${APPS_SCRIPT_URL}?studentId=${encodeURIComponent(state.studentId)}`);
     const json = await res.json();
     if (json.found) sheetData = json.data;
-  } catch(e) { /* network issue — fall through to localStorage */ }
+  } catch(e) { /* network issue - fall through to localStorage */ }
 
   const source = sheetData || loadSavedData(state.studentId);
   if (source) {
@@ -1292,10 +1291,10 @@
     if (banner2) banner2.innerHTML = `
       <div class="wc-returning-banner">
         <span class="icon">✏️</span>
-        <p>Welcome back, <strong>${name}</strong>! Your previous predictions are loaded. Edit anything you like before the match locks — your latest save will overwrite the old one.</p>
+        <p>Welcome back, <strong>${name}</strong>! Your previous predictions are loaded. Edit anything you like before the match locks - your latest save will overwrite the old one.</p>
       </div>`;
   }
-  // ── END NEW ──
+  // -- END NEW --
 
   setStep(3);
   await fetchLiveResults();
@@ -1313,7 +1312,7 @@
     const scorerLocked = new Date() >= new Date('2026-06-12T19:00:00+05:45');
 
     if (scorerLocked) {
-      statusLabel.innerHTML = `<span style="color:#f87171;font-size:12px;font-weight:600;">🔒 Locked — Predictions closed at tournament kickoff</span>`;
+      statusLabel.innerHTML = `<span style="color:#f87171;font-size:12px;font-weight:600;">🔒 Locked - Predictions closed at tournament kickoff</span>`;
       if (state.scorerPick) {
         const s = SCORERS.find(x => x.name === state.scorerPick);
         container.innerHTML = `
@@ -1504,7 +1503,7 @@
   };
 
   try {
-    // Send as form data — Apps Script can read this cross-origin
+    // Send as form data - Apps Script can read this cross-origin
     const formData = new FormData();
     formData.append('payload', JSON.stringify(payload));
 
