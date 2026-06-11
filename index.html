@@ -1504,14 +1504,12 @@
 
   try {
     // Send as form data - Apps Script can read this cross-origin
-    const formData = new FormData();
-    formData.append('payload', JSON.stringify(payload));
-
     await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      mode:   'no-cors',
-      body:   formData,
-    });
+  method: 'POST',
+  mode:   'no-cors',
+  headers: { 'Content-Type': 'text/plain' },
+  body:   JSON.stringify(payload),
+});
 
     saveLocalData();
     state.submitted = true;
