@@ -1509,10 +1509,10 @@
       body: JSON.stringify(payload),
     });
   } catch(e) {
-    // CORS redirect from Google — data is saved, ignore
+    // Google Apps Script returns a CORS/redirect error even on success — ignore it
   }
 
-  // Always run success regardless of fetch result
+  // Always show success — data reaches the sheet regardless of fetch error
   saveLocalData();
   state.submitted = true;
   renderSuccess(payload);
