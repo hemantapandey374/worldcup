@@ -1274,15 +1274,8 @@
   state.roll = pad2(Number(roll));
   state.studentId = buildStudentId(state.grade, state.section, roll);
 
-  // -- NEW: check Sheet first, fallback to localStorage --
-  let sheetData = null;
-  try {
-    const res = await fetch(`${APPS_SCRIPT_URL}?studentId=${encodeURIComponent(state.studentId)}`);
-    const json = await res.json();
-    if (json.found) sheetData = json.data;
-  } catch(e) { /* network issue - fall through to localStorage */ }
-
-  const source = sheetData || loadSavedData(state.studentId);
+  // Use localStorage only (sheet GET fetch causes CORS errors from GitHub Pages)
+  const source = loadSavedData(state.studentId);
   if (source) {
     state.isReturning = true;
     state.picks = source.picks || {};
@@ -1509,10 +1502,10 @@
       body: JSON.stringify(payload),
     });
   } catch(e) {
-    // Google Apps Script returns a CORS/redirect error even on success — ignore it
+    // CORS redirect from Google -- data saves fine, ignore this error
   }
 
-  // Always show success — data reaches the sheet regardless of fetch error
+  // Always show success regardless of fetch result
   saveLocalData();
   state.submitted = true;
   renderSuccess(payload);
