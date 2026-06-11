@@ -1518,11 +1518,12 @@
 } catch(e) {
     // Google Apps Script often returns a CORS/redirect error even on success
     // Data is saved to the sheet regardless — treat this as success
-    saveLocalData();
+    
+  }
+  saveLocalData();
     state.submitted = true;
     renderSuccess(payload);
     setStep(4);
-  }
 };
 
   // ============================================================
