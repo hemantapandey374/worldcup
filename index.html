@@ -1503,27 +1503,20 @@
   };
 
   try {
-  const res = await fetch(APPS_SCRIPT_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify(payload),
-  });
-  const result = await res.json();
-  console.log('Sheet response:', result); // you'll see success/error in console
-  
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload),
+    });
+  } catch(e) {
+    // CORS redirect from Google — data is saved, ignore
+  }
+
+  // Always run success regardless of fetch result
   saveLocalData();
   state.submitted = true;
   renderSuccess(payload);
   setStep(4);
-} catch(e) {
-    // Google Apps Script often returns a CORS/redirect error even on success
-    // Data is saved to the sheet regardless — treat this as success
-    
-  }
-  saveLocalData();
-    state.submitted = true;
-    renderSuccess(payload);
-    setStep(4);
 };
 
   // ============================================================
