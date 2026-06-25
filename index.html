@@ -1,1663 +1,1812 @@
-<style>
-  /* ===== DESIGN TOKENS ===== */
-  :root {
-    --bg-deep: #0a0e1a;
-    --bg-card: #111827;
-    --bg-card-hover: #1a2235;
-    --accent-gold: #f0a500;
-    --accent-gold-dim: #a06c00;
-    --accent-blue: #3b82f6;
-    --accent-green: #22c55e;
-    --accent-red: #ef4444;
-    --text-primary: #f1f5f9;
-    --text-secondary: #94a3b8;
-    --text-muted: #475569;
-    --border: #1e293b;
-    --border-accent: #f0a500;
-    --shadow: 0 4px 24px rgba(0,0,0,0.4);
-    --radius: 10px;
-    --font-display: 'Bebas Neue', 'Impact', sans-serif;
-    --font-body: 'Inter', 'Segoe UI', sans-serif;
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  /* ===== RESET & BASE ===== */
-  #tournament-app * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  #tournament-app {
-    font-family: var(--font-body);
-    background: var(--bg-deep);
-    color: var(--text-primary);
-    min-height: 100vh;
-    width: 100%;
-    overflow-x: hidden;
-  }
-
-  /* ===== GOOGLE FONTS ===== */
-  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
-
-  /* ===== LOGIN SCREEN ===== */
-  #login-screen {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 20px;
-    background: radial-gradient(ellipse at top, #111827 0%, #0a0e1a 70%);
-  }
-
-  .login-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 48px 40px;
-    width: 100%;
-    max-width: 420px;
-    box-shadow: var(--shadow), 0 0 60px rgba(240, 165, 0, 0.08);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .login-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent-gold), var(--accent-blue));
-  }
-
-  .login-trophy {
-    font-size: 48px;
-    text-align: center;
-    margin-bottom: 12px;
-    filter: drop-shadow(0 0 12px rgba(240,165,0,0.5));
-  }
-
-  .login-title {
-    font-family: var(--font-display);
-    font-size: 2.2rem;
-    letter-spacing: 3px;
-    text-align: center;
-    color: var(--accent-gold);
-    text-transform: uppercase;
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-
-  .login-subtitle {
-    text-align: center;
-    color: var(--text-secondary);
-    font-size: 0.85rem;
-    margin-bottom: 32px;
-    letter-spacing: 0.5px;
-  }
-
-  .login-step {
-    margin-bottom: 24px;
-  }
-
-  .login-step label {
-    display: block;
-    font-size: 0.78rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-secondary);
-    margin-bottom: 8px;
-  }
-
-  .login-step input {
-    width: 100%;
-    background: #0d1117;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 14px 16px;
-    color: var(--text-primary);
-    font-family: var(--font-body);
-    font-size: 1rem;
-    transition: var(--transition);
-    outline: none;
-  }
-
-  .login-step input:focus {
-    border-color: var(--accent-gold);
-    box-shadow: 0 0 0 3px rgba(240,165,0,0.15);
-  }
-
-  .login-step input::placeholder {
-    color: var(--text-muted);
-  }
-
-  .login-hint {
-    margin-top: 6px;
-    font-size: 0.75rem;
-    color: var(--text-muted);
-  }
-
-  .btn-primary {
-    width: 100%;
-    background: linear-gradient(135deg, var(--accent-gold), #d4870a);
-    color: #000;
-    border: none;
-    border-radius: 8px;
-    padding: 14px 24px;
-    font-family: var(--font-display);
-    font-size: 1.1rem;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: var(--transition);
-    text-transform: uppercase;
-    font-weight: 700;
-  }
-
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(240,165,0,0.35);
-  }
-
-  .btn-primary:active { transform: translateY(0); }
-
-  .login-error {
-    background: rgba(239,68,68,0.12);
-    border: 1px solid rgba(239,68,68,0.3);
-    border-radius: 8px;
-    padding: 12px 16px;
-    font-size: 0.85rem;
-    color: #fca5a5;
-    margin-top: 16px;
-    display: none;
-  }
-
-  /* ===== HEADER ===== */
-  #app-header {
-    background: var(--bg-card);
-    border-bottom: 1px solid var(--border);
-    padding: 14px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .header-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .header-brand-icon { font-size: 24px; }
-
-  .header-brand-name {
-    font-family: var(--font-display);
-    font-size: 1.4rem;
-    letter-spacing: 2px;
-    color: var(--accent-gold);
-  }
-
-  .header-user {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-
-  .header-user-info {
-    text-align: right;
-    line-height: 1.3;
-  }
-
-  .header-user-name {
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--text-primary);
-  }
-
-  .header-user-code {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-  }
-
-  .btn-logout {
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 7px 14px;
-    color: var(--text-secondary);
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: var(--transition);
-    font-family: var(--font-body);
-  }
-
-  .btn-logout:hover {
-    border-color: var(--accent-red);
-    color: var(--accent-red);
-  }
-
-  /* ===== ROUND TABS ===== */
-  #round-tabs {
-    background: var(--bg-card);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    overflow-x: auto;
-    scrollbar-width: none;
-    padding: 0 16px;
-  }
-
-  #round-tabs::-webkit-scrollbar { display: none; }
-
-  .round-tab {
-    flex-shrink: 0;
-    padding: 14px 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--text-muted);
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    transition: var(--transition);
-    white-space: nowrap;
-  }
-
-  .round-tab.active {
-    color: var(--accent-gold);
-    border-bottom-color: var(--accent-gold);
-  }
-
-  .round-tab.completed {
-    color: var(--accent-green);
-  }
-
-  .round-tab.locked {
-    color: var(--text-muted);
-    cursor: default;
-    opacity: 0.5;
-  }
-
-  /* ===== ROUND DISPLAY ===== */
-  #bracket-area {
-    padding: 28px 20px;
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-
-  .round-header {
-    text-align: center;
-    margin-bottom: 28px;
-  }
-
-  .round-title {
-    font-family: var(--font-display);
-    font-size: 2rem;
-    letter-spacing: 3px;
-    color: var(--accent-gold);
-    text-transform: uppercase;
-  }
-
-  .round-subtitle {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    margin-top: 4px;
-  }
-
-  /* ===== BRACKET GRID ===== */
-  .bracket-columns {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-  }
-
-  .bracket-column-label {
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--text-muted);
-    margin-bottom: 16px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .matches-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  /* ===== MATCH CARD ===== */
-  .match-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    transition: var(--transition);
-    position: relative;
-  }
-
-  .match-card:hover {
-    border-color: rgba(240,165,0,0.3);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-  }
-
-  .match-label {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-muted);
-    padding: 8px 14px 6px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .team-slot {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 13px 14px;
-    cursor: pointer;
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .team-slot::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(240,165,0,0.04));
-    opacity: 0;
-    transition: var(--transition);
-  }
-
-  .team-slot:hover::before { opacity: 1; }
-
-  .team-slot:first-of-type { border-bottom: 1px solid var(--border); }
-
-  .team-slot.selected {
-    background: rgba(240,165,0,0.1);
-    border-left: 3px solid var(--accent-gold);
-  }
-
-  .team-slot.eliminated {
-    opacity: 0.35;
-    background: rgba(239,68,68,0.04);
-  }
-
-  .team-slot.tbd {
-    cursor: default;
-    opacity: 0.5;
-  }
-
-  .seed-badge {
-    background: #1e293b;
-    color: var(--text-secondary);
-    font-size: 0.65rem;
-    font-weight: 700;
-    width: 22px;
-    height: 22px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .team-slot.selected .seed-badge {
-    background: var(--accent-gold);
-    color: #000;
-  }
-
-  .team-name {
-    font-size: 0.9rem;
-    font-weight: 600;
-    flex: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .team-slot.tbd .team-name {
-    font-style: italic;
-    color: var(--text-muted);
-    font-size: 0.82rem;
-  }
-
-  .check-icon {
-    font-size: 14px;
-    opacity: 0;
-    transition: var(--transition);
-    color: var(--accent-gold);
-    flex-shrink: 0;
-  }
-
-  .team-slot.selected .check-icon { opacity: 1; }
-
-  .vs-divider {
-    text-align: center;
-    font-size: 0.6rem;
-    font-weight: 800;
-    color: var(--text-muted);
-    letter-spacing: 1px;
-    padding: 1px 0;
-    background: #0d1117;
-    position: relative;
-  }
-
-  /* ===== FINALS LAYOUT ===== */
-  .finals-container {
-    display: flex;
-    gap: 24px;
-    align-items: flex-start;
-    justify-content: center;
-  }
-
-  .finals-side {
-    flex: 1;
-    max-width: 340px;
-  }
-
-  .finals-center {
-    flex: 0 0 auto;
-    width: 260px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    margin-top: 40px;
-  }
-
-  .finals-vs-label {
-    font-family: var(--font-display);
-    font-size: 3rem;
-    color: var(--accent-gold);
-    letter-spacing: 4px;
-    text-shadow: 0 0 24px rgba(240,165,0,0.4);
-  }
-
-  /* ===== CHAMPION DISPLAY ===== */
-  .champion-card {
-    background: linear-gradient(135deg, #1a1200, #1c1400);
-    border: 2px solid var(--accent-gold);
-    border-radius: 16px;
-    padding: 28px 24px;
-    text-align: center;
-    box-shadow: 0 0 40px rgba(240,165,0,0.2);
-    width: 100%;
-  }
-
-  .champion-trophy {
-    font-size: 40px;
-    display: block;
-    margin-bottom: 8px;
-    filter: drop-shadow(0 0 12px rgba(240,165,0,0.6));
-  }
-
-  .champion-label {
-    font-family: var(--font-display);
-    font-size: 1rem;
-    letter-spacing: 4px;
-    color: var(--accent-gold-dim);
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-
-  .champion-name {
-    font-family: var(--font-display);
-    font-size: 1.8rem;
-    letter-spacing: 2px;
-    color: var(--accent-gold);
-    text-shadow: 0 0 16px rgba(240,165,0,0.5);
-  }
-
-  .champion-name.pending {
-    font-size: 1rem;
-    font-family: var(--font-body);
-    color: var(--text-muted);
-    font-style: italic;
-    letter-spacing: 0;
-  }
-
-  /* ===== PROGRESS BAR ===== */
-  .progress-bar-wrap {
-    background: #0d1117;
-    border-top: 1px solid var(--border);
-    padding: 14px 24px;
-  }
-
-  .progress-bar-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    margin-bottom: 8px;
-    font-weight: 500;
-  }
-
-  .progress-bar-track {
-    height: 4px;
-    background: var(--border);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .progress-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent-gold), var(--accent-blue));
-    border-radius: 2px;
-    transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
-  }
-
-  /* ===== SUBMIT / SAVE SECTION ===== */
-  .submit-section {
-    padding: 20px;
-    text-align: center;
-    border-top: 1px solid var(--border);
-  }
-
-  .btn-save {
-    background: linear-gradient(135deg, var(--accent-blue), #1d4ed8);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 32px;
-    font-family: var(--font-display);
-    font-size: 1rem;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: var(--transition);
-    text-transform: uppercase;
-  }
-
-  .btn-save:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(59,130,246,0.35);
-  }
-
-  .save-status {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    margin-top: 8px;
-    height: 20px;
-  }
-
-  .save-status.success { color: var(--accent-green); }
-  .save-status.error { color: var(--accent-red); }
-
-  /* ===== NEXT ROUND BUTTON ===== */
-  .btn-next-round {
-    background: linear-gradient(135deg, var(--accent-gold), #d4870a);
-    color: #000;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 32px;
-    font-family: var(--font-display);
-    font-size: 1rem;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: var(--transition);
-    text-transform: uppercase;
-    margin-left: 12px;
-  }
-
-  .btn-next-round:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(240,165,0,0.35);
-  }
-
-  .btn-next-round:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-  }
-
-  /* ===== WELCOME BANNER ===== */
-  .welcome-banner {
-    background: linear-gradient(90deg, rgba(240,165,0,0.1), rgba(59,130,246,0.1));
-    border: 1px solid rgba(240,165,0,0.2);
-    border-radius: 10px;
-    padding: 16px 24px;
-    margin: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-  }
-
-  .welcome-text strong {
-    color: var(--accent-gold);
-    font-size: 1.1rem;
-  }
-
-  .welcome-text span {
-    display: block;
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    margin-top: 2px;
-  }
-
-  .welcome-badges {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-  }
-
-  .badge {
-    background: #1e293b;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 4px 10px;
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-  }
-
-  .badge span { color: var(--text-primary); font-weight: 600; }
-
-  /* ===== NOTIFICATION ===== */
-  .toast {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 20px;
-    font-size: 0.88rem;
-    box-shadow: var(--shadow);
-    z-index: 9999;
-    transform: translateY(120px);
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    max-width: 320px;
-  }
-
-  .toast.show { transform: translateY(0); }
-  .toast.success { border-left: 4px solid var(--accent-green); }
-  .toast.error { border-left: 4px solid var(--accent-red); }
-  .toast.info { border-left: 4px solid var(--accent-blue); }
-
-  /* ===== CONFIG MODAL ===== */
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    z-index: 999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-
-  .modal-box {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 32px;
-    max-width: 540px;
-    width: 100%;
-    box-shadow: var(--shadow);
-  }
-
-  .modal-title {
-    font-family: var(--font-display);
-    font-size: 1.6rem;
-    letter-spacing: 2px;
-    color: var(--accent-gold);
-    margin-bottom: 8px;
-  }
-
-  .modal-desc {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    margin-bottom: 24px;
-  }
-
-  .modal-field label {
-    display: block;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-secondary);
-    margin-bottom: 6px;
-    margin-top: 16px;
-  }
-
-  .modal-field input {
-    width: 100%;
-    background: #0d1117;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 11px 14px;
-    color: var(--text-primary);
-    font-family: var(--font-body);
-    font-size: 0.92rem;
-    outline: none;
-    transition: var(--transition);
-  }
-
-  .modal-field input:focus {
-    border-color: var(--accent-gold);
-    box-shadow: 0 0 0 3px rgba(240,165,0,0.12);
-  }
-
-  .modal-actions {
-    display: flex;
-    gap: 12px;
-    margin-top: 24px;
-    justify-content: flex-end;
-  }
-
-  .btn-secondary {
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 20px;
-    color: var(--text-secondary);
-    font-size: 0.88rem;
-    cursor: pointer;
-    transition: var(--transition);
-    font-family: var(--font-body);
-  }
-
-  .btn-secondary:hover {
-    border-color: var(--text-secondary);
-    color: var(--text-primary);
-  }
-
-  /* ===== ANIMATIONS ===== */
-  @keyframes pulse-gold {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(240,165,0,0); }
-    50% { box-shadow: 0 0 0 6px rgba(240,165,0,0.2); }
-  }
-
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes sparkle {
-    0%, 100% { transform: scale(1) rotate(0deg); }
-    25% { transform: scale(1.15) rotate(-3deg); }
-    75% { transform: scale(1.1) rotate(3deg); }
-  }
-
-  .team-slot.selected { animation: pulse-gold 2s ease infinite; }
-
-  .match-card { animation: fadeInUp 0.4s ease both; }
-
-  .champion-card.crowned { animation: sparkle 0.6s ease; }
-
-  /* ===== RESPONSIVE ===== */
-  @media (max-width: 768px) {
-    .bracket-columns { grid-template-columns: 1fr; }
-    .finals-container { flex-direction: column; align-items: center; }
-    .finals-center { width: 100%; order: -1; margin-top: 0; margin-bottom: 12px; }
-    .finals-side { max-width: 100%; width: 100%; }
-    .welcome-banner { flex-direction: column; align-items: flex-start; }
-    .welcome-badges { justify-content: flex-start; }
-    #app-header { padding: 10px 16px; }
-    .header-brand-name { font-size: 1.1rem; }
-  }
-
-  /* ===== CONFIG BUTTON ===== */
-  .btn-config {
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 7px 12px;
-    color: var(--text-secondary);
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: var(--transition);
-    font-family: var(--font-body);
-    margin-right: 8px;
-  }
-
-  .btn-config:hover {
-    border-color: var(--accent-blue);
-    color: var(--accent-blue);
-  }
-
-  .hidden { display: none !important; }
-</style>
-
-<!-- ===== APP ROOT ===== -->
-<div id="tournament-app">
-
-  <!-- LOGIN SCREEN -->
-  <div id="login-screen">
-    <div class="login-card">
-      <div class="login-trophy">🏆</div>
-      <div class="login-title">Tournament<br>Predictor</div>
-      <div class="login-subtitle">SCHOOL SPORTS CHAMPIONSHIP 2025</div>
-
-      <div id="login-step-1">
-        <div class="login-step">
-          <label>Student Code</label>
-          <input type="text" id="student-code-input" placeholder="e.g. 7C25" maxlength="6" autocomplete="off" />
-          <div class="login-hint">Format: Class + Section + Roll Number</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🏆 Tournament Bracket Predictor</title>
+
+    <!-- ─── Google Fonts ─── -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ============================================================
+                   GLOBAL RESET & BASE
+                   ============================================================ */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #0b1a30;
+            --primary-light: #112240;
+            --accent: #f5c518;
+            --accent-dark: #d4a800;
+            --gold: #ffd700;
+            --win-glow: rgba(245, 197, 24, 0.35);
+            --card-bg: #ffffff;
+            --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --card-radius: 14px;
+            --team-hover: #f0f4ff;
+            --text-primary: #0b1a30;
+            --text-secondary: #4a5568;
+            --text-light: #a0aec0;
+            --border-light: #e2e8f0;
+            --success: #38a169;
+            --danger: #e53e3e;
+            --font: 'Inter', system-ui, -apple-system, sans-serif;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font);
+            background: #f1f5f9;
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* ============================================================
+                   APP CONTAINER
+                   ============================================================ */
+        #app {
+            width: 100%;
+            max-width: 1440px;
+            background: #ffffff;
+            border-radius: 32px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            position: relative;
+            min-height: 90vh;
+            transition: var(--transition);
+        }
+
+        /* ============================================================
+                   SCREENS (login / name / bracket)
+                   ============================================================ */
+        .screen {
+            display: none;
+            animation: fadeSlideIn 0.45s ease-out;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeSlideIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============================================================
+                   LOGIN SCREEN
+                   ============================================================ */
+        .login-screen {
+            padding: 60px 40px;
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+        }
+
+        .login-screen .logo {
+            font-size: 4rem;
+            margin-bottom: 8px;
+        }
+
+        .login-screen h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+
+        .login-screen .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin-bottom: 36px;
+            font-weight: 400;
+        }
+
+        .login-form {
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .login-form label {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        .login-form .input-group {
+            position: relative;
+        }
+
+        .login-form .input-group .icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            color: var(--text-light);
+            pointer-events: none;
+        }
+
+        .login-form input[type="text"] {
+            width: 100%;
+            padding: 16px 16px 16px 48px;
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            font-family: var(--font);
+            transition: var(--transition);
+            background: #fff;
+            color: var(--text-primary);
+        }
+
+        .login-form input[type="text"]:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(245, 197, 24, 0.15);
+            outline: none;
+        }
+
+        .login-form input[type="text"]::placeholder {
+            color: var(--text-light);
+            font-weight: 400;
+            font-size: 0.95rem;
+        }
+
+        .login-form .hint {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: -8px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            font-family: var(--font);
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background: #0f2a4a;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(11, 26, 48, 0.25);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: var(--primary);
+        }
+        .btn-accent:hover {
+            background: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(245, 197, 24, 0.35);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--border-light);
+        }
+        .btn-outline:hover {
+            border-color: var(--accent);
+            background: rgba(245, 197, 24, 0.06);
+        }
+
+        .btn-sm {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 10px;
+        }
+
+        .btn-danger-outline {
+            background: transparent;
+            color: var(--danger);
+            border: 2px solid rgba(229, 62, 62, 0.25);
+        }
+        .btn-danger-outline:hover {
+            background: rgba(229, 62, 62, 0.06);
+            border-color: var(--danger);
+        }
+
+        .login-error {
+            color: var(--danger);
+            font-size: 0.9rem;
+            font-weight: 500;
+            min-height: 24px;
+            text-align: center;
+        }
+
+        /* ============================================================
+                   NAME COLLECTION SCREEN
+                   ============================================================ */
+        .name-screen {
+            padding: 60px 40px;
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+        }
+
+        .name-screen .user-badge {
+            background: var(--primary);
+            color: #fff;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 24px;
+            letter-spacing: 0.3px;
+        }
+
+        .name-screen h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .name-screen .sub {
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+        }
+
+        .name-form {
+            width: 100%;
+            max-width: 380px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .name-form input[type="text"] {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            font-family: var(--font);
+            transition: var(--transition);
+            background: #fff;
+        }
+
+        .name-form input[type="text"]:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(245, 197, 24, 0.15);
+            outline: none;
+        }
+
+        /* ============================================================
+                   STUDENT INFO BAR
+                   ============================================================ */
+        .student-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 32px;
+            background: var(--primary);
+            color: #fff;
+            flex-wrap: wrap;
+            gap: 12px;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .student-bar .info {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .student-bar .info .name {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .student-bar .info .detail {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            display: flex;
+            gap: 16px;
+        }
+
+        .student-bar .info .detail span {
+            background: rgba(255, 255, 255, 0.12);
+            padding: 4px 14px;
+            border-radius: 20px;
+        }
+
+        .student-bar .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* ============================================================
+                   BRACKET LAYOUT
+                   ============================================================ */
+        .bracket-wrapper {
+            padding: 32px 24px 40px;
+            overflow-x: auto;
+        }
+
+        .bracket-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: flex-start;
+            min-width: 820px;
+            padding-bottom: 12px;
+        }
+
+        /* ─── Side (Left / Right) ─── */
+        .bracket-side {
+            flex: 1;
+            min-width: 280px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .bracket-side .side-label {
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 8px 0 4px;
+            border-bottom: 2px solid var(--border-light);
+        }
+
+        .round-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .round-label {
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--text-light);
+            padding: 4px 8px 2px;
+            border-left: 4px solid var(--accent);
+            margin-bottom: 2px;
+        }
+
+        /* ─── Matches ─── */
+        .match-card {
+            background: var(--card-bg);
+            border-radius: var(--card-radius);
+            box-shadow: var(--card-shadow);
+            padding: 12px 16px;
+            border: 2px solid transparent;
+            transition: var(--transition);
+            position: relative;
+            cursor: default;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .match-card.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+            filter: grayscale(0.3);
+        }
+
+        .match-card .match-vs {
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-light);
+            letter-spacing: 1px;
+            padding: 2px 0;
+        }
+
+        .team-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 14px;
+            border-radius: 10px;
+            background: #f8fafc;
+            border: 2px solid transparent;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .team-option:hover:not(.disabled) {
+            background: var(--team-hover);
+            border-color: #cbd5e0;
+            transform: translateX(4px);
+        }
+
+        .team-option .seed {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-light);
+            background: #e2e8f0;
+            padding: 2px 8px;
+            border-radius: 6px;
+            min-width: 28px;
+            text-align: center;
+        }
+
+        .team-option .team-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            flex: 1;
+        }
+
+        .team-option .check {
+            font-size: 1.1rem;
+            opacity: 0;
+            transition: var(--transition);
+            color: var(--accent);
+        }
+
+        /* Selected state */
+        .team-option.selected {
+            background: rgba(245, 197, 24, 0.12);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--win-glow), 0 4px 12px rgba(245, 197, 24, 0.15);
+            transform: translateX(6px);
+        }
+
+        .team-option.selected .check {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .team-option.selected .seed {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        /* Winner highlight */
+        .team-option.winner {
+            background: linear-gradient(135deg, rgba(245, 197, 24, 0.18), rgba(245, 197, 24, 0.06));
+            border-color: var(--gold);
+        }
+
+        .team-option.winner .check {
+            opacity: 1;
+            color: var(--gold);
+        }
+
+        /* Eliminated */
+        .team-option.eliminated {
+            opacity: 0.35;
+            filter: grayscale(0.7);
+            pointer-events: none;
+        }
+
+        .team-option.eliminated .check {
+            opacity: 0;
+        }
+
+        /* ─── Finals / Champion ─── */
+        .finals-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            min-width: 220px;
+            padding: 20px 12px;
+            background: linear-gradient(180deg, rgba(245, 197, 24, 0.05) 0%, transparent 100%);
+            border-radius: 20px;
+            border: 2px dashed var(--border-light);
+        }
+
+        .finals-center .finals-label {
+            font-weight: 800;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary);
+        }
+
+        .finals-center .final-match {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .finals-center .final-match .team-option {
+            background: #f8fafc;
+        }
+
+        .finals-center .champion-box {
+            margin-top: 8px;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, var(--accent), var(--gold));
+            border-radius: 16px;
+            text-align: center;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--primary);
+            box-shadow: 0 8px 30px rgba(245, 197, 24, 0.3);
+            min-width: 180px;
+            transition: var(--transition);
+        }
+
+        .finals-center .champion-box.empty {
+            background: #e2e8f0;
+            color: var(--text-light);
+            box-shadow: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        /* ─── Connector lines (subtle) ─── */
+        .bracket-side .round-group+.round-group {
+            position: relative;
+        }
+
+        .bracket-side .round-group+.round-group::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            width: 40%;
+            height: 2px;
+            background: var(--border-light);
+            transform: translateX(-50%);
+        }
+
+        /* ============================================================
+                   SAVE STATUS
+                   ============================================================ */
+        .save-status {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .save-status.saved {
+            color: #68d391;
+        }
+        .save-status.saving {
+            color: var(--accent);
+        }
+        .save-status.error {
+            color: var(--danger);
+        }
+
+        /* ============================================================
+                   TOAST / NOTIFICATION
+                   ============================================================ */
+        .toast-container {
+            position: fixed;
+            top: 28px;
+            right: 28px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 380px;
+        }
+
+        .toast {
+            padding: 14px 22px;
+            border-radius: 14px;
+            background: #fff;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+            font-weight: 500;
+            font-size: 0.95rem;
+            animation: toastIn 0.35s ease-out;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 5px solid var(--accent);
+        }
+
+        .toast.toast-success {
+            border-left-color: var(--success);
+        }
+        .toast.toast-error {
+            border-left-color: var(--danger);
+        }
+
+        @keyframes toastIn {
+            0% {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* ============================================================
+                   RESPONSIVE
+                   ============================================================ */
+        @media (max-width: 1024px) {
+            #app {
+                border-radius: 20px;
+                min-height: 95vh;
+            }
+            .bracket-container {
+                flex-direction: column;
+                align-items: center;
+                min-width: 0;
+            }
+            .bracket-side {
+                width: 100%;
+                min-width: 0;
+            }
+            .finals-center {
+                width: 100%;
+                min-width: 0;
+                order: -1;
+                border: none;
+                border-radius: 16px;
+                padding: 16px;
+                background: rgba(245, 197, 24, 0.04);
+            }
+            .student-bar {
+                padding: 12px 20px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .student-bar .info {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .student-bar .actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+            .login-screen,
+            .name-screen {
+                padding: 40px 24px;
+            }
+            .login-screen h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 8px;
+            }
+            #app {
+                border-radius: 12px;
+                min-height: 98vh;
+            }
+            .login-screen h1 {
+                font-size: 1.4rem;
+            }
+            .login-screen .logo {
+                font-size: 2.8rem;
+            }
+            .login-form input[type="text"] {
+                padding: 14px 14px 14px 42px;
+                font-size: 1rem;
+            }
+            .btn {
+                padding: 14px 24px;
+                font-size: 0.95rem;
+            }
+            .student-bar .info .detail {
+                font-size: 0.75rem;
+                gap: 8px;
+                flex-wrap: wrap;
+            }
+            .student-bar .info .detail span {
+                padding: 2px 10px;
+            }
+            .bracket-wrapper {
+                padding: 16px 8px 24px;
+            }
+            .match-card {
+                padding: 8px 12px;
+            }
+            .team-option {
+                padding: 6px 10px;
+                gap: 6px;
+            }
+            .team-option .team-name {
+                font-size: 0.85rem;
+            }
+            .finals-center .champion-box {
+                font-size: 1rem;
+                padding: 12px 16px;
+                min-width: 120px;
+            }
+            .toast-container {
+                top: 12px;
+                right: 12px;
+                left: 12px;
+                max-width: none;
+            }
+        }
+
+        /* ============================================================
+                   MISC UTILITY
+                   ============================================================ */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-8 {
+            margin-top: 8px;
+        }
+        .mt-16 {
+            margin-top: 16px;
+        }
+        .mb-8 {
+            margin-bottom: 8px;
+        }
+        .gap-8 {
+            gap: 8px;
+        }
+        .flex-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* login pulse hint */
+        .pulse-hint {
+            animation: pulseText 2s ease-in-out infinite;
+        }
+        @keyframes pulseText {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* scrollbar styling */
+        .bracket-wrapper::-webkit-scrollbar {
+            height: 6px;
+        }
+        .bracket-wrapper::-webkit-scrollbar-track {
+            background: #e2e8f0;
+            border-radius: 4px;
+        }
+        .bracket-wrapper::-webkit-scrollbar-thumb {
+            background: #a0aec0;
+            border-radius: 4px;
+        }
+        .bracket-wrapper::-webkit-scrollbar-thumb:hover {
+            background: #718096;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ─── TOAST CONTAINER ─── -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- ─── APP ─── -->
+    <div id="app">
+
+        <!-- ============================================================
+        SCREEN 1: LOGIN
+        ============================================================ -->
+        <div id="loginScreen" class="screen active login-screen">
+            <div class="logo">🏆</div>
+            <h1>Bracket Predictor</h1>
+            <p class="subtitle">Tournament Edition • 32 Teams</p>
+
+            <form id="loginForm" class="login-form" autocomplete="off">
+                <label for="studentCode">Student Code</label>
+                <div class="input-group">
+                    <span class="icon">🎓</span>
+                    <input
+                    type="text"
+                    id="studentCode"
+                    placeholder="e.g. 7C25"
+                    required
+                    maxlength="10"
+                    autofocus
+                    />
+                </div>
+                <p class="hint">Format: Class + Section + Roll Number &nbsp;·&nbsp; e.g. <strong>5A01</strong>, <strong>10B18</strong></p>
+                <div id="loginError" class="login-error"></div>
+                <button type="submit" class="btn btn-primary" id="loginBtn">
+                    <span>Sign In</span>
+                </button>
+            </form>
+            <p style="margin-top:28px; font-size:0.85rem; color:var(--text-light);">
+                🧪 Demo: use any code from <strong>5A01</strong> – <strong>10E30</strong>
+            </p>
         </div>
-        <button class="btn-primary" onclick="verifyCode()">Verify Code →</button>
-        <div class="login-error" id="login-error-1"></div>
-      </div>
 
-      <div id="login-step-2" class="hidden">
-        <div class="login-step">
-          <label>Your Name</label>
-          <input type="text" id="student-name-input" placeholder="Enter your full name" maxlength="60" />
+        <!-- ============================================================
+        SCREEN 2: NAME COLLECTION
+        ============================================================ -->
+        <div id="nameScreen" class="screen name-screen">
+            <div class="user-badge" id="nameBadge">✅ Verified</div>
+            <h2>Welcome!</h2>
+            <p class="sub" id="nameSub">Please tell us your name to continue.</p>
+
+            <form id="nameForm" class="name-form" autocomplete="off">
+                <input
+                type="text"
+                id="studentName"
+                placeholder="Your full name"
+                required
+                maxlength="60"
+                />
+                <button type="submit" class="btn btn-accent" id="nameBtn">
+                    <span>Continue to Bracket →</span>
+                </button>
+                <button type="button" class="btn btn-outline btn-sm" id="backToLoginBtn">
+                    ← Back
+                </button>
+            </form>
         </div>
-        <button class="btn-primary" onclick="submitLogin()">Enter Bracket →</button>
-        <div class="login-error" id="login-error-2"></div>
-      </div>
-    </div>
-  </div>
 
-  <!-- MAIN APP -->
-  <div id="main-app" class="hidden">
+        <!-- ============================================================
+        SCREEN 3: BRACKET
+        ============================================================ -->
+        <div id="bracketScreen" class="screen">
 
-    <!-- Header -->
-    <div id="app-header">
-      <div class="header-brand">
-        <span class="header-brand-icon">🏆</span>
-        <span class="header-brand-name">Tournament Predictor</span>
-      </div>
-      <div class="header-user">
-        <button class="btn-config" onclick="openConfig()">⚙ Config</button>
-        <div class="header-user-info">
-          <div class="header-user-name" id="header-name">–</div>
-          <div class="header-user-code" id="header-code">–</div>
+            <!-- ─── Student Bar ─── -->
+            <div class="student-bar">
+                <div class="info">
+                    <span class="name" id="displayName">—</span>
+                    <div class="detail">
+                        <span id="displayClass">—</span>
+                        <span id="displaySection">—</span>
+                        <span id="displayRoll">—</span>
+                        <span id="displayCode" style="opacity:0.5;">—</span>
+                    </div>
+                </div>
+                <div class="actions">
+                    <span id="saveStatus" class="save-status">💾 Saved</span>
+                    <button class="btn btn-sm btn-danger-outline" id="logoutBtn">🚪 Logout</button>
+                </div>
+            </div>
+
+            <!-- ─── Bracket ─── -->
+            <div class="bracket-wrapper">
+                <div id="bracketContainer" class="bracket-container">
+                    <!-- Dynamically rendered -->
+                </div>
+            </div>
         </div>
-        <button class="btn-logout" onclick="logout()">Log Out</button>
-      </div>
+
     </div>
 
-    <!-- Progress Bar -->
-    <div class="progress-bar-wrap">
-      <div class="progress-bar-label">
-        <span>Bracket Progress</span>
-        <span id="progress-label">0 / 31 predictions</span>
-      </div>
-      <div class="progress-bar-track">
-        <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
-      </div>
-    </div>
-
-    <!-- Welcome Banner -->
-    <div class="welcome-banner">
-      <div class="welcome-text">
-        <strong id="welcome-name">–</strong>
-        <span>Complete all rounds to submit your bracket prediction!</span>
-      </div>
-      <div class="welcome-badges">
-        <div class="badge">Class <span id="badge-class">–</span></div>
-        <div class="badge">Section <span id="badge-section">–</span></div>
-        <div class="badge">Roll # <span id="badge-roll">–</span></div>
-      </div>
-    </div>
-
-    <!-- Round Tabs -->
-    <div id="round-tabs">
-      <div class="round-tab active" data-round="0" onclick="showRound(0)">Round of 32</div>
-      <div class="round-tab locked" data-round="1" onclick="showRound(1)">Round of 16</div>
-      <div class="round-tab locked" data-round="2" onclick="showRound(2)">Quarterfinals</div>
-      <div class="round-tab locked" data-round="3" onclick="showRound(3)">Semifinals</div>
-      <div class="round-tab locked" data-round="4" onclick="showRound(4)">Finals 🏆</div>
-    </div>
-
-    <!-- Bracket Area -->
-    <div id="bracket-area"></div>
-
-    <!-- Submit Section -->
-    <div class="submit-section">
-      <button class="btn-save" onclick="savePredictions()">💾 Save Predictions</button>
-      <button class="btn-next-round" id="btn-next" onclick="advanceRound()" disabled>Next Round →</button>
-      <div class="save-status" id="save-status"></div>
-    </div>
-
-  </div>
-
-  <!-- Config Modal -->
-  <div class="modal-overlay hidden" id="config-modal">
-    <div class="modal-box">
-      <div class="modal-title">⚙ Configuration</div>
-      <div class="modal-desc">Set up Google Sheets integration for saving predictions.</div>
-      <div class="modal-field">
-        <label>Google Apps Script Web App URL</label>
-        <input type="text" id="config-sheets-url" placeholder="https://script.google.com/macros/s/..." />
-      </div>
-      <div class="modal-field">
-        <label>Tournament Name (optional)</label>
-        <input type="text" id="config-tourney-name" placeholder="School Sports Championship 2025" />
-      </div>
-      <div class="modal-actions">
-        <button class="btn-secondary" onclick="closeConfig()">Cancel</button>
-        <button class="btn-primary" style="width:auto;padding:10px 24px;font-size:0.9rem" onclick="saveConfig()">Save Config</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Toast -->
-  <div class="toast" id="toast"></div>
-
-</div>
-
-<script>
-/* ======================================================
-   TOURNAMENT PREDICTOR – CORE LOGIC
-   ====================================================== */
-
-// ── CONFIG ──────────────────────────────────────────────
-let CONFIG = {
-  sheetsUrl: localStorage.getItem('tp_sheets_url') || '',
-  tourneyName: localStorage.getItem('tp_tourney_name') || 'School Sports Championship 2025'
-};
-
-// ── TEAM DATA ───────────────────────────────────────────
-// 32 placeholder teams. Replace names here when real teams are known.
-const SEEDS = [
-  { seed: 1,  name: 'Team Alpha'    },
-  { seed: 2,  name: 'Team Bravo'    },
-  { seed: 3,  name: 'Team Charlie'  },
-  { seed: 4,  name: 'Team Delta'    },
-  { seed: 5,  name: 'Team Echo'     },
-  { seed: 6,  name: 'Team Foxtrot'  },
-  { seed: 7,  name: 'Team Golf'     },
-  { seed: 8,  name: 'Team Hotel'    },
-  { seed: 9,  name: 'Team India'    },
-  { seed: 10, name: 'Team Juliet'   },
-  { seed: 11, name: 'Team Kilo'     },
-  { seed: 12, name: 'Team Lima'     },
-  { seed: 13, name: 'Team Mike'     },
-  { seed: 14, name: 'Team November' },
-  { seed: 15, name: 'Team Oscar'    },
-  { seed: 16, name: 'Team Papa'     },
-  { seed: 17, name: 'Team Quebec'   },
-  { seed: 18, name: 'Team Romeo'    },
-  { seed: 19, name: 'Team Sierra'   },
-  { seed: 20, name: 'Team Tango'    },
-  { seed: 21, name: 'Team Uniform'  },
-  { seed: 22, name: 'Team Victor'   },
-  { seed: 23, name: 'Team Whiskey'  },
-  { seed: 24, name: 'Team Xray'     },
-  { seed: 25, name: 'Team Yankee'   },
-  { seed: 26, name: 'Team Zulu'     },
-  { seed: 27, name: 'Team Apex'     },
-  { seed: 28, name: 'Team Blaze'    },
-  { seed: 29, name: 'Team Cobra'    },
-  { seed: 30, name: 'Team Dagger'   },
-  { seed: 31, name: 'Team Eagle'    },
-  { seed: 32, name: 'Team Falcon'   }
-];
-
-// Official seeding matchup order for each region (8 matches per side)
-// Pattern: 1v16, 8v9, 5v12, 4v13, 6v11, 3v14, 7v10, 2v15
-const SEED_PAIRS_LEFT = [
-  [1,16],[8,9],[5,12],[4,13],[6,11],[3,14],[7,10],[2,15]
-];
-const SEED_PAIRS_RIGHT = [
-  [17,32],[24,25],[21,28],[20,29],[22,27],[19,30],[23,26],[18,31]
-];
-
-// ── STUDENT DATABASE ────────────────────────────────────
-// Populate this array with real students before deploying.
-// Format: { code, name, class: classNum, section, roll }
-const STUDENT_DB = [
-  // Sample entries – replace with real data
-  { code: '5A01', name: '', class: '5', section: 'A', roll: '01' },
-  { code: '5A02', name: '', class: '5', section: 'A', roll: '02' },
-  { code: '6B10', name: '', class: '6', section: 'B', roll: '10' },
-  { code: '7C25', name: '', class: '7', section: 'C', roll: '25' },
-  { code: '8D15', name: '', class: '8', section: 'D', roll: '15' },
-  { code: '9E03', name: '', class: '9', section: 'E', roll: '03' },
-  { code: '10B18', name: '', class: '10', section: 'B', roll: '18' },
-  // Add all students here...
-];
-
-// Generate full valid code set automatically (for fallback validation)
-function generateValidCode(code) {
-  const match = code.toUpperCase().match(/^(5|6|7|8|9|10)([A-E])(\d{1,2})$/);
-  if (!match) return null;
-  const [, cls, sec, roll] = match;
-  return { code: code.toUpperCase(), class: cls, section: sec, roll: roll.padStart(2,'0') };
-}
-
-// ── STATE ───────────────────────────────────────────────
-let STATE = {
-  student: null,
-  currentRound: 0,
-  predictions: {
-    // round0: [{matchIdx, winnerId (seed number)}]
-    0: new Array(16).fill(null),
-    1: new Array(8).fill(null),
-    2: new Array(4).fill(null),
-    3: new Array(2).fill(null),
-    4: [null]
-  },
-  // Resolved bracket per round: array of team objects [{seed,name}]
-  bracket: {
-    0: buildRound0(),
-    1: [], 2: [], 3: [], 4: []
-  }
-};
-
-function buildRound0() {
-  function byS(s) { return SEEDS.find(t => t.seed === s); }
-  const matches = [];
-  SEED_PAIRS_LEFT.forEach(([a,b]) => matches.push([byS(a), byS(b)]));
-  SEED_PAIRS_RIGHT.forEach(([a,b]) => matches.push([byS(a), byS(b)]));
-  return matches;
-}
-
-// ── LOGIN ────────────────────────────────────────────────
-function verifyCode() {
-  const raw = document.getElementById('student-code-input').value.trim().toUpperCase();
-  const err = document.getElementById('login-error-1');
-
-  if (!raw) { showErr(err, 'Please enter your student code.'); return; }
-
-  // Check DB first
-  let dbEntry = STUDENT_DB.find(s => s.code === raw);
-  let parsed = generateValidCode(raw);
-
-  if (!dbEntry && !parsed) {
-    showErr(err, 'Invalid code format. Example: 7C25 (Class + Section + Roll)'); return;
-  }
-
-  err.style.display = 'none';
-
-  // Store parsed info
-  const info = dbEntry
-    ? { code: dbEntry.code, class: dbEntry.class, section: dbEntry.section, roll: dbEntry.roll, dbName: dbEntry.name }
-    : { code: parsed.code, class: parsed.class, section: parsed.section, roll: parsed.roll, dbName: '' };
-
-  STATE.student = info;
-
-  // Check if existing session saved
-  const saved = loadLocal(raw);
-  if (saved && saved.name) {
-    // Resume directly
-    STATE.student.name = saved.name;
-    STATE.predictions = saved.predictions;
-    STATE.currentRound = saved.currentRound || 0;
-    rebuildBracketState();
-    enterApp();
-    return;
-  }
-
-  // Ask for name
-  if (info.dbName) {
-    document.getElementById('student-name-input').value = info.dbName;
-  }
-  document.getElementById('login-step-1').classList.add('hidden');
-  document.getElementById('login-step-2').classList.remove('hidden');
-  document.getElementById('student-name-input').focus();
-}
-
-function submitLogin() {
-  const name = document.getElementById('student-name-input').value.trim();
-  const err = document.getElementById('login-error-2');
-  if (!name) { showErr(err, 'Please enter your name.'); return; }
-  STATE.student.name = name;
-  enterApp();
-}
-
-function enterApp() {
-  document.getElementById('login-screen').classList.add('hidden');
-  document.getElementById('main-app').classList.remove('hidden');
-
-  const s = STATE.student;
-  document.getElementById('header-name').textContent = s.name;
-  document.getElementById('header-code').textContent = s.code + ' · Class ' + s.class + s.section;
-  document.getElementById('welcome-name').textContent = 'Welcome, ' + s.name + '! 👋';
-  document.getElementById('badge-class').textContent = s.class;
-  document.getElementById('badge-section').textContent = s.section;
-  document.getElementById('badge-roll').textContent = s.roll;
-
-  renderRound(STATE.currentRound);
-  updateTabs();
-  updateProgress();
-  showToast('Bracket loaded. Good luck! 🏆', 'info');
-}
-
-function logout() {
-  if (confirm('Log out? Your predictions are saved locally.')) {
-    savePredictions(true);
-    location.reload();
-  }
-}
-
-// ── RENDERING ────────────────────────────────────────────
-function renderRound(r) {
-  const area = document.getElementById('bracket-area');
-  area.innerHTML = '';
-
-  if (r === 4) { renderFinals(area); updateNextBtn(); return; }
-
-  const matches = STATE.bracket[r];
-  const leftMatches  = matches.slice(0, 8);
-  const rightMatches = matches.slice(8, 16).length ? matches.slice(8, 16) : matches.slice(Math.ceil(matches.length/2));
-
-  const ROUND_NAMES = ['Round of 32','Round of 16','Quarterfinals','Semifinals'];
-  const ROUND_COUNTS = ['16 Matches · 32 Teams','8 Matches · 16 Teams','4 Matches · 8 Teams','2 Matches · 4 Teams'];
-
-  const header = document.createElement('div');
-  header.className = 'round-header';
-  header.innerHTML = `<div class="round-title">${ROUND_NAMES[r]}</div><div class="round-subtitle">${ROUND_COUNTS[r]}</div>`;
-  area.appendChild(header);
-
-  const cols = document.createElement('div');
-  cols.className = 'bracket-columns';
-
-  function buildSide(label, mArr, startIdx) {
-    const side = document.createElement('div');
-    const lbl = document.createElement('div');
-    lbl.className = 'bracket-column-label';
-    lbl.textContent = label;
-    side.appendChild(lbl);
-
-    const grid = document.createElement('div');
-    grid.className = 'matches-grid';
-
-    mArr.forEach((match, localIdx) => {
-      const globalIdx = startIdx + localIdx;
-      const card = buildMatchCard(r, globalIdx, match);
-      grid.appendChild(card);
-    });
-
-    side.appendChild(grid);
-    return side;
-  }
-
-  const splitAt = r === 0 ? 8 : Math.ceil(matches.length / 2);
-  const left  = matches.slice(0, splitAt);
-  const right = matches.slice(splitAt);
-
-  cols.appendChild(buildSide('◀ Left Bracket', left, 0));
-  if (right.length > 0) cols.appendChild(buildSide('Right Bracket ▶', right, splitAt));
-  else cols.appendChild(buildSide('Right Bracket ▶', [], splitAt));
-
-  area.appendChild(cols);
-  updateNextBtn();
-}
-
-function buildMatchCard(round, matchIdx, match) {
-  const card = document.createElement('div');
-  card.className = 'match-card';
-  card.style.animationDelay = (matchIdx % 8) * 0.04 + 's';
-
-  const [teamA, teamB] = match;
-  const currentPick = STATE.predictions[round][matchIdx];
-
-  const label = document.createElement('div');
-  label.className = 'match-label';
-  label.textContent = `Match ${matchIdx + 1}`;
-  card.appendChild(label);
-
-  function makeSlot(team) {
-    const slot = document.createElement('div');
-    if (!team) {
-      slot.className = 'team-slot tbd';
-      slot.innerHTML = `<div class="seed-badge">?</div><div class="team-name">TBD</div>`;
-      return slot;
-    }
-
-    const isSelected = currentPick === team.seed;
-    const isEliminated = currentPick && currentPick !== team.seed;
-
-    slot.className = 'team-slot' + (isSelected ? ' selected' : '') + (isEliminated ? ' eliminated' : '');
-    slot.innerHTML = `
-      <div class="seed-badge">${team.seed}</div>
-      <div class="team-name">${team.name}</div>
-      <div class="check-icon">✓</div>
-    `;
-
-    slot.onclick = () => pickWinner(round, matchIdx, team.seed, team.name);
-    return slot;
-  }
-
-  const vs = document.createElement('div');
-  vs.className = 'vs-divider';
-  vs.textContent = 'VS';
-
-  card.appendChild(makeSlot(teamA));
-  card.appendChild(vs);
-  card.appendChild(makeSlot(teamB));
-
-  return card;
-}
-
-function pickWinner(round, matchIdx, seed, name) {
-  STATE.predictions[round][matchIdx] = seed;
-
-  // Propagate to next round
-  propagateWinner(round, matchIdx, seed, name);
-
-  renderRound(round);
-  updateNextBtn();
-  updateProgress();
-  autoSaveLocal();
-}
-
-function propagateWinner(round, matchIdx, seed, name) {
-  if (round >= 4) return;
-  const nextRound = round + 1;
-  const nextMatchIdx = Math.floor(matchIdx / 2);
-  const slotInMatch = matchIdx % 2; // 0 = top, 1 = bottom
-
-  // Ensure bracket array is initialised
-  if (!STATE.bracket[nextRound]) STATE.bracket[nextRound] = [];
-  if (!STATE.bracket[nextRound][nextMatchIdx]) STATE.bracket[nextRound][nextMatchIdx] = [null, null];
-
-  STATE.bracket[nextRound][nextMatchIdx][slotInMatch] = { seed, name };
-
-  // If the prediction in the next round pointed to a team now displaced, clear it
-  const nextPick = STATE.predictions[nextRound][nextMatchIdx];
-  if (nextPick && !STATE.bracket[nextRound][nextMatchIdx].find(t => t && t.seed === nextPick)) {
-    STATE.predictions[nextRound][nextMatchIdx] = null;
-    propagateClear(nextRound, nextMatchIdx);
-  }
-}
-
-function propagateClear(round, matchIdx) {
-  if (round >= 4) return;
-  const nextRound = round + 1;
-  const nextMatchIdx = Math.floor(matchIdx / 2);
-  const slotInMatch = matchIdx % 2;
-  if (!STATE.bracket[nextRound]) return;
-  if (!STATE.bracket[nextRound][nextMatchIdx]) STATE.bracket[nextRound][nextMatchIdx] = [null, null];
-  STATE.bracket[nextRound][nextMatchIdx][slotInMatch] = null;
-  STATE.predictions[nextRound][nextMatchIdx] = null;
-  propagateClear(nextRound, nextMatchIdx);
-}
-
-function renderFinals(area) {
-  const header = document.createElement('div');
-  header.className = 'round-header';
-  header.innerHTML = `<div class="round-title" style="font-size:2.6rem;color:var(--accent-gold)">🏆 Grand Final</div>
-    <div class="round-subtitle">Select your Champion</div>`;
-  area.appendChild(header);
-
-  const cont = document.createElement('div');
-  cont.className = 'finals-container';
-
-  const leftFinalist  = STATE.bracket[4] && STATE.bracket[4][0] && STATE.bracket[4][0][0];
-  const rightFinalist = STATE.bracket[4] && STATE.bracket[4][0] && STATE.bracket[4][0][1];
-  const champion = STATE.predictions[4][0];
-
-  function finalistCard(team, side) {
-    const div = document.createElement('div');
-    div.className = 'finals-side';
-
-    const label = document.createElement('div');
-    label.className = 'bracket-column-label';
-    label.textContent = side + ' Bracket Finalist';
-    div.appendChild(label);
-
-    if (team) {
-      const slot = document.createElement('div');
-      const isSelected = champion === team.seed;
-      slot.className = 'match-card';
-      slot.innerHTML = `
-        <div class="match-label">Finalist</div>
-        <div class="team-slot ${isSelected ? 'selected' : ''}" onclick="pickChampion(${team.seed}, '${team.name.replace(/'/g,"\\'")}')">
-          <div class="seed-badge">${team.seed}</div>
-          <div class="team-name">${team.name}</div>
-          <div class="check-icon">✓</div>
-        </div>
-      `;
-      div.appendChild(slot);
-    } else {
-      const ph = document.createElement('div');
-      ph.className = 'match-card';
-      ph.innerHTML = `<div class="team-slot tbd"><div class="seed-badge">?</div><div class="team-name">Awaiting Semifinal</div></div>`;
-      div.appendChild(ph);
-    }
-    return div;
-  }
-
-  const center = document.createElement('div');
-  center.className = 'finals-center';
-  center.innerHTML = `<div class="finals-vs-label">VS</div>`;
-
-  const champCard = document.createElement('div');
-  champCard.className = 'champion-card' + (champion ? ' crowned' : '');
-  const champTeam = champion ? SEEDS.find(t => t.seed === champion) : null;
-  const champName = champTeam
-    ? (STATE.bracket[4][0].find ? STATE.bracket[4][0].find(t => t && t.seed === champion) : null)
-    : null;
-
-  champCard.innerHTML = `
-    <span class="champion-trophy">🏆</span>
-    <div class="champion-label">CHAMPION</div>
-    <div class="champion-name ${champion ? '' : 'pending'}">${champion
-      ? ((champName && champName.name) || champTeam && champTeam.name || 'Selected!')
-      : 'Pick your Champion'}</div>
-  `;
-  center.appendChild(champCard);
-
-  cont.appendChild(finalistCard(leftFinalist, 'Left'));
-  cont.appendChild(center);
-  cont.appendChild(finalistCard(rightFinalist, 'Right'));
-  area.appendChild(cont);
-}
-
-function pickChampion(seed, name) {
-  STATE.predictions[4][0] = seed;
-  if (!STATE.bracket[4]) STATE.bracket[4] = [[null, null]];
-  // champion is always slot in finals match 0
-  renderFinals(document.getElementById('bracket-area'));
-  updateProgress();
-  updateNextBtn();
-  autoSaveLocal();
-}
-
-// ── ROUND NAVIGATION ─────────────────────────────────────
-function advanceRound() {
-  const r = STATE.currentRound;
-  const needed = STATE.predictions[r].filter(Boolean).length;
-  const total = STATE.predictions[r].length;
-
-  if (needed < total) {
-    showToast(`Pick all ${total} winners before advancing!`, 'error');
-    return;
-  }
-
-  if (r < 4) {
-    STATE.currentRound = r + 1;
-    renderRound(STATE.currentRound);
-    updateTabs();
-    updateNextBtn();
-    autoSaveLocal();
-    showToast(`${['Round of 16','Quarterfinals','Semifinals','Finals','Done'][r]} unlocked!`, 'success');
-  }
-}
-
-function showRound(r) {
-  // Only allow viewing completed or current round
-  const maxUnlocked = STATE.currentRound;
-  if (r > maxUnlocked) { showToast('Complete the current round first!', 'error'); return; }
-  STATE.currentRound = r;
-  renderRound(r);
-  updateTabs();
-  updateNextBtn();
-}
-
-function updateTabs() {
-  document.querySelectorAll('.round-tab').forEach((tab, i) => {
-    tab.classList.remove('active','completed','locked');
-    if (i < STATE.currentRound) tab.classList.add('completed');
-    else if (i === STATE.currentRound) tab.classList.add('active');
-    else tab.classList.add('locked');
-  });
-}
-
-function updateNextBtn() {
-  const r = STATE.currentRound;
-  const btn = document.getElementById('btn-next');
-  if (r === 4) { btn.textContent = '🏆 Complete!'; btn.disabled = !STATE.predictions[4][0]; return; }
-  const needed = STATE.predictions[r].filter(Boolean).length;
-  const total = STATE.predictions[r].length;
-  btn.disabled = (needed < total);
-  const labels = ['Go to Round of 16 →','Go to Quarterfinals →','Go to Semifinals →','Go to Finals →'];
-  btn.textContent = labels[r] || 'Next →';
-}
-
-function updateProgress() {
-  let done = 0, total = 31;
-  [0,1,2,3,4].forEach(r => { done += STATE.predictions[r].filter(Boolean).length; });
-  document.getElementById('progress-label').textContent = `${done} / ${total} predictions`;
-  document.getElementById('progress-fill').style.width = Math.round(done/total*100) + '%';
-}
-
-// ── LOCAL STORAGE ────────────────────────────────────────
-function autoSaveLocal() {
-  if (!STATE.student) return;
-  const data = {
-    name: STATE.student.name,
-    predictions: STATE.predictions,
-    currentRound: STATE.currentRound,
-    savedAt: new Date().toISOString()
-  };
-  localStorage.setItem('tp_' + STATE.student.code, JSON.stringify(data));
-}
-
-function loadLocal(code) {
-  try {
-    const raw = localStorage.getItem('tp_' + code);
-    return raw ? JSON.parse(raw) : null;
-  } catch { return null; }
-}
-
-function rebuildBracketState() {
-  // Rebuild bracket from predictions
-  STATE.bracket[0] = buildRound0();
-  for (let r = 0; r < 4; r++) {
-    STATE.predictions[r].forEach((seed, mIdx) => {
-      if (seed) {
-        const match = STATE.bracket[r][mIdx];
-        const team = match && match.find(t => t && t.seed === seed);
-        if (team) propagateWinner(r, mIdx, team.seed, team.name);
-      }
-    });
-  }
-}
-
-// ── GOOGLE SHEETS SAVE ───────────────────────────────────
-async function savePredictions(silent = false) {
-  autoSaveLocal();
-
-  const status = document.getElementById('save-status');
-
-  if (!CONFIG.sheetsUrl) {
-    if (!silent) {
-      status.textContent = '⚠ No Sheets URL configured. Data saved locally.';
-      status.className = 'save-status error';
-      showToast('Configure Google Sheets URL in ⚙ Config to save to cloud.', 'info');
-    }
-    return;
-  }
-
-  if (!silent) {
-    status.textContent = 'Saving…';
-    status.className = 'save-status';
-  }
-
-  const s = STATE.student;
-  const payload = {
-    studentCode: s.code,
-    studentName: s.name,
-    class: s.class,
-    section: s.section,
-    roll: s.roll,
-    submittedAt: new Date().toISOString(),
-    predictions: buildPayload()
-  };
-
-  try {
-    const resp = await fetch(CONFIG.sheetsUrl, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
-    if (!silent) {
-      status.textContent = '✓ Predictions saved to Google Sheets!';
-      status.className = 'save-status success';
-      showToast('Predictions saved! ✓', 'success');
-      setTimeout(() => { status.textContent = ''; }, 4000);
-    }
-  } catch (e) {
-    if (!silent) {
-      status.textContent = '✗ Save failed. Check your Sheets URL.';
-      status.className = 'save-status error';
-      showToast('Could not reach Google Sheets. Saved locally.', 'error');
-    }
-  }
-}
-
-function buildPayload() {
-  const out = {};
-  const round0 = STATE.bracket[0];
-
-  // R32
-  STATE.predictions[0].forEach((seed, i) => {
-    const match = round0[i];
-    const winner = match && match.find(t => t && t.seed === seed);
-    out[`R32_Match${i+1}`] = winner ? winner.name : '';
-  });
-
-  // R16
-  STATE.predictions[1].forEach((seed, i) => {
-    const match = STATE.bracket[1][i];
-    const winner = match && match.find(t => t && t.seed === seed);
-    out[`R16_Match${i+1}`] = winner ? winner.name : '';
-  });
-
-  // QF
-  STATE.predictions[2].forEach((seed, i) => {
-    const match = STATE.bracket[2][i];
-    const winner = match && match.find(t => t && t.seed === seed);
-    out[`QF_Match${i+1}`] = winner ? winner.name : '';
-  });
-
-  // SF
-  STATE.predictions[3].forEach((seed, i) => {
-    const match = STATE.bracket[3][i];
-    const winner = match && match.find(t => t && t.seed === seed);
-    out[`SF_Match${i+1}`] = winner ? winner.name : '';
-  });
-
-  // Final
-  const champSeed = STATE.predictions[4][0];
-  const champTeam = champSeed ? SEEDS.find(t => t.seed === champSeed) : null;
-  out['Final_Winner'] = champTeam ? champTeam.name : '';
-
-  return out;
-}
-
-// ── CONFIG ───────────────────────────────────────────────
-function openConfig() {
-  document.getElementById('config-sheets-url').value = CONFIG.sheetsUrl;
-  document.getElementById('config-tourney-name').value = CONFIG.tourneyName;
-  document.getElementById('config-modal').classList.remove('hidden');
-}
-
-function closeConfig() {
-  document.getElementById('config-modal').classList.add('hidden');
-}
-
-function saveConfig() {
-  CONFIG.sheetsUrl = document.getElementById('config-sheets-url').value.trim();
-  CONFIG.tourneyName = document.getElementById('config-tourney-name').value.trim();
-  localStorage.setItem('tp_sheets_url', CONFIG.sheetsUrl);
-  localStorage.setItem('tp_tourney_name', CONFIG.tourneyName);
-  closeConfig();
-  showToast('Config saved!', 'success');
-}
-
-// ── HELPERS ──────────────────────────────────────────────
-function showErr(el, msg) {
-  el.textContent = msg;
-  el.style.display = 'block';
-}
-
-let toastTimer;
-function showToast(msg, type = 'info') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast ' + type + ' show';
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { t.classList.remove('show'); }, 3200);
-}
-
-// ── KEYBOARD ─────────────────────────────────────────────
-document.getElementById('student-code-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter') verifyCode();
-});
-document.getElementById('student-name-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter') submitLogin();
-});
-
-// Close modal on overlay click
-document.getElementById('config-modal').addEventListener('click', e => {
-  if (e.target === e.currentTarget) closeConfig();
-});
-
-</script>
-
-<!--
-  ╔══════════════════════════════════════════════════════════╗
-  ║        GOOGLE APPS SCRIPT (paste in your Apps Script)  ║
-  ╠══════════════════════════════════════════════════════════╣
-  ║                                                          ║
-  ║  function doPost(e) {                                    ║
-  ║    var data = JSON.parse(e.postData.contents);           ║
-  ║    var ss = SpreadsheetApp.getActiveSpreadsheet();       ║
-  ║                                                          ║
-  ║    // Sheet 1: Student DB (read-only – pre-populate)     ║
-  ║                                                          ║
-  ║    // Sheet 2: Predictions                               ║
-  ║    var sheet = ss.getSheetByName('Predictions')          ║
-  ║             || ss.insertSheet('Predictions');            ║
-  ║                                                          ║
-  ║    // Add header row if empty                            ║
-  ║    if (sheet.getLastRow() === 0) {                       ║
-  ║      sheet.appendRow([                                   ║
-  ║        'Code','Name','Class','Section','Roll',           ║
-  ║        'SubmittedAt',                                    ║
-  ║        'R32_M1','R32_M2','R32_M3','R32_M4',             ║
-  ║        'R32_M5','R32_M6','R32_M7','R32_M8',             ║
-  ║        'R32_M9','R32_M10','R32_M11','R32_M12',          ║
-  ║        'R32_M13','R32_M14','R32_M15','R32_M16',         ║
-  ║        'R16_M1','R16_M2','R16_M3','R16_M4',             ║
-  ║        'R16_M5','R16_M6','R16_M7','R16_M8',             ║
-  ║        'QF_M1','QF_M2','QF_M3','QF_M4',                 ║
-  ║        'SF_M1','SF_M2','Final','Champion'               ║
-  ║      ]);                                                 ║
-  ║    }                                                     ║
-  ║                                                          ║
-  ║    var p = data.predictions;                             ║
-  ║    var row = [                                           ║
-  ║      data.studentCode, data.studentName,                ║
-  ║      data.class, data.section, data.roll,               ║
-  ║      data.submittedAt,                                   ║
-  ║      p.R32_Match1,p.R32_Match2,p.R32_Match3,            ║
-  ║      p.R32_Match4,p.R32_Match5,p.R32_Match6,            ║
-  ║      p.R32_Match7,p.R32_Match8,p.R32_Match9,            ║
-  ║      p.R32_Match10,p.R32_Match11,p.R32_Match12,         ║
-  ║      p.R32_Match13,p.R32_Match14,p.R32_Match15,         ║
-  ║      p.R32_Match16,                                      ║
-  ║      p.R16_Match1,p.R16_Match2,p.R16_Match3,            ║
-  ║      p.R16_Match4,p.R16_Match5,p.R16_Match6,            ║
-  ║      p.R16_Match7,p.R16_Match8,                         ║
-  ║      p.QF_Match1,p.QF_Match2,p.QF_Match3,p.QF_Match4,  ║
-  ║      p.SF_Match1,p.SF_Match2,                           ║
-  ║      p.Final_Winner, p.Final_Winner                     ║
-  ║    ];                                                    ║
-  ║                                                          ║
-  ║    // Check for existing submission, update if exists    ║
-  ║    var data2D = sheet.getDataRange().getValues();        ║
-  ║    var found = false;                                    ║
-  ║    for (var i=1; i<data2D.length; i++) {                 ║
-  ║      if (data2D[i][0] === data.studentCode) {           ║
-  ║        sheet.getRange(i+1,1,1,row.length).setValues([row]);║
-  ║        found = true; break;                              ║
-  ║      }                                                   ║
-  ║    }                                                     ║
-  ║    if (!found) sheet.appendRow(row);                     ║
-  ║                                                          ║
-  ║    return ContentService                                 ║
-  ║      .createTextOutput(JSON.stringify({ok:true}))        ║
-  ║      .setMimeType(ContentService.MimeType.JSON);         ║
-  ║  }                                                       ║
-  ║                                                          ║
-  ╚══════════════════════════════════════════════════════════╝
--->
+    <script>
+        // ================================================================
+        //  CONFIGURATION
+        // ================================================================
+
+        // ★ Set your Google Apps Script Web App URL here ★
+        const API_BASE = ''; // e.g. 'https://script.google.com/macros/s/XXXX/exec'
+
+        // Demo mode — when API_BASE is empty, use local in-memory storage
+        const DEMO_MODE = !API_BASE;
+
+        // ================================================================
+        //  SEEDED TEAMS (placeholder — easy to replace)
+        // ================================================================
+
+        const TEAM_DATA = [
+            // ── Left Bracket: seeds 1–16 ──
+            { id: 'L01', name: 'Eagles', seed: 1, region: 'left' },
+            { id: 'L02', name: 'Titans', seed: 16, region: 'left' },
+            { id: 'L03', name: 'Vikings', seed: 8, region: 'left' },
+            { id: 'L04', name: 'Falcons', seed: 9, region: 'left' },
+            { id: 'L05', name: 'Mustangs', seed: 5, region: 'left' },
+            { id: 'L06', name: 'Huskies', seed: 12, region: 'left' },
+            { id: 'L07', name: 'Panthers', seed: 4, region: 'left' },
+            { id: 'L08', name: 'Cobras', seed: 13, region: 'left' },
+            { id: 'L09', name: 'Hawks', seed: 6, region: 'left' },
+            { id: 'L10', name: 'Wolves', seed: 11, region: 'left' },
+            { id: 'L11', name: 'Lions', seed: 3, region: 'left' },
+            { id: 'L12', name: 'Bears', seed: 14, region: 'left' },
+            { id: 'L13', name: 'Sharks', seed: 7, region: 'left' },
+            { id: 'L14', name: 'Storm', seed: 10, region: 'left' },
+            { id: 'L15', name: 'Dragons', seed: 2, region: 'left' },
+            { id: 'L16', name: 'Phoenix', seed: 15, region: 'left' },
+            // ── Right Bracket: seeds 17–32 ──
+            { id: 'R01', name: 'Thunder', seed: 1, region: 'right' },
+            { id: 'R02', name: 'Blaze', seed: 16, region: 'right' },
+            { id: 'R03', name: 'Storm', seed: 8, region: 'right' },
+            { id: 'R04', name: 'Knights', seed: 9, region: 'right' },
+            { id: 'R05', name: 'Ravens', seed: 5, region: 'right' },
+            { id: 'R06', name: 'Hornets', seed: 12, region: 'right' },
+            { id: 'R07', name: 'Bulldogs', seed: 4, region: 'right' },
+            { id: 'R08', name: 'Stallions', seed: 13, region: 'right' },
+            { id: 'R09', name: 'Pumas', seed: 6, region: 'right' },
+            { id: 'R10', name: 'Gladiators', seed: 11, region: 'right' },
+            { id: 'R11', name: 'Warriors', seed: 3, region: 'right' },
+            { id: 'R12', name: 'Spartans', seed: 14, region: 'right' },
+            { id: 'R13', name: 'Jets', seed: 7, region: 'right' },
+            { id: 'R14', name: 'Rockets', seed: 10, region: 'right' },
+            { id: 'R15', name: 'Chargers', seed: 2, region: 'right' },
+            { id: 'R16', name: 'Comets', seed: 15, region: 'right' },
+        ];
+
+        const TEAM_MAP = Object.fromEntries(TEAM_DATA.map(t => [t.id, t]));
+
+        // ─── Match pairing per region (1-indexed positions) ───
+        const SEED_PAIRS = [
+            [1, 16],
+            [8, 9],
+            [5, 12],
+            [4, 13],
+            [6, 11],
+            [3, 14],
+            [7, 10],
+            [2, 15]
+        ];
+
+        // ================================================================
+        //  STATE
+        // ================================================================
+
+        let state = {
+            student: null, // { code, name, class, section, roll }
+            predictions: {
+                round32: {}, // { matchId: winnerTeamId }
+                round16: {},
+                quarter: {},
+                semi: {},
+                final: {},
+                champion: null,
+            },
+            // Derived winners per round (computed)
+            winners: {
+                round32: [], // ordered array of winner ids
+                round16: [],
+                quarter: [],
+                semi: [],
+                final: null,
+                champion: null,
+            },
+            currentRoundIdx: 0, // 0=round32, 1=round16, 2=quarter, 3=semi, 4=final
+            locked: false,
+            dirty: false,
+        };
+
+        // ================================================================
+        //  HELPER: BUILD MATCHES FROM SEEDS
+        // ================================================================
+
+        function buildRound32() {
+            const leftTeams = TEAM_DATA.filter(t => t.region === 'left').sort((a, b) => a.seed - b.seed);
+            const rightTeams = TEAM_DATA.filter(t => t.region === 'right').sort((a, b) => a.seed - b.seed);
+
+            const leftMatches = SEED_PAIRS.map(([s1, s2], i) => {
+                const t1 = leftTeams.find(t => t.seed === s1);
+                const t2 = leftTeams.find(t => t.seed === s2);
+                return {
+                    id: `L32_${i+1}`,
+                    region: 'left',
+                    team1Id: t1.id,
+                    team2Id: t2.id,
+                    winnerId: null,
+                };
+            });
+
+            const rightMatches = SEED_PAIRS.map(([s1, s2], i) => {
+                const t1 = rightTeams.find(t => t.seed === s1);
+                const t2 = rightTeams.find(t => t.seed === s2);
+                return {
+                    id: `R32_${i+1}`,
+                    region: 'right',
+                    team1Id: t1.id,
+                    team2Id: t2.id,
+                    winnerId: null,
+                };
+            });
+
+            return [...leftMatches, ...rightMatches];
+        }
+
+        function buildEmptyRound(count) {
+            return Array.from({ length: count }, (_, i) => ({
+                id: `match_${i+1}`,
+                team1Id: null,
+                team2Id: null,
+                winnerId: null,
+            }));
+        }
+
+        // ================================================================
+        //  COMPUTE WINNERS FROM PREDICTIONS
+        // ================================================================
+
+        function computeWinners(state) {
+            const w = { round32: [], round16: [], quarter: [], semi: [], final: null, champion: null };
+
+            // Round 32
+            const r32 = buildRound32();
+            r32.forEach(m => {
+                const pred = state.predictions.round32[m.id];
+                if (pred) m.winnerId = pred;
+                w.round32.push(m.winnerId || null);
+            });
+
+            // Round 16: pair up round32 winners
+            const r16matches = [];
+            for (let i = 0; i < 8; i++) {
+                const t1 = w.round32[i * 2];
+                const t2 = w.round32[i * 2 + 1];
+                const mid = `R16_${i+1}`;
+                const pred = state.predictions.round16[mid];
+                r16matches.push({
+                    id: mid,
+                    team1Id: t1,
+                    team2Id: t2,
+                    winnerId: pred || null,
+                });
+                w.round16.push(r16matches[i].winnerId || null);
+            }
+
+            // Quarterfinals: pair up round16 winners
+            const qmatches = [];
+            for (let i = 0; i < 4; i++) {
+                const t1 = w.round16[i * 2];
+                const t2 = w.round16[i * 2 + 1];
+                const mid = `Q_${i+1}`;
+                const pred = state.predictions.quarter[mid];
+                qmatches.push({
+                    id: mid,
+                    team1Id: t1,
+                    team2Id: t2,
+                    winnerId: pred || null,
+                });
+                w.quarter.push(qmatches[i].winnerId || null);
+            }
+
+            // Semifinals: pair up quarter winners
+            const smatches = [];
+            for (let i = 0; i < 2; i++) {
+                const t1 = w.quarter[i * 2];
+                const t2 = w.quarter[i * 2 + 1];
+                const mid = `S_${i+1}`;
+                const pred = state.predictions.semi[mid];
+                smatches.push({
+                    id: mid,
+                    team1Id: t1,
+                    team2Id: t2,
+                    winnerId: pred || null,
+                });
+                w.semi.push(smatches[i].winnerId || null);
+            }
+
+            // Final
+            const finalMatch = {
+                id: 'FINAL',
+                team1Id: w.semi[0] || null,
+                team2Id: w.semi[1] || null,
+                winnerId: state.predictions.final?.winner || null,
+            };
+            w.final = finalMatch.winnerId || null;
+
+            // Champion
+            w.champion = state.predictions.champion || null;
+
+            return { r32matches: r32, r16matches, qmatches, smatches, finalMatch, winners: w };
+        }
+
+        // ================================================================
+        //  RENDER BRACKET
+        // ================================================================
+
+        function renderBracket() {
+            const container = document.getElementById('bracketContainer');
+            const data = computeWinners(state);
+            const w = data.winners;
+
+            // Determine which rounds are interactive
+            const roundActive = {
+                round32: state.currentRoundIdx === 0,
+                round16: state.currentRoundIdx === 1,
+                quarter: state.currentRoundIdx === 2,
+                semi: state.currentRoundIdx === 3,
+                final: state.currentRoundIdx === 4,
+            };
+
+            // Build HTML
+            let html = '';
+
+            // ─── LEFT SIDE ───
+            html += `<div class="bracket-side"><div class="side-label">⬅ Left Bracket</div>`;
+
+            // Round of 32 (left half)
+            const leftR32 = data.r32matches.filter(m => m.region === 'left');
+            html += renderRound('Round of 32', leftR32, 'round32', roundActive.round32, w.round32.slice(0, 8));
+
+            // Round of 16 (left half)
+            const leftR16 = data.r16matches.slice(0, 4);
+            html += renderRound('Round of 16', leftR16, 'round16', roundActive.round16, w.round16.slice(0, 4));
+
+            // Quarterfinals (left half)
+            const leftQ = data.qmatches.slice(0, 2);
+            html += renderRound('Quarterfinals', leftQ, 'quarter', roundActive.quarter, w.quarter.slice(0, 2));
+
+            // Semifinal (left)
+            const leftS = data.smatches.slice(0, 1);
+            html += renderRound('Semifinal', leftS, 'semi', roundActive.semi, w.semi.slice(0, 1));
+
+            html += `</div>`;
+
+            // ─── FINALS CENTER ───
+            html += `<div class="finals-center">`;
+            html += `<div class="finals-label">🏁 FINALS</div>`;
+            html += `<div class="final-match">`;
+            const fTeam1 = data.finalMatch.team1Id ? TEAM_MAP[data.finalMatch.team1Id] : null;
+            const fTeam2 = data.finalMatch.team2Id ? TEAM_MAP[data.finalMatch.team2Id] : null;
+            const fWinner = data.finalMatch.winnerId ? TEAM_MAP[data.finalMatch.winnerId] : null;
+
+            html += renderTeamOption(fTeam1, data.finalMatch.winnerId === data.finalMatch.team1Id, roundActive.final,
+                !fTeam1, 'final', 'team1');
+            html += `<div class="match-vs">VS</div>`;
+            html += renderTeamOption(fTeam2, data.finalMatch.winnerId === data.finalMatch.team2Id, roundActive.final,
+                !fTeam2, 'final', 'team2');
+
+            html += `</div>`;
+
+            // Champion
+            const champ = w.champion ? TEAM_MAP[w.champion] : null;
+            const champName = champ ? `${champ.name} 🏆` : '?';
+            const champClass = champ ? '' : 'empty';
+            html += `<div class="champion-box ${champClass}">🏆 Champion<br><strong>${champName}</strong></div>`;
+
+            html += `</div>`;
+
+            // ─── RIGHT SIDE ───
+            html += `<div class="bracket-side"><div class="side-label">Right Bracket ➡</div>`;
+
+            // Round of 32 (right half)
+            const rightR32 = data.r32matches.filter(m => m.region === 'right');
+            html += renderRound('Round of 32', rightR32, 'round32', roundActive.round32, w.round32.slice(8, 16));
+
+            // Round of 16 (right half)
+            const rightR16 = data.r16matches.slice(4, 8);
+            html += renderRound('Round of 16', rightR16, 'round16', roundActive.round16, w.round16.slice(4, 8));
+
+            // Quarterfinals (right half)
+            const rightQ = data.qmatches.slice(2, 4);
+            html += renderRound('Quarterfinals', rightQ, 'quarter', roundActive.quarter, w.quarter.slice(2, 4));
+
+            // Semifinal (right)
+            const rightS = data.smatches.slice(1, 2);
+            html += renderRound('Semifinal', rightS, 'semi', roundActive.semi, w.semi.slice(1, 2));
+
+            html += `</div>`;
+
+            container.innerHTML = html;
+
+            // ─── Attach event listeners ───
+            attachTeamListeners();
+        }
+
+        // ─── Render a round group ───
+        function renderRound(label, matches, roundKey, active, winners) {
+            if (!matches.length) return '';
+            let html = `<div class="round-group"><div class="round-label">${label}</div>`;
+            matches.forEach((m, idx) => {
+                const t1 = m.team1Id ? TEAM_MAP[m.team1Id] : null;
+                const t2 = m.team2Id ? TEAM_MAP[m.team2Id] : null;
+                const wId = m.winnerId || null;
+                const disabled = !active || !t1 || !t2;
+
+                html += `<div class="match-card ${disabled ? 'disabled' : ''}" data-round="${roundKey}" data-match="${m.id}">`;
+
+                html += renderTeamOption(t1, wId === m.team1Id, active, !t1, roundKey, `${m.id}_t1`);
+                html += `<div class="match-vs">VS</div>`;
+                html += renderTeamOption(t2, wId === m.team2Id, active, !t2, roundKey, `${m.id}_t2`);
+
+                html += `</div>`;
+            });
+            html += `</div>`;
+            return html;
+        }
+
+        // ─── Render a team option ───
+        function renderTeamOption(team, isWinner, active, isEmpty, roundKey, matchKey) {
+            if (isEmpty || !team) {
+                return `<div class="team-option disabled" style="opacity:0.3;cursor:default;">
+                            <span class="seed">—</span>
+                            <span class="team-name">TBD</span>
+                            <span class="check">❌</span>
+                        </div>`;
+            }
+            const selectedClass = isWinner ? 'winner' : '';
+            const clickable = active ? 'cursor:pointer;' : 'cursor:default;';
+            return `<div class="team-option ${selectedClass}" 
+                        data-round="${roundKey}" 
+                        data-team="${team.id}" 
+                        data-matchkey="${matchKey}"
+                        style="${clickable}">
+                        <span class="seed">#${team.seed}</span>
+                        <span class="team-name">${team.name}</span>
+                        <span class="check">${isWinner ? '✅' : '○'}</span>
+                    </div>`;
+        }
+
+        // ─── Attach click listeners to team options ───
+        function attachTeamListeners() {
+            document.querySelectorAll('.team-option:not(.disabled)').forEach(el => {
+                el.addEventListener('click', function(e) {
+                    const round = this.dataset.round;
+                    const teamId = this.dataset.team;
+                    const matchKey = this.dataset.matchkey;
+                    if (!round || !teamId || state.locked) return;
+
+                    // Find which match this belongs to
+                    const matchCard = this.closest('.match-card');
+                    if (!matchCard) return;
+                    const matchId = matchCard.dataset.match;
+                    const roundKey = matchCard.dataset.round;
+
+                    // Determine which slot (team1 or team2)
+                    const allOptions = matchCard.querySelectorAll('.team-option:not(.disabled)');
+                    let team1El = allOptions[0];
+                    let team2El = allOptions[1];
+                    if (!team1El || !team2El) return;
+                    const team1Id = team1El.dataset.team;
+                    const team2Id = team2El.dataset.team;
+
+                    // Make selection
+                    selectWinner(roundKey, matchId, teamId, team1Id, team2Id);
+                });
+            });
+        }
+
+        // ================================================================
+        //  SELECT WINNER LOGIC
+        // ================================================================
+
+        function selectWinner(roundKey, matchId, winnerId, team1Id, team2Id) {
+            if (state.locked) return;
+
+            // Validate
+            if (winnerId !== team1Id && winnerId !== team2Id) return;
+            if (!team1Id || !team2Id) return;
+
+            // Update predictions
+            if (roundKey === 'round32') {
+                state.predictions.round32[matchId] = winnerId;
+            } else if (roundKey === 'round16') {
+                state.predictions.round16[matchId] = winnerId;
+            } else if (roundKey === 'quarter') {
+                state.predictions.quarter[matchId] = winnerId;
+            } else if (roundKey === 'semi') {
+                state.predictions.semi[matchId] = winnerId;
+            } else if (roundKey === 'final') {
+                // For final, we store both the final winner and champion
+                state.predictions.final = { winner: winnerId };
+                state.predictions.champion = winnerId;
+                // Auto-advance is done
+            }
+
+            state.dirty = true;
+
+            // If we selected a winner and the round is complete, auto-advance
+            const data = computeWinners(state);
+            const winners = data.winners;
+
+            // Check if current round is fully selected
+            let roundComplete = false;
+            let nextRound = state.currentRoundIdx;
+
+            if (roundKey === 'round32') {
+                const allR32 = data.r32matches;
+                const allSelected = allR32.every(m => m.winnerId !== null);
+                if (allSelected && state.currentRoundIdx === 0) {
+                    roundComplete = true;
+                    nextRound = 1;
+                }
+            } else if (roundKey === 'round16') {
+                const allR16 = data.r16matches;
+                const allSelected = allR16.every(m => m.winnerId !== null);
+                if (allSelected && state.currentRoundIdx === 1) {
+                    roundComplete = true;
+                    nextRound = 2;
+                }
+            } else if (roundKey === 'quarter') {
+                const allQ = data.qmatches;
+                const allSelected = allQ.every(m => m.winnerId !== null);
+                if (allSelected && state.currentRoundIdx === 2) {
+                    roundComplete = true;
+                    nextRound = 3;
+                }
+            } else if (roundKey === 'semi') {
+                const allS = data.smatches;
+                const allSelected = allS.every(m => m.winnerId !== null);
+                if (allSelected && state.currentRoundIdx === 3) {
+                    roundComplete = true;
+                    nextRound = 4;
+                }
+            } else if (roundKey === 'final') {
+                if (winnerId && state.currentRoundIdx === 4) {
+                    roundComplete = true;
+                    nextRound = 5; // done
+                }
+            }
+
+            if (roundComplete && nextRound > state.currentRoundIdx) {
+                state.currentRoundIdx = nextRound;
+                // Show toast
+                const roundNames = ['Round of 32', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Finals', '🏆 Complete!'];
+                showToast(`✅ ${roundNames[state.currentRoundIdx-1]} complete!`, 'success');
+            }
+
+            // Re-render
+            renderBracket();
+            savePredictions();
+        }
+
+        // ================================================================
+        //  STUDENT DATABASE (demo)
+        // ================================================================
+
+        function generateStudentDB() {
+            const db = {};
+            const classes = [5, 6, 7, 8, 9, 10];
+            const sections = ['A', 'B', 'C', 'D', 'E'];
+            for (const cls of classes) {
+                for (const sec of sections) {
+                    for (let roll = 1; roll <= 30; roll++) {
+                        const code = `${cls}${sec}${String(roll).padStart(2, '0')}`;
+                        db[code] = {
+                            code,
+                            class: cls,
+                            section: sec,
+                            roll: String(roll).padStart(2, '0'),
+                        };
+                    }
+                }
+            }
+            return db;
+        }
+
+        const STUDENT_DB = generateStudentDB();
+
+        // ================================================================
+        //  API COMMUNICATION (Google Sheets via Apps Script)
+        // ================================================================
+
+        async function apiCall(action, payload) {
+            if (DEMO_MODE) {
+                // Simulate with localStorage
+                return demoApiCall(action, payload);
+            }
+
+            try {
+                const url = API_BASE + '?action=' + action;
+                const options = {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                };
+                const res = await fetch(url, options);
+                const text = await res.text();
+                try { return JSON.parse(text); } catch { return { ok: true, raw: text }; }
+            } catch (err) {
+                console.warn('API call failed, falling back to demo mode', err);
+                return demoApiCall(action, payload);
+            }
+        }
+
+        // ─── Demo mode: localStorage ───
+        function demoApiCall(action, payload) {
+            const storageKey = 'bracket_predictor_data';
+            let data = {};
+            try {
+                data = JSON.parse(localStorage.getItem(storageKey)) || {};
+            } catch { data = {}; }
+
+            if (action === 'verify') {
+                const code = payload.code;
+                const student = STUDENT_DB[code];
+                if (student) {
+                    return { ok: true, student };
+                } else {
+                    return { ok: false, error: 'Student code not found. Please check and try again.' };
+                }
+            }
+
+            if (action === 'getPredictions') {
+                const code = payload.code;
+                const record = data[code];
+                if (record) {
+                    return { ok: true, predictions: record.predictions, name: record.name };
+                } else {
+                    return { ok: true, predictions: null, name: null };
+                }
+            }
+
+            if (action === 'save') {
+                const { code, name, predictions } = payload;
+                const student = STUDENT_DB[code];
+                if (!student) return { ok: false, error: 'Invalid student code' };
+                data[code] = {
+                    name: name || data[code]?.name || 'Unknown',
+                    predictions,
+                    savedAt: new Date().toISOString(),
+                    student,
+                };
+                localStorage.setItem(storageKey, JSON.stringify(data));
+                return { ok: true };
+            }
+
+            return { ok: false, error: 'Unknown action' };
+        }
+
+        // ================================================================
+        //  SAVE / LOAD PREDICTIONS
+        // ================================================================
+
+        async function savePredictions() {
+            if (!state.student) return;
+            const statusEl = document.getElementById('saveStatus');
+            statusEl.textContent = '⏳ Saving...';
+            statusEl.className = 'save-status saving';
+
+            try {
+                const res = await apiCall('save', {
+                    code: state.student.code,
+                    name: state.student.name,
+                    predictions: state.predictions,
+                });
+                if (res.ok) {
+                    statusEl.textContent = '💾 Saved';
+                    statusEl.className = 'save-status saved';
+                    state.dirty = false;
+                } else {
+                    statusEl.textContent = '⚠️ Save failed';
+                    statusEl.className = 'save-status error';
+                }
+            } catch (err) {
+                statusEl.textContent = '⚠️ Error saving';
+                statusEl.className = 'save-status error';
+            }
+        }
+
+        async function loadPredictions(code) {
+            try {
+                const res = await apiCall('getPredictions', { code });
+                if (res.ok && res.predictions) {
+                    state.predictions = res.predictions;
+                    if (res.name) {
+                        state.student.name = res.name;
+                    }
+                    // Determine current round from predictions
+                    const data = computeWinners(state);
+                    const w = data.winners;
+                    if (w.champion) state.currentRoundIdx = 5;
+                    else if (w.final) state.currentRoundIdx = 4;
+                    else if (w.semi.every(s => s !== null)) state.currentRoundIdx = 4;
+                    else if (w.semi.some(s => s !== null)) state.currentRoundIdx = 3;
+                    else if (w.quarter.every(q => q !== null)) state.currentRoundIdx = 3;
+                    else if (w.quarter.some(q => q !== null)) state.currentRoundIdx = 2;
+                    else if (w.round16.every(r => r !== null)) state.currentRoundIdx = 2;
+                    else if (w.round16.some(r => r !== null)) state.currentRoundIdx = 1;
+                    else if (w.round32.every(r => r !== null)) state.currentRoundIdx = 1;
+                    else state.currentRoundIdx = 0;
+
+                    return true;
+                }
+                return false;
+            } catch (err) {
+                console.warn('Load failed', err);
+                return false;
+            }
+        }
+
+        // ================================================================
+        //  AUTO-SAVE (debounced)
+        // ================================================================
+
+        let saveTimer = null;
+
+        function autoSave() {
+            if (saveTimer) clearTimeout(saveTimer);
+            saveTimer = setTimeout(() => {
+                if (state.dirty && state.student) {
+                    savePredictions();
+                }
+            }, 2000);
+        }
+
+        // Watch for changes
+        const origSelect = selectWinner;
+        selectWinner = function(...args) {
+            origSelect.apply(this, args);
+            autoSave();
+        };
+
+        // ================================================================
+        //  TOAST
+        // ================================================================
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icon = type === 'success' ? '✅' : type === 'error' ? '⚠️' : 'ℹ️';
+            toast.innerHTML = `${icon} ${message}`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(40px)';
+                toast.style.transition = '0.3s ease';
+                setTimeout(() => toast.remove(), 350);
+            }, 3000);
+        }
+
+        // ================================================================
+        //  LOGIN / NAME / LOGOUT FLOW
+        // ================================================================
+
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        // ─── LOGIN ───
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const codeInput = document.getElementById('studentCode');
+            const code = codeInput.value.trim().toUpperCase();
+            const errorEl = document.getElementById('loginError');
+            const btn = document.getElementById('loginBtn');
+
+            if (!code) {
+                errorEl.textContent = 'Please enter your student code.';
+                return;
+            }
+
+            // Basic format validation
+            const match = code.match(/^(\d{1,2})([A-E])(\d{2})$/);
+            if (!match) {
+                errorEl.textContent = 'Format: Class + Section + Roll (e.g. 7C25)';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Verifying...';
+            errorEl.textContent = '';
+
+            try {
+                const res = await apiCall('verify', { code });
+                if (res.ok && res.student) {
+                    state.student = res.student;
+                    state.student.code = code;
+                    btn.innerHTML = '<span>✅ Verified!</span>';
+                    setTimeout(() => {
+                        showScreen('nameScreen');
+                        document.getElementById('nameBadge').textContent = `✅ ${code}`;
+                        document.getElementById('nameSub').textContent =
+                            `Class ${res.student.class} · Section ${res.student.section} · Roll ${res.student.roll}`;
+                        document.getElementById('studentName').value = '';
+                        document.getElementById('studentName').focus();
+                        btn.disabled = false;
+                        btn.innerHTML = '<span>Sign In</span>';
+                    }, 400);
+                } else {
+                    errorEl.textContent = res.error || 'Code not found. Please try again.';
+                    btn.disabled = false;
+                    btn.innerHTML = '<span>Sign In</span>';
+                }
+            } catch (err) {
+                errorEl.textContent = 'Connection error. Please try again.';
+                btn.disabled = false;
+                btn.innerHTML = '<span>Sign In</span>';
+            }
+        });
+
+        // ─── NAME COLLECTION ───
+        document.getElementById('nameForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const name = document.getElementById('studentName').value.trim();
+            if (!name) return;
+
+            const btn = document.getElementById('nameBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Loading...';
+
+            state.student.name = name;
+
+            // Try to load existing predictions
+            const loaded = await loadPredictions(state.student.code);
+
+            // If no existing, create fresh
+            if (!loaded) {
+                state.predictions = {
+                    round32: {},
+                    round16: {},
+                    quarter: {},
+                    semi: {},
+                    final: {},
+                    champion: null,
+                };
+                state.currentRoundIdx = 0;
+            }
+
+            // If champion already picked, set round to final
+            if (state.predictions.champion) {
+                state.currentRoundIdx = 5;
+            }
+
+            // Update display
+            document.getElementById('displayName').textContent = `🎓 ${state.student.name}`;
+            document.getElementById('displayClass').textContent = `Class ${state.student.class}`;
+            document.getElementById('displaySection').textContent = `Sec ${state.student.section}`;
+            document.getElementById('displayRoll').textContent = `Roll #${state.student.roll}`;
+            document.getElementById('displayCode').textContent = state.student.code;
+
+            showScreen('bracketScreen');
+            renderBracket();
+
+            btn.disabled = false;
+            btn.innerHTML = '<span>Continue to Bracket →</span>';
+
+            // Auto-save initial
+            if (!loaded) {
+                await savePredictions();
+            }
+            showToast(`Welcome, ${state.student.name}! 🎉`, 'success');
+        });
+
+        // ─── BACK TO LOGIN ───
+        document.getElementById('backToLoginBtn').addEventListener('click', function() {
+            showScreen('loginScreen');
+            document.getElementById('studentCode').focus();
+        });
+
+        // ─── LOGOUT ───
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            if (state.dirty) {
+                savePredictions().then(() => doLogout());
+            } else {
+                doLogout();
+            }
+        });
+
+        function doLogout() {
+            state.student = null;
+            state.predictions = {
+                round32: {},
+                round16: {},
+                quarter: {},
+                semi: {},
+                final: {},
+                champion: null,
+            };
+            state.currentRoundIdx = 0;
+            state.dirty = false;
+            document.getElementById('studentCode').value = '';
+            document.getElementById('loginError').textContent = '';
+            showScreen('loginScreen');
+            document.getElementById('studentCode').focus();
+            showToast('👋 Logged out successfully.', 'info');
+        }
+
+        // ================================================================
+        //  INIT
+        // ================================================================
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Focus on login input
+            document.getElementById('studentCode').focus();
+
+            // Auto-demo hint
+            if (DEMO_MODE) {
+                console.log('🏆 Running in DEMO mode (localStorage).');
+            } else {
+                console.log('🏆 Connected to Google Sheets API:', API_BASE);
+            }
+
+            // Pre-fill demo code for convenience
+            const urlParams = new URLSearchParams(window.location.search);
+            const demoCode = urlParams.get('code');
+            if (demoCode) {
+                document.getElementById('studentCode').value = demoCode.toUpperCase();
+            }
+        });
+
+        // Keyboard shortcut: Enter on login
+        document.getElementById('studentCode').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('loginBtn').click();
+            }
+        });
+
+        // ================================================================
+        //  EXPOSE FOR DEBUG
+        // ================================================================
+
+        window.__state = state;
+        window.__render = renderBracket;
+        window.__save = savePredictions;
+        window.__teams = TEAM_DATA;
+
+        console.log('🏀 Tournament Bracket Predictor loaded.');
+        console.log('💡 Use window.__state to inspect state.');
+        console.log('📘 Demo codes: 5A01 – 10E30');
+    </script>
+</body>
+</html>
