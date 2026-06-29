@@ -1,10 +1,13 @@
 <!-- ============================================================
      TRIYOG PRESCHOOL — CMS PAGE
      Drop this whole block into the page body/HTML block of your CMS.
-     Replace image URLs marked REPLACE-IMAGE-1 ... REPLACE-IMAGE-14
-       1-5  : hero photo stack + curriculum/environment feature rows
-       6-9  : Class Day slideshow
-       10-14: Preschool Graduation Ceremony gallery
+     Replace image URLs marked REPLACE-IMAGE-1 ... REPLACE-IMAGE-11
+       1-3  : hero photo stack (general mix)
+       4    : curriculum row
+       5    : core development row
+       6    : classroom reading row
+       7-9  : Class Day program (dance / singing / activities) — overlapping trio
+       10-11: Graduation + Outdoor play (side by side)
      ============================================================ -->
 
 <style>
@@ -25,7 +28,12 @@
     background: var(--cream);
     overflow-x: hidden;
     position: relative;
-    line-height: 1.65;
+    line-height: 1.6;
+
+    /* ---- breakout: escape the CMS's fixed-width content container ---- */
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
   }
 
   .tp-wrap * { box-sizing: border-box; }
@@ -35,8 +43,6 @@
     margin: 0;
     line-height: 1.15;
   }
-
-  .tp-wrap a { text-decoration: none; }
 
   /* ---------- floating background blobs ---------- */
   .tp-blob {
@@ -62,7 +68,7 @@
      ============================================================ */
   .tp-hero {
     position: relative;
-    padding: 64px 6vw 90px;
+    padding: 56px 6vw 70px;
     background: radial-gradient(120% 120% at 15% 0%, #ffe3f0 0%, var(--cream) 55%);
     overflow: hidden;
   }
@@ -74,32 +80,8 @@
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1.1fr 0.9fr;
-    gap: 48px;
+    gap: 40px;
     align-items: center;
-  }
-
-  .tp-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--white);
-    border: 2px solid var(--pink-soft);
-    color: var(--pink-deep);
-    font-weight: 700;
-    font-size: 0.85rem;
-    letter-spacing: 0.06em;
-    padding: 7px 16px;
-    border-radius: 999px;
-    margin-bottom: 22px;
-  }
-  .tp-eyebrow .tp-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--pink-hot);
-    animation: tp-pulse 1.6s ease-in-out infinite;
-  }
-  @keyframes tp-pulse {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.4); opacity: 0.6; }
   }
 
   .tp-hero h1 {
@@ -125,31 +107,14 @@
   }
 
   .tp-hero p.tp-lede {
-    margin-top: 18px;
-    font-size: 1.08rem;
+    margin-top: 16px;
+    font-size: 1.05rem;
     max-width: 480px;
     color: #5b4b59;
   }
 
-  .tp-btn {
-    font-family: 'Baloo 2', sans-serif;
-    font-weight: 700;
-    font-size: 1rem;
-    padding: 14px 28px;
-    border-radius: 999px;
-    cursor: pointer;
-    border: none;
-    transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s ease;
-  }
-  .tp-btn-primary {
-    background: var(--pink-hot);
-    color: var(--white);
-    box-shadow: 0 10px 24px -8px rgba(241, 114, 172, 0.7);
-  }
-  .tp-btn-primary:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 14px 28px -8px rgba(241,114,172,.8); }
-
   .tp-theme-tag {
-    margin-top: 26px;
+    margin-top: 22px;
     display: inline-flex;
     align-items: center;
     gap: 10px;
@@ -158,26 +123,26 @@
     color: var(--pink-deep);
     font-family: 'Baloo 2', sans-serif;
     font-weight: 700;
-    font-size: 1rem;
-    padding: 10px 20px;
+    font-size: 0.95rem;
+    padding: 9px 18px;
     border-radius: 16px;
   }
 
   /* ---------- signature element: rotating photo stack ---------- */
   .tp-stack {
     position: relative;
-    height: 420px;
+    height: 360px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
   .tp-stack-card {
     position: absolute;
-    width: 260px;
-    height: 320px;
+    width: 230px;
+    height: 280px;
     border-radius: 22px;
     background: var(--white);
-    padding: 14px 14px 50px;
+    padding: 10px;
     box-shadow: 0 22px 40px -12px rgba(214, 67, 140, 0.35);
     transition: transform 0.6s cubic-bezier(.22,1,.36,1), opacity 0.6s ease, z-index 0s;
     cursor: pointer;
@@ -190,35 +155,11 @@
     display: block;
     background: linear-gradient(135deg, var(--pink-soft), var(--mint));
   }
-  .tp-stack-card .tp-cap {
-    position: absolute;
-    bottom: 14px; left: 14px; right: 14px;
-    font-family: 'Baloo 2', sans-serif;
-    font-size: 0.95rem;
-    color: var(--ink);
-    text-align: center;
-  }
-  /* positions are assigned via JS-toggled classes, base fallback below */
-  .tp-stack-card.tp-pos-0 { transform: rotate(-8deg) translate(-70px, 10px) scale(1); opacity: 1; z-index: 5; }
-  .tp-stack-card.tp-pos-1 { transform: rotate(4deg) translate(40px, -18px) scale(0.94); opacity: 1; z-index: 4; }
-  .tp-stack-card.tp-pos-2 { transform: rotate(-3deg) translate(-20px, -55px) scale(0.88); opacity: 1; z-index: 3; }
-  .tp-stack-card.tp-pos-3 { transform: rotate(10deg) translate(60px, 30px) scale(0.86); opacity: 0.9; z-index: 2; }
-  .tp-stack-card.tp-pos-4 { transform: rotate(0deg) translate(0, 0) scale(0.8); opacity: 0; z-index: 1; }
+  .tp-stack-card.tp-pos-0 { transform: rotate(-8deg) translate(-60px, 8px) scale(1); opacity: 1; z-index: 5; }
+  .tp-stack-card.tp-pos-1 { transform: rotate(4deg) translate(36px, -16px) scale(0.94); opacity: 1; z-index: 4; }
+  .tp-stack-card.tp-pos-2 { transform: rotate(-3deg) translate(-16px, -46px) scale(0.88); opacity: 0.9; z-index: 3; }
 
   .tp-stack-card:hover { transform: translateY(-10px) scale(1.04) !important; z-index: 9 !important; }
-
-  .tp-stack-hint {
-    position: absolute;
-    bottom: -6px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.78rem;
-    color: #b07590;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
 
   /* ============================================================
      SECTION SHELL
@@ -227,21 +168,20 @@
     position: relative;
     max-width: 1180px;
     margin: 0 auto;
-    padding: 70px 6vw;
+    padding: 56px 6vw;
     z-index: 1;
   }
   .tp-section-head {
     text-align: center;
-    max-width: 640px;
-    margin: 0 auto 50px;
+    max-width: 600px;
+    margin: 0 auto 36px;
   }
-  .tp-section-head .tp-eyebrow { margin-bottom: 16px; }
   .tp-section-head h2 {
-    font-size: clamp(1.8rem, 3.4vw, 2.4rem);
+    font-size: clamp(1.7rem, 3.2vw, 2.2rem);
     font-weight: 800;
   }
   .tp-section-head p {
-    margin-top: 12px;
+    margin-top: 10px;
     color: #6b5b69;
   }
 
@@ -249,9 +189,9 @@
   .tp-feature-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 50px;
+    gap: 44px;
     align-items: center;
-    margin-bottom: 78px;
+    margin-bottom: 56px;
   }
   .tp-feature-row:last-child { margin-bottom: 0; }
   .tp-feature-row.tp-reverse > .tp-feature-art { order: 2; }
@@ -260,9 +200,9 @@
   .tp-feature-art {
     position: relative;
     aspect-ratio: 4 / 3.2;
-    border-radius: 28px;
+    border-radius: 26px;
     overflow: hidden;
-    box-shadow: 0 24px 50px -18px rgba(58, 46, 61, 0.25);
+    box-shadow: 0 22px 44px -18px rgba(58, 46, 61, 0.25);
   }
   .tp-feature-art img {
     width: 100%; height: 100%;
@@ -274,216 +214,87 @@
   .tp-feature-art::before {
     content: "";
     position: absolute; inset: 0;
-    border-radius: 28px;
+    border-radius: 26px;
     border: 6px solid var(--white);
     box-shadow: inset 0 0 0 2px rgba(241,114,172,0.25);
     pointer-events: none;
-  }
-  .tp-feature-badge {
-    position: absolute;
-    top: 16px; left: 16px;
-    background: var(--white);
-    color: var(--pink-deep);
-    font-family: 'Baloo 2', sans-serif;
-    font-weight: 700;
-    font-size: 0.8rem;
-    padding: 6px 14px;
-    border-radius: 999px;
-    box-shadow: 0 8px 16px -6px rgba(0,0,0,0.18);
-    z-index: 2;
   }
 
   .tp-feature-text .tp-num {
     font-family: 'Baloo 2', sans-serif;
     color: var(--pink-soft);
     font-weight: 800;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     letter-spacing: 0.08em;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     display: block;
   }
   .tp-feature-text h3 {
-    font-size: 1.55rem;
-    margin-bottom: 14px;
+    font-size: 1.45rem;
+    margin-bottom: 12px;
   }
   .tp-feature-text p {
     color: #5b4b59;
-    font-size: 1.02rem;
-  }
-  .tp-pill-row {
-    margin-top: 18px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .tp-pill {
-    background: #fff0f6;
-    border: 1.5px solid var(--pink-soft);
-    color: var(--pink-deep);
-    font-size: 0.82rem;
-    font-weight: 600;
-    padding: 6px 14px;
-    border-radius: 999px;
+    font-size: 1rem;
   }
 
-  /* ---------- Class Day slideshow ---------- */
-  .tp-slideshow {
+  /* ---------- Class Day — overlapping trio of photos ---------- */
+  .tp-classday {
     position: relative;
-    border-radius: 28px;
-    overflow: hidden;
-    aspect-ratio: 16 / 8;
-    box-shadow: 0 24px 50px -18px rgba(58, 46, 61, 0.25);
-    background: var(--ink);
+    max-width: 760px;
+    margin: 0 auto;
+    height: 330px;
   }
-  .tp-slide {
+  .tp-cd-photo {
     position: absolute;
-    inset: 0;
-    opacity: 0;
-    transition: opacity 1s ease;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 18px 38px -16px rgba(58,46,61,0.3);
+    border: 5px solid var(--white);
   }
-  .tp-slide.tp-active { opacity: 1; }
-  .tp-slide img {
+  .tp-cd-photo img {
     width: 100%; height: 100%;
     object-fit: cover;
     display: block;
+    transition: transform 0.5s ease;
   }
-  .tp-slide-caption {
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    padding: 28px 28px 20px;
-    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(58,20,40,0.7) 100%);
-    color: var(--white);
-    font-family: 'Baloo 2', sans-serif;
-    font-size: 1.1rem;
-  }
-  .tp-slide-dots {
-    position: absolute;
-    bottom: 16px; right: 22px;
-    display: flex;
-    gap: 8px;
-    z-index: 3;
-  }
-  .tp-slide-dot {
-    width: 9px; height: 9px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.5);
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.3s ease;
-  }
-  .tp-slide-dot.tp-active-dot {
-    background: var(--white);
-    transform: scale(1.25);
-  }
-  .tp-slide-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 42px; height: 42px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.85);
-    color: var(--pink-deep);
-    border: none;
-    font-size: 1.1rem;
-    cursor: pointer;
-    z-index: 3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.25s ease, transform 0.25s ease;
-  }
-  .tp-slide-nav:hover { background: var(--white); transform: translateY(-50%) scale(1.08); }
-  .tp-slide-prev { left: 16px; }
-  .tp-slide-next { right: 16px; }
+  .tp-cd-photo:hover img { transform: scale(1.08); }
+  .tp-cd-photo:hover { z-index: 9 !important; }
 
-  /* ---------- Graduation gallery ---------- */
-  .tp-grad-section {
-    background: linear-gradient(180deg, var(--white) 0%, #fff0f7 100%);
-    border-radius: 36px;
-    padding: 64px 5vw;
-    position: relative;
-  }
-  .tp-grad-grid {
+  .tp-cd-1 { width: 46%; aspect-ratio: 4/5; left: 0; top: 6%; transform: rotate(-5deg); z-index: 2; }
+  .tp-cd-2 { width: 40%; aspect-ratio: 4/5; left: 32%; top: 0; transform: rotate(3deg); z-index: 3; }
+  .tp-cd-3 { width: 44%; aspect-ratio: 4/5; right: 0; top: 12%; transform: rotate(-2deg); z-index: 1; }
+
+  /* ---------- Graduation + Outdoor strip ---------- */
+  .tp-duo-grid {
     display: grid;
-    grid-template-columns: 1.3fr 1fr 1fr;
-    grid-template-rows: auto auto;
-    gap: 16px;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
   }
-  .tp-grad-item {
-    border-radius: 22px;
+  .tp-duo-item {
+    border-radius: 24px;
     overflow: hidden;
-    position: relative;
-    box-shadow: 0 16px 32px -16px rgba(58,46,61,0.25);
+    aspect-ratio: 5/4;
+    box-shadow: 0 18px 38px -16px rgba(58,46,61,0.25);
   }
-  .tp-grad-item img {
+  .tp-duo-item img {
     width: 100%; height: 100%;
     object-fit: cover;
     display: block;
     transition: transform 0.6s ease;
   }
-  .tp-grad-item:hover img { transform: scale(1.08); }
-  .tp-grad-item.tp-grad-big { grid-row: span 2; aspect-ratio: 3/4; }
-  .tp-grad-item.tp-grad-small { aspect-ratio: 4/3; }
-  .tp-grad-tag {
-    position: absolute;
-    top: 14px; left: 14px;
-    background: var(--white);
-    color: var(--pink-deep);
-    font-family: 'Baloo 2', sans-serif;
-    font-weight: 700;
-    font-size: 0.78rem;
-    padding: 5px 12px;
-    border-radius: 999px;
-    z-index: 2;
-  }
-  .tp-grad-cap {
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    padding: 16px;
-    color: var(--white);
-    font-family: 'Baloo 2', sans-serif;
-    font-size: 0.95rem;
-    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(58,20,40,0.65) 100%);
-  }
+  .tp-duo-item:hover img { transform: scale(1.07); }
 
-  /* ---------- teachers / safety strip ---------- */
-  .tp-strip {
-    margin-top: 70px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-  }
-  .tp-strip-card {
-    background: var(--white);
-    border-radius: 26px;
-    padding: 34px 32px;
-    box-shadow: 0 18px 36px -20px rgba(58,46,61,0.2);
-    position: relative;
-    overflow: hidden;
-  }
-  .tp-strip-card::before {
-    content: "";
-    position: absolute;
-    top: -40px; right: -40px;
-    width: 130px; height: 130px;
-    border-radius: 50%;
-    background: var(--pink-soft);
-    opacity: 0.25;
-  }
-  .tp-strip-card h3 {
-    font-size: 1.3rem;
-    margin-bottom: 12px;
-    position: relative; z-index: 1;
-  }
-  .tp-strip-card p {
-    color: #5b4b59;
-    position: relative; z-index: 1;
-    margin: 0;
+  .tp-grad-section {
+    background: linear-gradient(180deg, var(--white) 0%, #fff0f7 100%);
+    border-radius: 32px;
+    padding: 50px 5vw;
   }
 
   /* ---------- scroll reveal ---------- */
   .tp-reveal {
     opacity: 0;
-    transform: translateY(28px);
+    transform: translateY(24px);
     transition: opacity 0.7s ease, transform 0.7s ease;
   }
   .tp-reveal.tp-in {
@@ -496,32 +307,20 @@
      ============================================================ */
   @media (max-width: 900px) {
     .tp-hero-inner { grid-template-columns: 1fr; }
-    .tp-stack { height: 320px; margin-top: 10px; }
-    .tp-stack-card { width: 200px; height: 250px; }
+    .tp-stack { height: 300px; margin-top: 10px; }
+    .tp-stack-card { width: 190px; height: 230px; }
     .tp-feature-row, .tp-feature-row.tp-reverse {
       grid-template-columns: 1fr;
     }
     .tp-feature-row.tp-reverse > .tp-feature-art,
     .tp-feature-row.tp-reverse > .tp-feature-text { order: initial; }
-    .tp-care-grid { grid-template-columns: repeat(2, 1fr); }
-    .tp-strip { grid-template-columns: 1fr; }
-    .tp-grad-grid {
-      grid-template-columns: 1fr 1fr;
-    }
-    .tp-grad-item.tp-grad-big { grid-row: span 1; aspect-ratio: 4/3; grid-column: span 2; }
-    .tp-slideshow { aspect-ratio: 4/3.4; }
-  }
-  @media (max-width: 600px) {
-    .tp-grad-grid { grid-template-columns: 1fr; }
-    .tp-grad-item.tp-grad-big { grid-column: span 1; }
-  }
-  @media (min-width: 901px) and (max-width: 1180px) {
-    .tp-care-grid { grid-template-columns: repeat(3, 1fr); }
+    .tp-classday { height: 420px; }
+    .tp-duo-grid { grid-template-columns: 1fr; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .tp-blob, .tp-eyebrow .tp-dot { animation: none !important; }
-    .tp-stack-card, .tp-reveal, .tp-feature-art img { transition: none !important; }
+    .tp-blob { animation: none !important; }
+    .tp-stack-card, .tp-reveal, .tp-feature-art img, .tp-cd-photo img { transition: none !important; }
   }
 </style>
 
@@ -531,9 +330,9 @@
        HERO
        ============================================================ -->
   <section class="tp-hero">
-    <div class="tp-blob" style="width:220px;height:220px;background:var(--pink-soft);top:-60px;left:-60px;"></div>
-    <div class="tp-blob" style="width:140px;height:140px;background:var(--sun);top:60%;left:2%;animation-name:tp-float-slow;"></div>
-    <div class="tp-blob" style="width:160px;height:160px;background:var(--mint);top:10%;right:8%;"></div>
+    <div class="tp-blob" style="width:200px;height:200px;background:var(--pink-soft);top:-50px;left:-50px;"></div>
+    <div class="tp-blob" style="width:130px;height:130px;background:var(--sun);top:60%;left:2%;animation-name:tp-float-slow;"></div>
+    <div class="tp-blob" style="width:150px;height:150px;background:var(--mint);top:8%;right:8%;"></div>
 
     <div class="tp-hero-inner">
       <div>
@@ -542,168 +341,84 @@
         <span class="tp-theme-tag">🌸 Play-based learning, for holistic growth</span>
       </div>
 
-      <!-- SIGNATURE ELEMENT: rotating photo stack -->
       <div class="tp-stack" id="tpStack">
-        <div class="tp-stack-card tp-pos-0" data-i="0">
-          <img src="REPLACE-IMAGE-1" alt="Preschool children playing together">
-          <div class="tp-cap">Playtime 🌸</div>
-        </div>
-        <div class="tp-stack-card tp-pos-1" data-i="1">
-          <img src="REPLACE-IMAGE-2" alt="Children in a storytelling circle">
-          <div class="tp-cap">Story Circle 📚</div>
-        </div>
-        <div class="tp-stack-card tp-pos-2" data-i="2">
-          <img src="REPLACE-IMAGE-3" alt="Children doing creative art activities">
-          <div class="tp-cap">Creative Art 🎨</div>
-        </div>
-        <div class="tp-stack-card tp-pos-3" data-i="3">
-          <img src="REPLACE-IMAGE-4" alt="Children on outdoor playground">
-          <div class="tp-cap">Outdoor Fun ☀️</div>
-        </div>
-        <div class="tp-stack-card tp-pos-4" data-i="4">
-          <img src="REPLACE-IMAGE-5" alt="Preschool annual program performance">
-          <div class="tp-cap">Annual Program 🎤</div>
-        </div>
-        <span class="tp-stack-hint">↻ tap a photo to bring it forward</span>
+        <div class="tp-stack-card tp-pos-0"><img src="REPLACE-IMAGE-1" alt=""></div>
+        <div class="tp-stack-card tp-pos-1"><img src="REPLACE-IMAGE-2" alt=""></div>
+        <div class="tp-stack-card tp-pos-2"><img src="REPLACE-IMAGE-3" alt=""></div>
       </div>
     </div>
   </section>
 
   <!-- ============================================================
-       CURRICULUM — feature rows (zig-zag)
+       CURRICULUM
        ============================================================ -->
   <section class="tp-section">
-    <div class="tp-section-head tp-reveal">
-      <span class="tp-eyebrow">OUR APPROACH</span>
-      <h2>Learning that looks like play, because it is.</h2>
-      <p>Every theme, story, and song is designed around how young children actually grow.</p>
-    </div>
-
     <div class="tp-feature-row tp-reveal">
       <div class="tp-feature-art">
-        <span class="tp-feature-badge">Play-Based Curriculum</span>
-        <img src="REPLACE-IMAGE-1" alt="Children engaged in themed hands-on activity">
+        <img src="REPLACE-IMAGE-4" alt="">
       </div>
       <div class="tp-feature-text">
         <span class="tp-num">THE CURRICULUM</span>
         <h3>A play-based, thematic world to explore</h3>
         <p>Our curriculum follows a play-based and thematic approach, encouraging children to learn by exploring, discovering, and engaging with the world around them. Each theme comes alive through hands-on activities that build curiosity, confidence, and a genuine love for learning.</p>
-        <div class="tp-pill-row">
-          <span class="tp-pill">Storytelling</span>
-          <span class="tp-pill">Music</span>
-          <span class="tp-pill">Creative Art</span>
-          <span class="tp-pill">Sensory Play</span>
-          <span class="tp-pill">Outdoor Time</span>
-        </div>
       </div>
     </div>
 
     <div class="tp-feature-row tp-reverse tp-reveal">
       <div class="tp-feature-art">
-        <span class="tp-feature-badge">Whole-Child Growth</span>
-        <img src="REPLACE-IMAGE-2" alt="Children practicing early literacy and motor skills">
+        <img src="REPLACE-IMAGE-5" alt="">
       </div>
       <div class="tp-feature-text">
         <span class="tp-num">CORE DEVELOPMENT</span>
         <h3>Growing every part of every child</h3>
-        <p>We focus strongly on the core areas of development — cognitive, language, physical, social-emotional, and creative growth. Every activity is thoughtfully planned to support early literacy and numeracy, motor skills, communication, problem-solving, and social interaction.</p>
+        <p>We focus strongly on the core areas of development — cognitive, language, physical, social-emotional, and creative growth — supporting early literacy, numeracy, motor skills, communication, and social interaction.</p>
       </div>
     </div>
   </section>
 
   <!-- ============================================================
-       ENVIRONMENT + TEACHERS strip
+       CLASSROOM READING
        ============================================================ -->
   <section class="tp-section" style="padding-top:0;">
     <div class="tp-feature-row tp-reveal">
       <div class="tp-feature-art">
-        <span class="tp-feature-badge">Our Spaces</span>
-        <img src="REPLACE-IMAGE-3" alt="Spacious, child-friendly preschool classroom">
+        <img src="REPLACE-IMAGE-6" alt="">
       </div>
       <div class="tp-feature-text">
-        <span class="tp-num">A SAFE, HAPPY SPACE</span>
-        <h3>Built for little explorers</h3>
-        <p>Our preschool offers a safe, clean, happy, and child-friendly environment with spacious classrooms, age-appropriate materials, and secure outdoor areas. Hygiene, safety, and emotional well-being are always our highest priorities.</p>
-      </div>
-    </div>
-
-    <div class="tp-strip tp-reveal">
-      <div class="tp-strip-card">
-        <h3>🧑‍🏫 Caring, expert facilitators</h3>
-        <p>Our teachers act as caring facilitators, guiding each child with patience and expertise while responding to individual needs and interests. With professional training and dedication, they create meaningful learning experiences every day.</p>
-      </div>
-      <div class="tp-strip-card">
-        <h3>🌱 Ready for what's next</h3>
-        <p>As children progress, they develop strong communication, independence, social skills, creativity, empathy, and readiness for primary school. Most importantly — they discover the joy of learning.</p>
+        <span class="tp-num">STORY TIME</span>
+        <h3>Reading that sparks imagination</h3>
+        <p>Our teachers guide each child with patience and expertise, bringing stories to life so children build early literacy, language, and a lasting love for books.</p>
       </div>
     </div>
   </section>
 
   <!-- ============================================================
-       CLASS DAY — slideshow
+       CLASS DAY PROGRAM — overlapping photo trio
        ============================================================ -->
   <section class="tp-section" style="padding-top:0;">
     <div class="tp-section-head tp-reveal">
-      <span class="tp-eyebrow">A DAY IN PRESCHOOL</span>
-      <h2>Class Day</h2>
-      <p>A peek into the everyday moments — circles, crafts, and curiosity.</p>
+      <h2>Class Day Program</h2>
+      <p>Dance, songs, and activities our little ones love to perform.</p>
     </div>
-
-    <div class="tp-slideshow tp-reveal" id="tpSlideshow">
-      <div class="tp-slide tp-active">
-        <img src="REPLACE-IMAGE-6" alt="Class Day — morning circle time">
-        <div class="tp-slide-caption">Morning Circle Time</div>
-      </div>
-      <div class="tp-slide">
-        <img src="REPLACE-IMAGE-7" alt="Class Day — hands-on craft activity">
-        <div class="tp-slide-caption">Hands-on Craft Activity</div>
-      </div>
-      <div class="tp-slide">
-        <img src="REPLACE-IMAGE-8" alt="Class Day — group learning time">
-        <div class="tp-slide-caption">Group Learning Time</div>
-      </div>
-      <div class="tp-slide">
-        <img src="REPLACE-IMAGE-9" alt="Class Day — snack and play break">
-        <div class="tp-slide-caption">Snack &amp; Play Break</div>
-      </div>
-      <button class="tp-slide-nav tp-slide-prev" aria-label="Previous photo">‹</button>
-      <button class="tp-slide-nav tp-slide-next" aria-label="Next photo">›</button>
-      <div class="tp-slide-dots"></div>
+    <div class="tp-classday tp-reveal">
+      <div class="tp-cd-photo tp-cd-1"><img src="REPLACE-IMAGE-7" alt=""></div>
+      <div class="tp-cd-photo tp-cd-2"><img src="REPLACE-IMAGE-8" alt=""></div>
+      <div class="tp-cd-photo tp-cd-3"><img src="REPLACE-IMAGE-9" alt=""></div>
     </div>
   </section>
 
   <!-- ============================================================
-       PRESCHOOL GRADUATION CEREMONY — gallery
+       GRADUATION + OUTDOOR PLAY
        ============================================================ -->
-  <section class="tp-section" style="padding-top:0; padding-bottom:90px;">
+  <section class="tp-section" style="padding-top:0; padding-bottom:70px;">
     <div class="tp-grad-section tp-reveal">
-      <div class="tp-section-head" style="margin-bottom:38px;">
-        <span class="tp-eyebrow">A SPECIAL MILESTONE</span>
-        <h2>Preschool Graduation Ceremony</h2>
-        <p>Celebrating every little learner as they step into their next chapter.</p>
+      <div class="tp-section-head" style="margin-bottom:28px;">
+        <h2>Graduation &amp; Outdoor Fun</h2>
+        <p>Celebrating milestones, and growing through active outdoor play.</p>
       </div>
-      <div class="tp-grad-grid">
-        <div class="tp-grad-item tp-grad-big">
-          <span class="tp-grad-tag">🎓 Graduation Day</span>
-          <img src="REPLACE-IMAGE-10" alt="Preschool graduation ceremony — children in graduation caps">
-          <div class="tp-grad-cap">Little graduates, big smiles</div>
-        </div>
-        <div class="tp-grad-item tp-grad-small">
-          <img src="REPLACE-IMAGE-11" alt="Preschool graduation — receiving certificates">
-          <div class="tp-grad-cap">Certificate Moments</div>
-        </div>
-        <div class="tp-grad-item tp-grad-small">
-          <img src="REPLACE-IMAGE-12" alt="Preschool graduation — performance on stage">
-          <div class="tp-grad-cap">On-Stage Performance</div>
-        </div>
-        <div class="tp-grad-item tp-grad-small">
-          <img src="REPLACE-IMAGE-13" alt="Preschool graduation — group photo with teachers">
-          <div class="tp-grad-cap">With Our Teachers</div>
-        </div>
-        <div class="tp-grad-item tp-grad-small">
-          <img src="REPLACE-IMAGE-14" alt="Preschool graduation — proud families celebrating">
-          <div class="tp-grad-cap">Proud Families</div>
-        </div>
+      <div class="tp-duo-grid">
+        <div class="tp-duo-item"><img src="REPLACE-IMAGE-10" alt=""></div>
+        <div class="tp-duo-item"><img src="REPLACE-IMAGE-11" alt=""></div>
       </div>
     </div>
   </section>
@@ -720,12 +435,11 @@
   var stack = root.querySelector('#tpStack');
   if (stack) {
     var cards = Array.prototype.slice.call(stack.querySelectorAll('.tp-stack-card'));
-    var order = cards.map(function (_, i) { return i; }); // order[slot] = card index currently in that position
+    var order = cards.map(function (_, i) { return i; });
 
     function applyPositions() {
       order.forEach(function (cardIndex, slot) {
-        var card = cards[cardIndex];
-        card.className = 'tp-stack-card tp-pos-' + slot;
+        cards[cardIndex].className = 'tp-stack-card tp-pos-' + slot;
       });
     }
     applyPositions();
@@ -739,7 +453,6 @@
 
     cards.forEach(function (card, idx) {
       card.addEventListener('click', function () {
-        // bring clicked card to front (slot 0)
         var pos = order.indexOf(idx);
         if (pos === 0) return;
         order.splice(pos, 1);
@@ -752,47 +465,6 @@
 
     stack.addEventListener('mouseenter', function () { clearInterval(timer); });
     stack.addEventListener('mouseleave', function () { timer = setInterval(advance, 2600); });
-  }
-
-  /* ---- class day slideshow ---- */
-  var slideshow = root.querySelector('#tpSlideshow');
-  if (slideshow) {
-    var slides = Array.prototype.slice.call(slideshow.querySelectorAll('.tp-slide'));
-    var dotsWrap = slideshow.querySelector('.tp-slide-dots');
-    var current = 0;
-
-    slides.forEach(function (_, i) {
-      var dot = document.createElement('span');
-      dot.className = 'tp-slide-dot' + (i === 0 ? ' tp-active-dot' : '');
-      dot.addEventListener('click', function () { goTo(i); });
-      dotsWrap.appendChild(dot);
-    });
-    var dots = Array.prototype.slice.call(dotsWrap.querySelectorAll('.tp-slide-dot'));
-
-    function goTo(i) {
-      slides[current].classList.remove('tp-active');
-      dots[current].classList.remove('tp-active-dot');
-      current = (i + slides.length) % slides.length;
-      slides[current].classList.add('tp-active');
-      dots[current].classList.add('tp-active-dot');
-    }
-
-    var slideTimer = setInterval(function () { goTo(current + 1); }, 3800);
-
-    slideshow.querySelector('.tp-slide-prev').addEventListener('click', function () {
-      goTo(current - 1);
-      clearInterval(slideTimer);
-      slideTimer = setInterval(function () { goTo(current + 1); }, 3800);
-    });
-    slideshow.querySelector('.tp-slide-next').addEventListener('click', function () {
-      goTo(current + 1);
-      clearInterval(slideTimer);
-      slideTimer = setInterval(function () { goTo(current + 1); }, 3800);
-    });
-    slideshow.addEventListener('mouseenter', function () { clearInterval(slideTimer); });
-    slideshow.addEventListener('mouseleave', function () {
-      slideTimer = setInterval(function () { goTo(current + 1); }, 3800);
-    });
   }
 
   /* ---- scroll reveal ---- */
